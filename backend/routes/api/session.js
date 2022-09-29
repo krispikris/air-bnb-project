@@ -30,7 +30,16 @@ router.post(
     }
   );
 
-// PHASE 4: use in browser's DevTools.
+// Log out
+router.delete(
+  '/',
+  (_req, res) => {
+    res.clearCookie('token');
+    return res.json({ message: 'success' });
+  }
+);
+
+// PHASE 4: use to test in browser's DevTools.
 // fetch('/api/session', {
 //     method: 'POST',
 //     headers: {
@@ -58,5 +67,13 @@ router.post(
 //     },
 //     body: JSON.stringify({ credential: 'Demo-lition', password: 'Hello World!' })
 //   }).then(res => res.json()).then(data => console.log(data));
+
+// fetch('/api/session', {
+//   method: 'DELETE',
+//   headers: {
+//     "Content-Type": "application/json",
+//     "XSRF-TOKEN": `GnLE4hDs-QmbDtP1T8bpWffb-eTMDBLUpD-M`
+//   }
+// }).then(res => res.json()).then(data => console.log(data));
 
 module.exports = router;
