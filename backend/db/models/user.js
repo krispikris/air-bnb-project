@@ -9,9 +9,6 @@ module.exports = (sequelize, DataTypes) => {
       return { id, username, email };
     }
 
-    static associate(models) {
-    }
-
     validatePassword(password) {
       return bcrypt.compareSync(password, this.hashedPassword.toString());
     }
@@ -30,6 +27,7 @@ module.exports = (sequelize, DataTypes) => {
           }
         }
       });
+
       if (user && user.validatePassword(password)) {
         return await User.scope('currentUser').findByPk(user.id);
       }
@@ -42,7 +40,11 @@ module.exports = (sequelize, DataTypes) => {
         email,
         hashedPassword
       });
+
       return await User.scope('currentUser').findByPk(user.id);
+    }
+
+    static associate(models) {
     }
 
   };
@@ -100,5 +102,6 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   });
+
   return User;
 };
