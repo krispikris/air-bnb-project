@@ -1,14 +1,28 @@
 // backend/routes/api/session.js
-const express = require('express')
+const express = require('express');
 
 const { setTokenCookie, restoreUser } = require('../../utils/auth');
 const { User } = require('../../db/models');
+const { check } = require('express-validator');
+const { handleValidationErrors } = require('../../utils/validation');
 
 const router = express.Router();
+
+const validateLogin = [
+  check('credential')
+    .exists({ checkFalsy: true })
+    .notEmpty()
+    .withMessage('Please provide a valid email or username.'),
+  check('password')
+    .exists({ checkFalsy: true })
+    .withMessage('Please provide a password.'),
+  handleValidationErrors
+];
 
 // Log in
 router.post(
     '/',
+    validateLogin,
     async (req, res, next) => {
       const { credential, password } = req.body;
 
@@ -30,7 +44,30 @@ router.post(
     }
   );
 
-// PHASE 4: use in browser's DevTools.
+// Log out
+router.delete(
+  '/',
+  (_req, res) => {
+    res.clearCookie('token');
+    return res.json({ message: 'success' });
+  }
+);
+
+// Restore session user
+router.get(
+  '/',
+  restoreUser,
+  (req, res) => {
+    const { user } = req;
+    if (user) {
+      return res.json({
+        user: user.toSafeObject()
+      });
+    } else return res.json({});
+  }
+);
+
+// PHASE 4: use to test in browser's DevTools.
 // fetch('/api/session', {
 //     method: 'POST',
 //     headers: {
@@ -58,5 +95,13 @@ router.post(
 //     },
 //     body: JSON.stringify({ credential: 'Demo-lition', password: 'Hello World!' })
 //   }).then(res => res.json()).then(data => console.log(data));
+
+// fetch('/api/session', {
+//   method: 'DELETE',
+//   headers: {
+//     "Content-Type": "application/json",
+//     "XSRF-TOKEN": `GnLE4hDs-QmbDtP1T8bpWffb-eTMDBLUpD-M`
+//   }
+// }).then(res => res.json()).then(data => console.log(data));
 
 module.exports = router;
