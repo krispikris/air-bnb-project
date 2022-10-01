@@ -47,6 +47,21 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     static associate(models) {
+      // ONE TO MANY
+      User.hasMany(models.Spot,         { foreignKey: 'ownerId' });
+      // User.hasMany(models.Review,     { foreignKey: 'userId' })
+      // User.hasMany(models.Booking,    { foreignKey: 'userId' })
+
+      // MANY TO MANY
+      User.belongsToMany(models.Spot,   { through:    models.Review,
+                                          foreignKey: 'userId',
+                                          otherKey:   'spotId',
+                                          onDelete:   'CASCADE' });
+
+      User.belongsToMany(models.Spot,   { through:    models.Booking,
+                                          foreignKey: 'userId',
+                                          otherKey:   'spotId',
+                                          onDelete:   'CASCADE' });
     }
 
   };
