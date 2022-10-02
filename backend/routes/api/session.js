@@ -28,6 +28,8 @@ router.post('/', validateLogin, async (req, res, next) => {
 
       const user = await User.login({ credential, password });
 
+      console.log('THIS IS THE USER: ', user);
+
       if (!user) {
         res.status(401);
         return res.json({
