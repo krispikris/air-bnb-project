@@ -6,7 +6,14 @@ const { handleValidationErrors } = require('../../utils/validation');
 const { requireAuth } = require('../../utils/auth');
 const { Op } = require('sequelize');
 
-// #06: GET ALL SPOTS
+// #07: GET ALL SPOTS OWNED BY THE CURRENT USER
+router.get('/current', async (req, res) => {
+
+})
+
+// #06: GET ALL SPOTS | WORKS!
+// Look into the avgRating syntax, not giving the math avg rn
+// createdAt and updatedAt syntax is returning different format from api docs
 router.get('/', async (req, res) => {
     let { page, size } = req.query;
     page =
