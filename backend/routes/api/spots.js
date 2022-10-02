@@ -51,7 +51,7 @@ router.post('/', requireAuth, async (req, res) => {
             price
         });
 
-        return res.json(newSpot);
+        return res.status(201).json(newSpot);
     }
 
     catch {
@@ -74,14 +74,16 @@ router.post('/', requireAuth, async (req, res) => {
     };
 });
 
-// #12: GET DETAILS OF A SPOT BY ID
-router.get('/:spotId', requireAuth, async (req, res) => {
+// // #12: GET DETAILS OF A SPOT BY ID
+// router.get('/:spotId', requireAuth, async (req, res) => {
 
-})
+// })
 
 // #11: GET ALL SPOTS OWNED BY THE CURRENT USER
 router.get('/current', requireAuth, async (req, res) => {
     let ownerId = req.user.id;
+
+    console.log('Before Finding all Spots');
 
     const spots = await Spot.findAll({
         // raw:     true,
@@ -89,9 +91,12 @@ router.get('/current', requireAuth, async (req, res) => {
         where:   { ownerId : ownerId }
     });
 
+    console.log('AFTER Finding all Spots');
+
+
     const result = [];
     for (let spot of spots) {
-        spot = spot.toJSON()
+        spot = spot.toJSON();
 
         const ratings = await Review.findAll({
             where: { spotId: spot.id },
@@ -106,11 +111,18 @@ router.get('/current', requireAuth, async (req, res) => {
             attributes: ['url']
         });
 
-        result.push(spot);
         spot.avgRating = Number(ratings[0].toJSON().avgRating);
-        spot.previewImage = imageURL.url;
 
-        // delete spot.SpotImages;
+        console.log(`IMAGE URL: ${imageURL}`);
+
+        if (imageURL) {
+            spot.previewImage = imageURL.url;
+        } else {
+            spot.previewImage = null;
+        }
+
+
+        result.push(spot);
     };
 
     res.json({ Spots: result });
@@ -151,10 +163,16 @@ router.get('/', async (req, res) => {
             },
             attributes: ['url']
         });
+        spot.avgRating = Number(ratings[0].toJSON().avgRating);
+
+        if (imageURL) {
+            spot.previewImage = imageURL.url;
+        } else {
+            spot.previewImage = null;
+        }
 
         result.push(spot);
-        spot.avgRating = Number(ratings[0].toJSON().avgRating);
-        spot.previewImage = imageURL.url;
+        // spot.previewImage = imageURL.url;
     };
 
     res.json({ Spots: result });
