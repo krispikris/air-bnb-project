@@ -8,18 +8,22 @@ const csurf = require('csurf');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 
-const routes = require('./routes');
-
-const { ValidationError } = require('sequelize');
-
+// Create a variable called isProduction that will be true if
+// the environment is in production or not by checking
+// the environment key in the configuration file (backend/config/index.js):
 const { environment } = require('./config');
 const isProduction = environment === 'production';
 
+// Initialize the Express application:
 const app = express();
 
+// Connect the morgan middleware for logging information about requests and responses:
 app.use(morgan('dev'));     // first middleware
 
+// Add the cookie-parser middleware for parsing cookies and the express.json middleware
 app.use(cookieParser());
+
+// JSON bodies of requests with Content-Type of "application/json"
 app.use(express.json());
 
 // Security Middleware
@@ -46,6 +50,8 @@ app.use(
     })
 );
 
+const routes = require('./routes');
+
 // Connect all the routes
 app.use(routes);
 
@@ -58,6 +64,7 @@ app.use((_req, _res, next) => {
     next(err);
 });
 
+const { ValidationError } = require('sequelize');
 
 // Process sequelize errors
 app.use((err, _req, _res, next) => {

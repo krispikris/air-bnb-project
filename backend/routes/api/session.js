@@ -4,9 +4,12 @@ const router = express.Router();
 
 const { setTokenCookie, restoreUser } = require('../../utils/auth');
 const { User } = require('../../db/models');
+const usersRouter = require('./users.js');
+
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
+router.use('./users', usersRouter);
 
 const validateLogin = [
   check('credential')

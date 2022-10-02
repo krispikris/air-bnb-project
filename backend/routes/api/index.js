@@ -3,22 +3,35 @@ const router = require('express').Router();
 
 const sessionRouter = require('./session.js');
 const usersRouter = require('./users.js');
-const { requireAuth } = require("../../utils/auth.js");
+const spotsRouter = require('./spots.js');
+const spotImagesRouter = require('./spot-images.js');
+const reviewsRouter = require('./reviews.js');
+const reviewImagesRouter = require('./review-images.js');
+const bookingsRouter = require('./bookings.js');
+const { restoreUser } = require("../../utils/auth.js");
+// const app = require('../../app.js');
 
+// Connect restoreUser middleware to the API router
+  // If current user session is valid, set req.user to the user in the database
+  // If current user session is not valid, set req.user to null
+router.use(restoreUser);
 
-
-router.get('/test', requireAuth, (req, res) => {
-  res.json({message: 'success'})
-});
-
-// being logged in to our router
+// being logged in to our router routes
 router.use('/session', sessionRouter);
-
 router.use('/users', usersRouter);    // signup route
+router.use('/spots', spotsRouter);
+router.use('/spot-images', spotImagesRouter);
+router.use('/reviews', reviewsRouter);
+router.use('/review-images', reviewImagesRouter);
+router.use('/bookings', bookingsRouter);
 
-router.post('/test', function(req, res) {
-  res.json({ requestBody: req.body });
-});
+// router.get('/test', requireAuth, (req, res) => {
+//   res.json({message: 'success'})
+// });
+
+// router.post('/test', function(req, res) {
+//   res.json({ requestBody: req.body });
+// });
 
 // GET /api/set-token-cookie
 // const { setTokenCookie } = require('../../utils/auth.js');
