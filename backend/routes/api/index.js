@@ -5,6 +5,8 @@ const sessionRouter = require('./session.js');
 const usersRouter = require('./users.js');
 const { requireAuth } = require("../../utils/auth.js");
 
+
+
 router.get('/test', requireAuth, (req, res) => {
   res.json({message: 'success'})
 });

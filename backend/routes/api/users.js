@@ -1,11 +1,12 @@
 // backend/routes/api/users.js
-const express = require('express')
-const router = express.Router();
-
+const express = require('express');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { User } = require('../../db/models');
+
+const router = express.Router();
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
+
 
 const validateSignup = [
   check('email')
@@ -28,18 +29,51 @@ const validateSignup = [
 ];
 
 // Sign up
-router.post(
-    '/',
-    validateSignup,
-    async (req, res) => {
-      const { email, password, username } = req.body;
-      const user = await User.signup({ email, username, password });
+router.post( '/', validateSignup, async (req, res) => {
+      const { firstName, lastName, email, username, password } = req.body;
 
-      await setTokenCookie(res, user);
-
-      return res.json({
-        user
+      const duplicateEmail = await User.findOne({
+          where: { email }
       });
+
+      const duplicateUsername = await User.findOne({
+          where: { username }
+      });
+
+      if (duplicateEmail) {
+          res.status(403);
+          return res.json({
+              message: 'User already exists',
+              statusCode: 403,
+              errors: {
+                email: 'User with that email already exists'
+              }
+          });
+      };
+
+      if (duplicateUsername) {
+          res.status(403);
+          return res.json({
+            message: 'User already exists',
+            statusCode: 403,
+            errors: {
+              username: 'User with that username already exists'
+            }
+          })
+      };
+
+      const user = await User.signup({
+        firstName,
+        lastName,
+        email,
+        username,
+        password
+      });
+
+      const token = await setTokenCookie(res, user);
+      resUser = user.toJSON();
+      resUser.token = token;
+      return res.json(resUser);
     }
   );
 

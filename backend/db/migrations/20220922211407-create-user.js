@@ -10,15 +10,19 @@ module.exports = {
       },
 
       firstName: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: false
+        type: Sequelize.STRING(30),
+        allowNull: false
       },
 
       lastName: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING(30),
+        allowNull: false
+      },
+
+      email: {
+        type: Sequelize.STRING(256),
         allowNull: false,
-        unique: false
+        unique: true
       },
 
       username: {
@@ -28,14 +32,8 @@ module.exports = {
       },
 
       hashedPassword: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING.BINARY,
         allowNull: false
-      },
-
-      email: {
-        type: Sequelize.STRING(256),
-        allowNull: false,
-        unique: true
       },
 
       createdAt: {
