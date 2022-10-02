@@ -2,12 +2,12 @@
 const express = require('express');
 const router = express.Router();
 
-const { setTokenCookie, restoreUser } = require('../../utils/auth');
+const { setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth.js');
 const { User } = require('../../db/models');
 const usersRouter = require('./users.js');
 
 const { check } = require('express-validator');
-const { handleValidationErrors } = require('../../utils/validation');
+const { handleValidationErrors } = require('../../utils/validation.js');
 
 router.use('./users', usersRouter);
 
