@@ -6,6 +6,7 @@ const { handleValidationErrors } = require('../../utils/validation');
 const { requireAuth } = require('../../utils/auth');
 const { Op } = require('sequelize');
 
+// #13 & #14 EDIT A SPOT | ERROR CODE
 router.put('/:spotId', async (req, res) => {
     const { spotId } = req.params;
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
@@ -80,6 +81,65 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
         url: spotImage.url,
         preview: spotImage.preview
     });
+});
+
+// #15 - #17 CREATE A REVIEW FOR A SPOT
+router.post('/:spotId/reviews', requireAuth, async (req, res) => {
+    const { spotId } = req.params;
+    const spot = await Spot.findByPk(spotId);
+
+    // ERROR #2: Error Check Invalid Spot Id
+    // Error response: Couldn't find a Spot with the specified id (findByPk)
+    if (!spot) {
+        return res
+        .status(404)
+        .json({
+            message: "Spot couldn't be found",
+            statusCode: 404
+          });
+    };
+
+    // ERROR #1: Previous Review for User/Spot Already Exists
+    const existingReview = await Review.findOne({
+        where: {
+            userId: req.user.id,
+            spotId: spotId
+        }
+    });
+
+
+    if (existingReview) {
+        return res
+        .status(403)
+        .json({
+            message: 'User already has a review for this spot',
+            statusCode: 403
+          });
+    };
+
+    // ERROR #3: Throw error for Body Validation
+    try {
+        const newReview = await Review.create({
+            userId: req.user.id,
+            spotId: Number(spotId),
+            review: req.body.review,
+            stars: req.body.stars
+        });
+
+        return res.json(newReview);
+
+    } catch (error) {
+        return res
+            .status(400)
+            .json({
+                message: 'Validation error',
+                statusCode: 400,
+                errors: {
+                  review: 'Review text is required',
+                  stars: 'Stars must be an integer from 1 to 5',
+                }
+            })
+    }
 });
 
 // #07: CREATE A SPOT
@@ -199,52 +259,82 @@ router.get('/:spotId', async (req, res) => {
 
 // #11: GET ALL SPOTS OWNED BY THE CURRENT USER
 router.get('/current', requireAuth, async (req, res) => {
-    let ownerId = req.user.id;
-
-    console.log('Before Finding all Spots');
+    const ownerId = req.user.id
 
     const spots = await Spot.findAll({
-        // raw:     true,
-        // include: { model: SpotImage, where: { preview: true } },
-        where:   { ownerId : ownerId }
+        raw: true,
+        where: {
+            ownerId: ownerId
+        },
+
     });
 
-    console.log('AFTER Finding all Spots');
-
-
-    const result = [];
-    for (let spot of spots) {
-        spot = spot.toJSON();
-
-        const ratings = await Review.findAll({
-            where: { spotId: spot.id },
-            attributes: [[ sequelize.fn('AVG', sequelize.col('stars')), 'avgRating' ]]
+    let avgRating;
+    for (let i = 0; i < spots.length; i++) {
+        const reviewCount = await Review.count({ where: { spotId: spots[i].id } })
+        const sumOfStars = await Review.sum('stars', {
+            where: { spotId: spots[i].id }
         });
 
-        const imageURL = await SpotImage.findOne({
-            where: {
-                spotId: spot.id,
-                preview: true
-            },
-            attributes: ['url']
-        });
-
-        spot.avgRating = Number(ratings[0].toJSON().avgRating);
-
-        console.log(`IMAGE URL: ${imageURL}`);
-
-        if (imageURL) {
-            spot.previewImage = imageURL.url;
+        if (!sumOfStars) {
+            avgRating = 0;
         } else {
-            spot.previewImage = null;
+            avgRating = (sumOfStars / reviewCount).toFixed(1);
         }
 
+        spots[i].avgRating = avgRating;
 
-        result.push(spot);
-    };
+        const spotImage = await SpotImage.findOne({
+            where: { spotId: spots[i].id },
+            attributes: ['id', 'url', 'preview']
+        });
 
-    res.json({ Spots: result });
+        if (spotImage) spots[i].previewImage = spotImage.url;
+        else spots[i].previewImage = 'No Image Available :('
+
+    }
+
+    return res.json({ Spots: spots })
 });
+// router.get('/current', requireAuth, async (req, res) => {
+//     let ownerId = req.user.id;
+//     const spots = await Spot.findAll({ where:   { ownerId : ownerId }});
+
+//     let avgRating;
+//     for (let spot of spots) {
+//         spot = spot.toJSON();
+
+//         const ratings = await Review.findAll({
+//             where: { spotId: spot.id },
+//             attributes: [[ sequelize.fn('AVG', sequelize.col('stars')), 'avgRating' ]]
+//         });
+
+//         const imageURL = await SpotImage.findOne({
+//             where: {
+//                 spotId: spot.id,
+//                 preview: true
+//             },
+//             attributes: ['url']
+//         });
+
+//         spot.avgRating = Number(ratings[0].toJSON().avgRating);
+
+//         // console.log(`IMAGE URL: ${imageURL}`);
+
+//         if (imageURL) {
+//             spot.previewImage = imageURL.url;
+//         } else {
+//             spot.previewImage = null;
+//         }
+
+
+//         result.push(spot);
+//     };
+//     // raw:     true,
+//     // include: { model: SpotImage, where: { preview: true } },
+
+//     return res.json({ Spots: result });
+// });
 
 // #06: GET ALL SPOTS | WORKS!
 // Look into the avgRating syntax, not giving the math avg rn
