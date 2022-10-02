@@ -6,7 +6,57 @@ const { handleValidationErrors } = require('../../utils/validation');
 const { requireAuth } = require('../../utils/auth');
 const { Op } = require('sequelize');
 
-// #09 | #10: CREATE AN IMAGE FOR A SPOT
+router.put('/:spotId', async (req, res) => {
+    const { spotId } = req.params;
+    const { address, city, state, country, lat, lng, name, description, price } = req.body;
+    const spot = await Spot.findByPk(spotId);
+
+    if (!spot) {
+        return res
+        .status(404)
+        .json({
+            message: "Spot couldn't be found",
+            statusCode: 404
+          });
+    };
+
+    try {
+        await spot.update({
+            address,
+            city,
+            state,
+            country,
+            lat,
+            lng,
+            name,
+            description,
+            price
+        });
+
+        return res.json(spot);
+
+    } catch (error) {
+        res
+        .status(404)
+        .json({
+            message: 'Validation Error',
+            statusCode: 400,
+            errors: {
+              address: 'Street address is required',
+              city: 'City is required',
+              state: 'State is required',
+              country: 'Country is required',
+              lat: 'Latitude is not valid',
+              lng: 'Longitude is not valid',
+              name: 'Name must be less than 50 characters',
+              description: 'Description is required',
+              price: 'Price per day is required'
+            }
+          })
+    };
+});
+
+// #08 | #09: CREATE AN IMAGE FOR A SPOT
 router.post('/:spotId/images', requireAuth, async (req, res) => {
     const { url } = req.body;
     const spot = await Spot.findByPk(req.params.spotId);
@@ -32,7 +82,7 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
     });
 });
 
-// #08: CREATE A SPOT
+// #07: CREATE A SPOT
 router.post('/', requireAuth, async (req, res) => {
     const user = req.user;
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
@@ -70,14 +120,82 @@ router.post('/', requireAuth, async (req, res) => {
                 'description': 'Description is required',
                 'price': 'Price per day is required'
               }
-        });
+            });
+        };
+    });
+
+// #11 & #12: GET DETAILS OF A SPOT BY ID
+router.get('/:spotId', async (req, res) => {
+    const { spotId } = req.params;
+
+    const details = await Spot.findByPk(spotId, {
+        attributes: [
+            'id',
+            'ownerId',
+            'address',
+            'city',
+            'state',
+            'country',
+            'lat',
+            'lng',
+            'name',
+            'description',
+            'price',
+            'createdAt',
+            'updatedAt'
+        ]
+    });
+
+    if (!details) {
+        res
+        .status(404)
+        .json({
+            message: "Spot couldn't be found",
+            statusCode: 404
+        })
     };
+
+    const reviewCount = await Review.count({ where: { spotId: spotId } });
+
+    const starSum = await Review.sum('stars', { where: { spotId: spotId } });
+
+    const spotImage = await SpotImage.findAll({
+        where: { spotId: spotId },
+        attributes: [ 'id', 'url', 'preview' ]
+    });
+
+    const owner = await User.findByPk(details.ownerId, { attributes: [ 'id', 'firstName', 'lastName' ] });
+
+    let avgRating;
+    if(starSum === null) {
+        avgRating = 0;
+    } else {
+        avgRating = (starSum / reviewCount).toFixed(1);
+    }
+
+    result = details.toJSON();
+
+    result.numReviews = reviewCount;
+    result.avgStarRating = Number(avgRating);
+    result.SpotImages = spotImage;
+    result.Owner = owner;
+
+    res.json(result);
 });
 
-// // #12: GET DETAILS OF A SPOT BY ID
-// router.get('/:spotId', requireAuth, async (req, res) => {
+        //     {
+        //     include: [{
+        //         model: SpotImage,
+        //         attributes: [ 'id', 'url', 'preview' ]
+        //         },
 
-// })
+        //         {
+        //         model: User,
+        //         attributes: [ 'id', 'firstName', 'lastName' ],
+        //         as: 'Owner'
+        //         }
+        //     ]
+        // }
 
 // #11: GET ALL SPOTS OWNED BY THE CURRENT USER
 router.get('/current', requireAuth, async (req, res) => {
