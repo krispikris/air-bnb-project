@@ -485,8 +485,8 @@ router.get('/current', requireAuth, async (req, res) => {
         spot.avgRating = avgRating;
 
         const imageURL = await SpotImage.findOne({
-            where: { spotId: spot.id },
-            attributes: [ 'id', 'url', 'preview' ]
+            where: { spotId: spot.id, preview: true },
+            attributes: [ 'id', 'url' ]
         });
 
         if (imageURL) {
@@ -494,93 +494,14 @@ router.get('/current', requireAuth, async (req, res) => {
         } else {
             spot.previewImage = null;
         };
+
         result.push(spot);
     };
 
     res.json({ Spots: result });
 })
 
-// router.get('/current', requireAuth, async (req, res) => {
-//     const ownerId = req.user.id;
-//     const spots = await Spot.findAll({
-//         include: {
-//             model: SpotImage,
-//             where: { preview : true }
-//         },
-
-//         where: { ownerId : ownerId }
-//     });
-
-//     let result = [];
-//     for (let spot of spots) {
-//         spot = spot.toJSON();
-
-//         const rating = await Review.findAll({
-//             where: { spotId : spot.id },
-//             attributes: [[ sequelize.fn('AVG', sequelize.col('stars')), 'avgRating' ]]
-//         });
-
-//         const imageURL = await SpotImage.findOne({
-//             where: { spotId : spot.id , preview: true },
-//             attributes: [ 'url' ]
-//         });
-
-//         let ratingNumber = Number((reviews[0].avgRating)).toFixed(1);
-//         spot.avgRating = ratingNumber;
-
-//         if (imageURL) {
-//             spot.previewImage = imageURL.url;
-//         } else {
-//             spot.previewImage = null;
-//         }
-
-//         result.push(spot);
-
-//     }
-// });
-
-
-// router.get('/current', requireAuth, async (req, res) => {
-//     const ownerId = req.user.id
-//     const spots = await Spot.findAll({
-//         where: { ownerId: ownerId }
-//     });
-
-//     let result = [];
-//     for (let spot of spots) {
-//         spot = spot.toJSON();
-
-//         const reviews = await Review.findAll({
-//             where: { spotId: spot.id },
-//             attributes: [[ sequelize.fn('AVG', sequelize.col('stars')), 'avgRating' ]]
-//         });
-
-//         const imageURL = await SpotImage.findOne({
-//             where: { spotId : spot.id , preview: true },
-//             attributes: [ 'url' ]
-//         });
-
-//         let ratingNumber = Number((reviews[0].avgRating)).toFixed(1);
-//         spot.avgRating = ratingNumber;
-
-//         if (imageURL) {
-//             spot.previewImage = imageURL.url;
-//         } else {
-//             spot.previewImage = null;
-//         }
-
-//         result.push(spot);
-//     }
-
-//     res.json({ Spots: result });
-// });
-
-// #11
-
 // #06: GET ALL SPOTS
-// Look into the avgRating syntax, not giving the math avg rn
-// createdAt and updatedAt syntax is returning different format from api docs
-// #6 and last
 router.get('/', async (req, res) => {
     let { page, size } = req.query;
     page =
@@ -624,6 +545,7 @@ router.get('/', async (req, res) => {
 
     res.json({ Spots : result , page, size });
 });
+
 
 // 2nd to last: DELETE A SPOT
 router.delete('/:spotId', requireAuth, async (req, res) => {
