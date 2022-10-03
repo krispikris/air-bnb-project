@@ -47,8 +47,8 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
     };
 
     const updatedBooking = await booking.update({
-        spotId: booking.id,
-        userId: req.user.id,
+        // spotId: booking.id,
+        // userId: req.user.id,
         startDate: startDate,
         endDate: endDate
     });
