@@ -57,6 +57,53 @@ router.put('/:spotId', async (req, res) => {
     };
 });
 
+// #24-26: CREATE BOOKING BASED ON SPOT ID | 2 ERRORS
+router.post('/:spotId/bookings', requireAuth, async (req, res) => {
+    const { startDate, endDate } = req.body;
+    const spot = await Spot.findByPk(req.params.spotId);
+
+    if (!spot) {
+        res
+            .status(404)
+            .json({
+                message: "Spot couldn't be found",
+                statusCode: 404
+              })
+    };
+
+    const alreadyBooked = await Booking.findOne({
+        where: {
+            spotId: spot.id,
+            [Op.or]: [{
+                startDate:  { [ Op.between ] : [ startDate, endDate ] },
+                endDate:    { [ Op.between ] : [ startDate, endDate ] }
+            }]
+        }
+    });
+
+    if (spot && alreadyBooked) {
+        res
+            .status(403)
+            .json({
+                message: 'Sorry, this spot is already booked for the specified dates',
+                statusCode: 403,
+                errors: {
+                  startDate: 'Start date conflicts with an existing booking',
+                  endDate: 'End date conflicts with an existing booking'
+                }
+              });
+    };
+
+    const newBooking = await Booking.create({
+        spotId: spot.id,
+        userId: req.user.id,
+        startDate: startDate,
+        endDate: endDate
+    });
+
+    res.json(newBooking);
+});
+
 // #08 | #09: CREATE AN IMAGE FOR A SPOT
 router.post('/:spotId/images', requireAuth, async (req, res) => {
     const { url } = req.body;
@@ -184,6 +231,71 @@ router.post('/', requireAuth, async (req, res) => {
             });
         };
     });
+
+// #28 & 29: GET ALL BOOKINGS FOR A SPOT BY ID
+router.get('/:spotId/bookings', requireAuth, async (req, res) => {
+    const userId = req.user.id;
+    const { spotId } = req.params;
+
+    const spot = await Spot.findByPk(spotId);
+
+    if (!spot) {
+        res
+            .status(404)
+            .json({
+                message: "Spot couldn't be found",
+                statusCode: 404
+              });
+    };
+
+    const booking = await Booking.findOne({
+        where: { spotId : spotId },
+        include: [{
+            model: User,
+            attributes: [ 'id', 'firstName', 'lastName' ]
+        }]
+    });
+
+    const differentOwner = await Booking.findOne({
+        where: { spotId : spotId },
+        attributes: [ 'spotId', 'startDate', 'endDate' ]
+    });
+
+    if (userId === spot.ownerId) return res.json({ Bookings : booking });
+    else return res.json({ Bookings : differentOwner });
+});
+
+// #21 & 22: GET REVIEWS BY SPOT ID | ERROR
+router.get('/:spotId/reviews', async (req, res) => {
+    const { spotId } = req.params;
+
+    const reviews = await Review.findAll({
+        where: { spotId: spotId },
+        include: [
+            {
+                model: User,
+                attributes: [ 'id', 'firstName', 'lastName' ]
+            },
+
+            {
+                model: ReviewImage,
+                attributes: { exclude: [ 'createdAt', 'updatedAt', 'reviewId' ] }
+            }
+        ]
+    });
+
+    // IF SPOT COULD NOT BE FOUND BY SPOT ID
+    if (!spotId) {
+        return res
+            .status(404)
+            .json({
+                message: "Spot couldn't be found",
+                statusCode: 404
+              })
+    };
+
+    return res.json({ Reviews: reviews });
+})
 
 // #11 & #12: GET DETAILS OF A SPOT BY ID
 router.get('/:spotId', async (req, res) => {

@@ -5,6 +5,82 @@ const router = express.Router();
 const { User, Spot, SpotImage, Review, ReviewImage, Booking, sequelize } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 
+
+
+// #23 && #24 | EDIT EXISTING REVIEW | ERROR
+router.put('/:reviewId', requireAuth, async (req, res) => {
+    const { reviewId } = req.params;
+    const { review, stars } = req.body;
+    const existingReview = await Review.findByPk(reviewId);
+
+    if (!existingReview) {
+        res
+        .status(404)
+        .json({
+            message: "Review couldn't be found",
+            statusCode: 404
+        });
+    };
+
+    try {
+        existingReview.review = review;
+        existingReview.stars = stars;
+        await existingReview.save();
+
+        return res.json(existingReview);
+
+    } catch (error) {
+        res
+        .status(400)
+        .json({
+            message: 'Validation error',
+            statusCode: 400,
+            errors: {
+                review: 'Review text is required',
+                stars: 'Stars must be an integer from 1 to 5',
+            }
+        })
+    }
+});
+
+// #18 & 19: Create an Image for a Review | Error
+router.post('/:reviewId/images', requireAuth, async (req, res) => {
+    const { url } = req.body;
+    const { reviewId } = req.params;
+    const review = await Review.findByPk(reviewId);
+
+    if (!review) {
+        return res
+        .status(404)
+        .json({
+            message: "Review couldn't be found",
+            statusCode: 404
+        });
+    };
+
+    // ERROR: MAX 10 images
+    const imagesExist = ReviewImage.findAll({where: { reviewId: reviewId }});
+    if (imagesExist.length >= 10) {
+        return res
+        .status(403)
+        .json({
+            message: 'Maximum number of images for this resource was reached',
+            statusCode: 403
+        });
+    };
+
+    // CREATE NEW IMAGE
+    const addImage = await ReviewImage.create({ url: url, reviewId: reviewId });
+
+    return res.json({
+        id: addImage.id,
+        url: addImage.url
+    });
+
+});
+
+
+
 // #20 GET REVIEWS OF CURRENT USER
 router.get('/current', requireAuth, async (req, res) => {
     const reviews = await Review.findAll({
@@ -41,79 +117,6 @@ router.get('/current', requireAuth, async (req, res) => {
     };
 
     return res.json({ 'Reviews': result });
-})
-
-
-// #23 && #24 | EDIT EXISTING REVIEW | ERROR
-router.put('/:reviewId', requireAuth, async (req, res) => {
-    const { reviewId } = req.params;
-    const { review, stars } = req.body;
-    const existingReview = await Review.findByPk(reviewId);
-
-    if (!existingReview) {
-        res
-            .status(404)
-            .json({
-                message: "Review couldn't be found",
-                statusCode: 404
-              });
-    };
-
-    try {
-        existingReview.review = review;
-        existingReview.stars = stars;
-        await existingReview.save();
-
-        return res.json(existingReview);
-
-    } catch (error) {
-        res
-            .status(400)
-            .json({
-                message: 'Validation error',
-                statusCode: 400,
-                errors: {
-                    review: 'Review text is required',
-                    stars: 'Stars must be an integer from 1 to 5',
-                }
-        })
-    }
-});
-
-// #18 & 19: Create an Image for a Review | Error
-router.post('/:reviewId/images', requireAuth, async (req, res) => {
-    const { url } = req.body;
-    const { reviewId } = req.params;
-    const review = await Review.findByPk(reviewId);
-
-    if (!review) {
-        return res
-            .status(404)
-            .json({
-                message: "Review couldn't be found",
-                statusCode: 404
-              });
-    };
-
-    // ERROR: MAX 10 images
-    const imagesExist = ReviewImage.findAll({where: { reviewId: reviewId }});
-    if (imagesExist.length >= 10) {
-        return res
-            .status(403)
-            .json({
-                message: 'Maximum number of images for this resource was reached',
-                statusCode: 403
-              });
-    };
-
-    // CREATE NEW IMAGE
-    const addImage = await ReviewImage.create({ url: url, reviewId: reviewId });
-
-    return res.json({
-        id: addImage.id,
-        url: addImage.url
-    });
-
 });
 
 router.delete('/:reviewId', requireAuth, async (req, res) => {
