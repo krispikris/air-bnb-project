@@ -411,11 +411,12 @@ router.get('/:spotId', async (req, res) => {
 // #06: GET ALL SPOTS
 router.get('/', async (req, res) => {
     let { page, size } = req.query;
-    page =
-    page === undefined ? 1  : page < 0 ? 1 : page > 10 ? 10 : parseInt(page);
 
-    size =
-    size === undefined ? 20 : size < 0 ? 1 : size > 20 ? 20 : parseInt(size);
+    if (!page || page <= 0) page = 1;
+    if (!size || size <= 0) size = 20;
+
+    if (page > 10)          page = 10;
+    if (size > 20)          size = 20;
 
     let pagination = {};
     if (page >= 1 && size >= 1) {
