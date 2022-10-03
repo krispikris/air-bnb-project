@@ -1,3 +1,0 @@
-How to Start?
-    Kanban Project Cards
-    Start with your DB then move on to Kanban
