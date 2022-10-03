@@ -78,7 +78,6 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
         }
     })
 
-
     const newBooking = await Booking.create({
         startDate: startDate,
         endDate: endDate,
@@ -118,9 +117,6 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
                     })
             }
     }
-
-
-
 
     res.json(newBooking)
 });
@@ -357,7 +353,7 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
               });
     };
 
-    const booking = await Booking.findOne({
+    const booking = await Booking.findAll({
         where: { spotId : spotId },
         include: [{
             model: User,
@@ -365,7 +361,7 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
         }]
     });
 
-    const differentOwner = await Booking.findOne({
+    const differentOwner = await Booking.findAll({
         where: { spotId : spotId },
         attributes: [ 'spotId', 'startDate', 'endDate' ]
     });
@@ -477,6 +473,7 @@ router.get('/current', requireAuth, async (req, res) => {
     });
 
     let avgRating;
+    let result = [];
     for (let spot of spots) {
         spot = spot.toJSON();
         const countReviews = await Review.count({ where: { spotId : spot.id } });
@@ -497,9 +494,10 @@ router.get('/current', requireAuth, async (req, res) => {
         } else {
             spot.previewImage = null;
         };
+        result.push(spot);
     };
 
-    res.json({ Spots: spots });
+    res.json({ Spots: result });
 })
 
 // router.get('/current', requireAuth, async (req, res) => {
