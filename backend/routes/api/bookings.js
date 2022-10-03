@@ -57,12 +57,14 @@ router.get('/current', requireAuth, async (req, res) => {
 });
 
 router.delete('/:bookingId', requireAuth, async (req, res) => {
-    const ownerId = req.user.id;
-    const bookingToDelete = await Booking.findByPk(req.params.bookingId, {
-        where: { ownerId : ownerId }
-    });
+    const { bookingId } = req.params;
+    const booking = await Booking.findByPk(bookingId);
+    // const ownerId = req.user.id;
+    // const bookingToDelete = await Booking.findByPk(req.params.bookingId, {
+    //     where: { ownerId : ownerId }
+    // });
 
-    if (!bookingToDelete) {
+    if (!booking) {
         res
         .status(404)
         .json({
@@ -71,7 +73,7 @@ router.delete('/:bookingId', requireAuth, async (req, res) => {
           });
     };
 
-    await bookingToDelete.destroy();
+    await booking.destroy();
     res.json({
         message: 'Successfully deleted',
         statusCode: 200

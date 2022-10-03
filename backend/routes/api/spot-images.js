@@ -4,13 +4,15 @@ const router = express.Router();
 const { SpotImage } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 
-//
+// #32: DELETE SPOT IMAGE
 router.delete('/:imageId', requireAuth, async (req, res) => {
-    const imageToDelete = await SpotImage.findByPk(req.params.imageId, {
-        where: { userId: req.user.id }
-    });
+    const { imageId } = req.params;
+    const spotImage = await SpotImage.findByPk(imageId);
+    // const imageToDelete = await SpotImage.findByPk(req.params.imageId, {
+    //     where: { userId: req.user.id }
+    // });
 
-    if (!imageToDelete) {
+    if (!spotImage) {
         res
         .status(404)
         .json({
@@ -19,7 +21,7 @@ router.delete('/:imageId', requireAuth, async (req, res) => {
           });
     };
 
-    await imageToDelete.destroy();
+    await spotImage.destroy();
     res.json({
         message: 'Successfully deleted',
         statusCode: 200

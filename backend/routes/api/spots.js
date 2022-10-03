@@ -447,6 +447,7 @@ router.get('/current', requireAuth, async (req, res) => {
     res.json({ Spots: result });
 });
 
+// #
 router.get('/', async (req, res) => {
     let { page, size } = req.query;
     page =
@@ -468,31 +469,27 @@ router.get('/', async (req, res) => {
         spot = spot.toJSON();
 
         const ratings = await Review.findAll({
-            where: { spotId: spot.id },
+            where: { spotId : spot.id },
             attributes: [[ sequelize.fn('AVG', sequelize.col('stars')), 'avgRating' ]]
         });
 
         const imageURL = await SpotImage.findOne({
-            where: {
-                spotId: spot.id,
-                preview: true
-            },
+            where: { spotId : spot.id, preview : true },
             attributes: ['url']
         });
+
         spot.avgRating = Number(ratings[0].toJSON().avgRating);
 
         if (imageURL) {
             spot.previewImage = imageURL.url;
         } else {
             spot.previewImage = null;
-        }
+        };
 
         result.push(spot);
-        // spot.previewImage = imageURL.url;
     };
 
-    res.json({ Spots: result });
-    // res.status(200).json({ Spots: result, page, size });
+    res.json({ Spots : result });
 });
 
 // 2nd to last: DELETE A SPOT
@@ -502,21 +499,18 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
 
     if (!spot) {
         res
-            .status(404)
-            .json({
-                message: "Spot couldn't be found",
-                statusCode: 404
-              })
+        .status(404)
+        .json({
+            message: "Spot couldn't be found",
+            statusCode: 404
+            });
     };
 
-    if (spot) {
-        spot.destroy();
-
-        return res.json({
-            message: 'Successfully deleted',
-            statusCode: 200
-        })
-    };
+    spot.destroy();
+    return res.json({
+        message: 'Successfully deleted',
+        statusCode: 200
+    });
 });
 
 module.exports = router;
