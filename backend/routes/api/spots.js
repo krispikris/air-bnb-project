@@ -4,9 +4,6 @@ const router = express.Router();
 const { User, Spot, SpotImage, Review, ReviewImage, Booking, sequelize } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 
-// const { handleValidationErrors } = require('../../utils/validation');
-// const { Op } = require('sequelize');
-
 // #11: GET ALL SPOTS OWNED BY THE CURRENT USER
 router.get('/current', requireAuth, async (req, res) => {
     const ownerId = req.user.id;
@@ -35,11 +32,10 @@ router.get('/current', requireAuth, async (req, res) => {
         } else {
             spot.previewImage = null;
         };
-        console.log(spot);
+
         result.push(spot);
     };
 
-    console.log(res.json({ Spots: result }));
     res.json({ Spots: result });
 });
 
@@ -236,8 +232,8 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
                 message: 'Validation error',
                 statusCode: 400,
                 errors: {
-                  review: 'Review text is required',
-                  stars: 'Stars must be an integer from 1 to 5',
+                    review: 'Review text is required',
+                    stars: 'Stars must be an integer from 1 to 5',
                 }
             })
         }
@@ -247,6 +243,7 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
 router.post('/', requireAuth, async (req, res) => {
     const user = req.user;
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
+
     try {
         const newSpot = await Spot.create({
             ownerId: user.id,
@@ -270,15 +267,15 @@ router.post('/', requireAuth, async (req, res) => {
             message: 'Validation Error',
             statusCode: 400,
             errors: {
-                'address': 'Street address is required',
-                'city': 'City is required',
-                'state': 'State is required',
-                'country': 'Country is required',
-                'lat': 'Latitude is not valid',
-                'lng': 'Longitude is not valid',
-                'name': 'Name must be less than 50 characters',
-                'description': 'Description is required',
-                'price': 'Price per day is required'
+                address: 'Street address is required',
+                city: 'City is required',
+                state: 'State is required',
+                country: 'Country is required',
+                lat: 'Latitude is not valid',
+                lng: 'Longitude is not valid',
+                name: 'Name must be less than 50 characters',
+                description: 'Description is required',
+                price: 'Price per day is required'
             }
         });
     };
