@@ -3,16 +3,39 @@ const router = express.Router();
 const { Spot, SpotImage, Booking } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 
-// const { User, Spot, SpotImage, Review, ReviewImage, Booking, Sequelize } = require('../../db/models');
-// const { handleValidationErrors } = require('../../utils/validation');
-// const { Op } = require('sequelize');
+// #27 GET ALL CURRENT USER'S BOOKINGS
+router.get('/current', requireAuth, async (req, res) => {
+    const allCurrBookings = await Booking.findAll({
+        where: { userId : req.user.id },
+        include: [{
+            model: Spot,
+            attributes: { exclude: [ 'description', 'createdAt', 'updatedAt' ] }
+        }]
+    });
+
+    let result = [];
+    for (let booking of allCurrBookings) {
+        booking = booking.toJSON();
+
+        const image = await SpotImage.findOne({
+            where: { spotId : booking.spotId, preview : true },
+            attributes: [ 'url' ]
+        });
+
+        if (image) booking.Spot.previewImage = image.url;
+        else booking.Spot.previewImage = null;
+
+        result.push(booking);
+    };
+
+    res.json({ Bookings : result })
+});
 
 // #30 & 31: EDIT A BOOKING | ERROR
 router.put('/:bookingId', requireAuth, async (req, res) => {
     const { bookingId } = req.params;
     const { startDate, endDate } = req.body;
     const booking = await Booking.findByPk(bookingId);
-    // const booking = await Booking.findByPk(req.params.bookingId);
 
     if (!booking) {
         res
@@ -33,39 +56,10 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
     res.json(updatedBooking);
 });
 
-// #27 GET ALL CURRENT USER'S BOOKINGS
-router.get('/current', requireAuth, async (req, res) => {
-    const allCurrBookings = await Booking.findAll({
-        where: { userId : req.user.id },
-        include: [{
-            model: Spot,
-            attributes: { exclude: [ 'description', 'createdAt', 'updatedAt' ] }
-        }]
-    });
-
-    let result = [];
-    for (let booking of allCurrBookings) {
-        booking = booking.toJSON();
-
-        const image = SpotImage.findByPk(booking.spotId, {
-            where: { preview : true },
-            attributes: [ 'url' ]
-        });
-
-        if (image) booking.previewImage = image.url;
-        result.push(booking);
-    };
-
-    return res.json({ Bookings : result })
-});
 
 router.delete('/:bookingId', requireAuth, async (req, res) => {
     const { bookingId } = req.params;
     const booking = await Booking.findByPk(bookingId);
-    // const ownerId = req.user.id;
-    // const bookingToDelete = await Booking.findByPk(req.params.bookingId, {
-    //     where: { ownerId : ownerId }
-    // });
 
     if (!booking) {
         res
