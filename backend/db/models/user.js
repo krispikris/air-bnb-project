@@ -50,38 +50,46 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // ONE TO MANY
       User.hasMany(models.Spot,         { foreignKey: 'ownerId', onDelete: 'CASCADE' });
-      // User.hasMany(models.Review,     { foreignKey: 'userId' })
-      // User.hasMany(models.Booking,    { foreignKey: 'userId' })
+      User.hasMany(models.Review,       { foreignKey: 'userId' });
+      User.hasMany(models.Booking,      { foreignKey: 'userId' });
 
-      // MANY TO MANY
-      User.belongsToMany(models.Spot,   { through:    models.Review,
-                                          foreignKey: 'userId',
-                                          otherKey:   'spotId',
-                                          onDelete:   'CASCADE' });
-
-      User.belongsToMany(models.Spot,   { through:    models.Booking,
-                                          foreignKey: 'userId',
-                                          otherKey:   'spotId',
-                                          onDelete:   'CASCADE' });
     }
 
   };
 
+  // // MANY TO MANY
+  // User.belongsToMany(models.Spot,   { through:    models.Review,
+  //                                     foreignKey: 'userId',
+  //                                     otherKey:   'spotId',
+  //                                     onDelete:   'CASCADE' });
+
+  // User.belongsToMany(models.Spot,   { through:    models.Booking,
+  //                                     foreignKey: 'userId',
+  //                                     otherKey:   'spotId',
+  //                                     onDelete:   'CASCADE' });
+
   User.init({
     firstName: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+          len: [1, 30]
+      }
     },
 
     lastName: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+          len: [1, 30]
+      }
     },
 
     email: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
+      // unique: { msg: 'emailVal' }
       validate: {
         len: [3, 256],
         isEmail: true
@@ -92,6 +100,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
+      // unique: { msg: 'usernameVal' }
       validate: {
         len: [4, 30],
         isNotEmail(value) {
@@ -116,7 +125,7 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'User',
     defaultScope: {
       attributes: {
-        exclude: ['hashedPassword', 'email', 'createdAt', 'updatedAt']
+        exclude: ['hashedPassword', 'createdAt', 'updatedAt']
       }
     },
 

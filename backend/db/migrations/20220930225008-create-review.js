@@ -8,18 +8,27 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+
       spotId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: { model: 'Spots' },
+        onDelete: 'CASCADE'
       },
+
       userId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: { model: 'Users' },
+        onDelete: 'CASCADE'
       },
+
       review: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(256)
       },
+
       stars: {
         type: Sequelize.INTEGER
       },
+
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
@@ -32,6 +41,7 @@ module.exports = {
       }
     });
   },
+
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Reviews');
   }

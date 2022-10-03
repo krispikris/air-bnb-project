@@ -84,6 +84,7 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
 });
 
 // #15 - #17 CREATE A REVIEW FOR A SPOT
+// NOT WORKING ANYMORE
 router.post('/:spotId/reviews', requireAuth, async (req, res) => {
     const { spotId } = req.params;
     const spot = await Spot.findByPk(spotId);

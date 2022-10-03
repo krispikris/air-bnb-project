@@ -13,20 +13,38 @@ module.exports = (sequelize, DataTypes) => {
       // ONE-TO-MANY (2x)
       Spot.belongsTo(models.User,       { foreignKey: 'ownerId', as: 'Owner', onDelete: 'CASCADE' });
       Spot.hasMany(models.SpotImage,    { foreignKey: 'spotId', onDelete: 'CASCADE' });
-      // Spot.hasMany(models.Review,     { foreignKey: 'spotId' })
-      // Spot.hasMany(models.Booking,    { foreignKey: 'spotId' })
+      Spot.hasMany(models.Review,       { foreignKey: 'spotId' });
+      Spot.hasMany(models.Booking,      { foreignKey: 'spotId' });
 
-      // MANY-TO-MANY (2x)
-      Spot.belongsToMany(models.User,   { through:    models.Review,
-                                          foreignKey: 'spotId',
-                                          otherKey:   'userId' });
-
-      Spot.belongsToMany(models.User,   { through:    models.Booking,
-                                          foreignKey: 'spotId',
-                                          otherKey:   'userId',
-                                          onDelete:   'CASCADE' });
     }
   }
+  // MANY-TO-MANY (2x)
+  // Spot.belongsToMany(models.User,   { through:    models.Review,
+  //                                     foreignKey: 'spotId',
+  //                                     otherKey:   'userId' });
+
+  // Spot.belongsToMany(models.User,   { through:    models.Booking,
+  //                                     foreignKey: 'spotId',
+  //                                     otherKey:   'userId',
+  //                                     onDelete:   'CASCADE' });
+
+  //  static async createSpot ({ address, city, state, country, lat, lng, name, description, price }) {
+  //   const spot = await Spot.create({
+  //     address,
+  //     city,
+  //     state,
+  //     country,
+  //     lat,
+  //     lng,
+  //     name,
+  //     description,
+  //     price
+  //   });
+  //   return await Spot.findByPk(spot.id)
+  //  }
+  // }
+
+
 
   Spot.init({
     ownerId: {
@@ -34,40 +52,67 @@ module.exports = (sequelize, DataTypes) => {
     },
 
     address: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+          len: [1, 30]
+      }
     },
 
     city: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+          len: [1, 30]
+      }
     },
 
     state: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+          len: [1, 30]
+      }
     },
 
     country: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+          len: [1, 30]
+      }
     },
 
     lat: {
-      type: DataTypes.DECIMAL
+      type: DataTypes.DECIMAL,
+      allowNull: false
     },
 
     lng: {
-      type: DataTypes.DECIMAL
+      type: DataTypes.DECIMAL,
+      allowNull: false
     },
 
     name: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+          len: [1, 30]
+      }
     },
 
     description: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+          len: [1, 256]
+      }
     },
 
     price: {
-      type: DataTypes.DECIMAL
-    }
+      type: DataTypes.DECIMAL,
+      allowNull: false
+  }
   }, {
 
     sequelize,

@@ -4,11 +4,6 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Booking extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
       // ONE-TO-MANY
       Booking.belongsTo(models.User,  { foreignKey: 'userId', onDelete: 'CASCADE' });
@@ -26,11 +21,16 @@ module.exports = (sequelize, DataTypes) => {
     },
 
     startDate: {
-      type: DataTypes.DATE
+      type: DataTypes.DATEONLY      // Sequelize.DATE
     },
 
     endDate: {
-      type: DataTypes.DATE
+      type: DataTypes.DATEONLY,    // Sequelize.DATE
+      validate: {
+        isValid(checkoutDate) {
+          if (checkoutDate <= this.startDate) throw new Error();
+        }
+      }
     }
   }, {
 
