@@ -265,41 +265,37 @@ router.get('/:spotId', async (req, res) => {
 // #11: GET ALL SPOTS OWNED BY THE CURRENT USER
 router.get('/current', requireAuth, async (req, res) => {
     const ownerId = req.user.id
-
     const spots = await Spot.findAll({
-        raw: true,
-        where: {
-            ownerId: ownerId
-        },
-
+        where: { ownerId: ownerId }
     });
 
-    let avgRating;
-    for (let i = 0; i < spots.length; i++) {
-        const reviewCount = await Review.count({ where: { spotId: spots[i].id } })
-        const sumOfStars = await Review.sum('stars', {
-            where: { spotId: spots[i].id }
+    let result = [];
+    for (let spot of spots) {
+        spot = spot.toJSON();
+
+        const reviews = await Review.findAll({
+            where: { spotId: spot.id },
+            attributes: [[ sequelize.fn('AVG', sequelize.col('stars')), 'avgRating' ]]
         });
 
-        if (!sumOfStars) {
-            avgRating = 0;
+        const imageURL = await SpotImage.findOne({
+            where: { spotId : spot.id , preview: true },
+            attributes: [ 'url' ]
+        });
+
+        let ratingNumber = Number((reviews[0].avgRating)).toFixed(1);
+        spot.avgRating = ratingNumber;
+
+        if (imageURL) {
+            spot.previewImage = imageURL.url;
         } else {
-            avgRating = (sumOfStars / reviewCount).toFixed(1);
+            spot.previewImage = null;
         }
 
-        spots[i].avgRating = avgRating;
-
-        const spotImage = await SpotImage.findOne({
-            where: { spotId: spots[i].id },
-            attributes: ['id', 'url', 'preview']
-        });
-
-        if (spotImage) spots[i].previewImage = spotImage.url;
-        else spots[i].previewImage = 'No Image Available :('
-
+        result.push(spot);
     }
 
-    return res.json({ Spots: spots })
+    res.json({ Spots: result });
 });
 
 // #06: GET ALL SPOTS
