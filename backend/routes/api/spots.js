@@ -469,6 +469,37 @@ router.get('/:spotId', async (req, res) => {
     return res.json(result);
 });
 
+// #11: GET ALL SPOTS OWNED BY THE CURRENT USER
+router.get('/current', requireAuth, async (req, res) => {
+    const ownerId = req.user.id;
+    const spots = await Spot.findAll({
+        where: { ownerId : ownerId }
+    });
+
+    let avgRating;
+    for (let spot of spots) {
+        const countReviews = await Review.count({ where: { spotId : spot.id } });
+        const stars = await Review.sum('stars', { where: { spotId : spot.id } });
+
+        if (!stars) avgRating = 0;
+        else avgRating = Number( stars / countReviews ).toFixed(1);
+
+        spot.avgRating = avgRating;
+
+        const imageURL = await SpotImage.findOne({
+            where: { spotId: spot.id },
+            attributes: [ 'id', 'url', 'preview' ]
+        });
+
+        if (imageURL) {
+            spot.previewImage = imageURL.url;
+        } else {
+            spot.previewImage = null;
+        };
+    };
+
+    res.json({ Spots: spots });
+})
 
 // router.get('/current', requireAuth, async (req, res) => {
 //     const ownerId = req.user.id;
@@ -592,7 +623,7 @@ router.get('/', async (req, res) => {
         result.push(spot);
     };
 
-    res.json({ Spots : result });
+    res.json({ Spots : result , page, size });
 });
 
 // 2nd to last: DELETE A SPOT

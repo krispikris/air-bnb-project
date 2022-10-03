@@ -13,35 +13,15 @@ module.exports = (sequelize, DataTypes) => {
 
     }
   }
-  // MANY-TO-MANY (2x)
-  // Spot.belongsToMany(models.User,   { through:    models.Review,
-  //                                     foreignKey: 'spotId',
-  //                                     otherKey:   'userId' });
-
-  // Spot.belongsToMany(models.User,   { through:    models.Booking,
-  //                                     foreignKey: 'spotId',
-  //                                     otherKey:   'userId',
-  //                                     onDelete:   'CASCADE' });
-
-  //  static async createSpot ({ address, city, state, country, lat, lng, name, description, price }) {
-  //   const spot = await Spot.create({
-  //     address,
-  //     city,
-  //     state,
-  //     country,
-  //     lat,
-  //     lng,
-  //     name,
-  //     description,
-  //     price
-  //   });
-  //   return await Spot.findByPk(spot.id)
-  //  }
-  // }
-
-
 
   Spot.init({
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER
+    },
+
     ownerId: {
       type: DataTypes.INTEGER
     },
@@ -50,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-          len: [1, 30]
+        len: [1, 30]
       }
     },
 
@@ -58,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-          len: [1, 30]
+        len: [1, 30]
       }
     },
 
@@ -66,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-          len: [1, 30]
+        len: [1, 30]
       }
     },
 
@@ -74,7 +54,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-          len: [1, 30]
+        len: [1, 30]
       }
     },
 
@@ -92,7 +72,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-          len: [1, 30]
+        len: [1, 30]
       }
     },
 
@@ -100,14 +80,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-          len: [1, 256]
+        len: [1, 256]
       }
     },
 
     price: {
       type: DataTypes.DECIMAL,
       allowNull: false
-  }
+    }
   }, {
 
     sequelize,
@@ -116,3 +96,29 @@ module.exports = (sequelize, DataTypes) => {
 
   return Spot;
 };
+
+// MANY-TO-MANY (2x)
+// Spot.belongsToMany(models.User,   { through:    models.Review,
+//                                     foreignKey: 'spotId',
+//                                     otherKey:   'userId' });
+
+// Spot.belongsToMany(models.User,   { through:    models.Booking,
+//                                     foreignKey: 'spotId',
+//                                     otherKey:   'userId',
+//                                     onDelete:   'CASCADE' });
+
+//  static async createSpot ({ address, city, state, country, lat, lng, name, description, price }) {
+//   const spot = await Spot.create({
+//     address,
+//     city,
+//     state,
+//     country,
+//     lat,
+//     lng,
+//     name,
+//     description,
+//     price
+//   });
+//   return await Spot.findByPk(spot.id)
+//  }
+// }

@@ -26,7 +26,7 @@ module.exports = {
       },
 
       stars: {
-        type: Sequelize.INTEGER
+        type: Sequelize.DECIMAL
       },
 
       createdAt: {
