@@ -310,7 +310,7 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
     });
 
     // #11: GET ALL SPOTS OWNED BY THE CURRENT USER
-    router.get('/current', requireAuth, handleValidationErrors, async (req, res) => {
+    router.get('/current', requireAuth, async (req, res) => {
         const ownerId = req.user.id;
         const spots = await Spot.findAll({
             where: { ownerId : ownerId }
@@ -338,7 +338,7 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
             };
         };
 
-        res.json({ Spots: spot });
+        res.json({ Spots: spots });
     });
 
 // #28 & 29: GET ALL BOOKINGS FOR A SPOT BY ID
