@@ -286,15 +286,15 @@ router.get('/:spotId/reviews', async (req, res) => {
 
     // IF SPOT COULD NOT BE FOUND BY SPOT ID
     if (!spotId) {
-        return res
-            .status(404)
-            .json({
-                message: "Spot couldn't be found",
-                statusCode: 404
-              })
+        res
+        .status(404)
+        .json({
+            message: "Spot couldn't be found",
+            statusCode: 404
+          });
     };
 
-    return res.json({ Reviews: reviews });
+    res.json({ Reviews: reviews });
 })
 
 // #11 & #12: GET DETAILS OF A SPOT BY ID

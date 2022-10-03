@@ -1,11 +1,10 @@
 const express = require('express');
-const { json } = require('sequelize');
 const router = express.Router();
+const { json } = require('sequelize');
 
-const { User, Spot, SpotImage, Review, ReviewImage, Booking, sequelize } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
-
-
+const { User, Spot, SpotImage, Review, ReviewImage } = require('../../db/models');
+// const { User, Spot, SpotImage, Review, ReviewImage, Booking, sequelize } = require('../../db/models');
 
 // #23 && #24 | EDIT EXISTING REVIEW | ERROR
 router.put('/:reviewId', requireAuth, async (req, res) => {
@@ -39,8 +38,8 @@ router.put('/:reviewId', requireAuth, async (req, res) => {
                 review: 'Review text is required',
                 stars: 'Stars must be an integer from 1 to 5',
             }
-        })
-    }
+        });
+    };
 });
 
 // #18 & 19: Create an Image for a Review | Error
@@ -50,7 +49,7 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
     const review = await Review.findByPk(reviewId);
 
     if (!review) {
-        return res
+        res
         .status(404)
         .json({
             message: "Review couldn't be found",
@@ -61,7 +60,7 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
     // ERROR: MAX 10 images
     const imagesExist = ReviewImage.findAll({where: { reviewId: reviewId }});
     if (imagesExist.length >= 10) {
-        return res
+        res
         .status(403)
         .json({
             message: 'Maximum number of images for this resource was reached',
@@ -76,7 +75,6 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
         id: addImage.id,
         url: addImage.url
     });
-
 });
 
 

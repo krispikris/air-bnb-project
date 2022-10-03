@@ -1,15 +1,18 @@
 const express = require('express');
 const router = express.Router();
-
-const { User, Spot, SpotImage, Review, ReviewImage, Booking, Sequelize } = require('../../db/models');
-const { handleValidationErrors } = require('../../utils/validation');
+const { Spot, SpotImage, Booking } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
-const { Op } = require('sequelize');
+
+// const { User, Spot, SpotImage, Review, ReviewImage, Booking, Sequelize } = require('../../db/models');
+// const { handleValidationErrors } = require('../../utils/validation');
+// const { Op } = require('sequelize');
 
 // #30 & 31: EDIT A BOOKING | ERROR
 router.put('/:bookingId', requireAuth, async (req, res) => {
+    const { bookingId } = req.params;
     const { startDate, endDate } = req.body;
-    const booking = await Booking.findByPk(req.params.bookingId);
+    const booking = await Booking.findByPk(bookingId);
+    // const booking = await Booking.findByPk(req.params.bookingId);
 
     if (!booking) {
         res
@@ -28,7 +31,7 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
     });
 
     res.json(updatedBooking);
-})
+});
 
 // #27 GET ALL CURRENT USER'S BOOKINGS
 router.get('/current', requireAuth, async (req, res) => {
