@@ -205,6 +205,10 @@ router.get('/:spotId', async (req, res) => {
             'createdAt',
             'updatedAt'
         ]
+        // include: {
+        //     model: User, as: 'Owner',
+        //     attributes: ['id', 'firstName', 'lastName' ]
+        // }
     });
 
     if (!details) {
@@ -227,21 +231,21 @@ router.get('/:spotId', async (req, res) => {
 
     const owner = await User.findByPk(details.ownerId, { attributes: [ 'id', 'firstName', 'lastName' ] });
 
-    let avgRating;
+    let avgRating
     if(starSum === null) {
         avgRating = 0;
     } else {
         avgRating = (starSum / reviewCount).toFixed(1);
-    }
+    };
 
-    result = details.toJSON();
+    const result = details.toJSON();
 
     result.numReviews = reviewCount;
     result.avgStarRating = Number(avgRating);
     result.SpotImages = spotImage;
     result.Owner = owner;
 
-    res.json(result);
+    return res.json(result);
 });
 
         //     {
@@ -297,49 +301,44 @@ router.get('/current', requireAuth, async (req, res) => {
 
     return res.json({ Spots: spots })
 });
-// router.get('/current', requireAuth, async (req, res) => {
-//     let ownerId = req.user.id;
-//     const spots = await Spot.findAll({ where:   { ownerId : ownerId }});
 
-//     let avgRating;
-//     for (let spot of spots) {
-//         spot = spot.toJSON();
-
-//         const ratings = await Review.findAll({
-//             where: { spotId: spot.id },
-//             attributes: [[ sequelize.fn('AVG', sequelize.col('stars')), 'avgRating' ]]
-//         });
-
-//         const imageURL = await SpotImage.findOne({
-//             where: {
-//                 spotId: spot.id,
-//                 preview: true
-//             },
-//             attributes: ['url']
-//         });
-
-//         spot.avgRating = Number(ratings[0].toJSON().avgRating);
-
-//         // console.log(`IMAGE URL: ${imageURL}`);
-
-//         if (imageURL) {
-//             spot.previewImage = imageURL.url;
-//         } else {
-//             spot.previewImage = null;
-//         }
-
-
-//         result.push(spot);
-//     };
-//     // raw:     true,
-//     // include: { model: SpotImage, where: { preview: true } },
-
-//     return res.json({ Spots: result });
-// });
-
-// #06: GET ALL SPOTS | WORKS!
+// #06: GET ALL SPOTS
 // Look into the avgRating syntax, not giving the math avg rn
 // createdAt and updatedAt syntax is returning different format from api docs
+
+router.get('/current', requireAuth, async (req, res) => {
+    let ownerId = req.user.id;
+    const spots = await Spot.findAll({ where: { ownerId : ownerId } });
+
+    let result = [];
+    for (let spot of spots) {
+        spot = spot.toJSON();
+
+        const reviews = await Review.findAll({
+            where: { spotId: spot.id },
+            attributes: [[ sequelize.fn('AVG', sequelize.col('stars')), 'avgRating' ]]
+        });
+
+        const imageURL = await SpotImage.findOne({
+            where: { spotId : spot.id },
+            attributes: [ 'url' ]
+        });
+
+        let ratingNumber = Number((reviews[0].avgRating)).toFixed(1);
+        spot.avgRating = ratingNumber;
+
+        if (imageURL) {
+            spot.previewImage = imageURL.url;
+        } else {
+            spot.previewImage = null;
+        }
+
+        result.push(spot);
+    };
+
+    res.json({ Spots: result });
+});
+
 router.get('/', async (req, res) => {
     let { page, size } = req.query;
     page =
