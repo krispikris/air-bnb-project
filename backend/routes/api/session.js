@@ -67,6 +67,8 @@ router.get('/', restoreUser, (req, res) => {
   }
 );
 
+// FIND router.get (GET CURRENT USER)
+
 // PHASE 4: use to test in browser's DevTools.
 // fetch('/api/session', {
 //     method: 'POST',
