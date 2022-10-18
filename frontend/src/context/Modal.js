@@ -1,7 +1,7 @@
 // frontend/src/context/Modal.js
-import React, { useContext, useRef, useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import './Modal.css';
+import  React, { useContext, useRef, useState, useEffect }    from 'react';
+import  ReactDOM                                              from 'react-dom';
+import                                                             './Modal.css';
 
 const ModalContext = React.createContext();
 

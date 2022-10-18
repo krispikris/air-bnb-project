@@ -1,11 +1,11 @@
 // frontend/src/components/Navigation/ProfileButton.js
-import React, { useState, useEffect } from "react";
-import { useDispatch } from 'react-redux';
-import * as sessionActions from '../../store/session';
+import    React, { useState, useEffect }    from 'react';
+import  { useDispatch }                     from 'react-redux';
+import    * as sessionActions               from '../../store/session';
 
 function ProfileButton({ user }) {
-  const dispatch = useDispatch();
-  const [showMenu, setShowMenu] = useState(false);
+  const   dispatch                  = useDispatch();
+  const [ showMenu, setShowMenu ]   = useState(false);
 
   const openMenu = () => {
     if (showMenu) return;

@@ -1,11 +1,9 @@
 // frontend/src/App.js
-import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { Route, Switch } from "react-router-dom";
-// import SignupFormPage from "./components/SignupFormModal";
-// import LoginForm from "./components/LoginFormModal/LoginForm";
-import * as sessionActions from "./store/session";
-import Navigation from "./components/Navigation";
+import    React, { useState, useEffect }    from "react";
+import  { useDispatch }                     from "react-redux";
+import  { Route, Switch }                   from "react-router-dom";
+import    * as sessionActions               from "./store/session";
+import    Navigation                        from "./components/Navigation";
 
 function App() {
   const dispatch = useDispatch();
@@ -19,13 +17,6 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
-          {/* <Route path="/signup">      // made signup inta modal so no longer needed
-            <SignupFormPage />
-          </Route> */}
-
-          {/* <Route path="/login">       // because we have modal now we don't need
-            <LoginForm />
-          </Route> */}
         </Switch>
       )}
     </>
