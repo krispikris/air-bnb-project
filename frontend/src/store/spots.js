@@ -1,15 +1,23 @@
 import { csrfFetch } from "./csrf";
 
 // ACTIONS
-const GET_SPOTS = 'spots/getSpots';
+const GET_SPOTS     = 'spots/getSpots';
+const CREATE_SPOT   = 'spots/createSpot'
 
 const getSpots = (spot) => {
     return {
         type: GET_SPOTS,
         payload: spot
-        // spot
     };
 };
+
+const createSpot = (spot) => {
+    return {
+        type: CREATE_SPOT,
+        payload: spot
+    }
+}
+
 
 // THUNKS
 export const getAllSpots = () => async (dispatch) => {
@@ -19,6 +27,19 @@ export const getAllSpots = () => async (dispatch) => {
         const data = await response.json();
         dispatch(getSpots(data))
         return data;
+    };
+};
+
+export const createNewSpot = (spot) => async (dispatch) => {
+    const response = await csrfFetch('/api/spots', {
+        method: 'POST',
+        body: JSON.stringify(spot),
+    })
+
+    if (response.ok) {
+        const data = await response.json();
+        dispatch(createSpot(data));
+        return response;
     };
 };
 
@@ -34,6 +55,10 @@ const initialState = { spot: null };
             // case CREATE_SPOT:
             //     const newState = {...state}
             //     return newState
+            case CREATE_SPOT:
+                let createdSpot = {...action.payload};
+                createdSpot = {...state, createdSpot};
+                return createdSpot;
                 default:
                     return state;
                 }

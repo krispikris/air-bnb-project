@@ -10,9 +10,10 @@ const Spots = () => {
 
     useEffect(() => {
         dispatch(getAllSpots());
+        // dispatch(createNewSpot());
     }, [dispatch]);
 
-    console.log(spots)
+    // console.log(spots)
 
     return (
         <div>
