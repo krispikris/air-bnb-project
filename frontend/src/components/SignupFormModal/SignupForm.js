@@ -1,11 +1,11 @@
-// frontend/src/components/SignupFormPage/index.js
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Redirect, useHistory } from "react-router-dom";
-import * as sessionActions from "../../store/session";
-import './SignupForm.css';
+// frontend/src/components/SignupForm/index.js
+import    React, { useState }           from "react";
+import  { useDispatch, useSelector }    from "react-redux";
+import  { Redirect }                    from "react-router-dom";
+import    * as sessionActions           from "../../store/session";
+import                                       './SignupForm.css';
 
-function SignupFormPage() {
+function SignupForm() {
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
   const [firstName, setFirstName] = useState("");
@@ -15,7 +15,7 @@ function SignupFormPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState([]);
-  const history = useHistory();
+//   const history = useHistory();
 
   if (sessionUser) return <Redirect to="/" />;
 
@@ -27,7 +27,7 @@ function SignupFormPage() {
         .catch(async (res) => {
           const data = await res.json();
           if (data && data.errors) setErrors(data.errors);
-          if (!data.errors) return history.push('/home');
+        //   if (!data.errors) return history.push('/home');
         });
     }
     return setErrors(['Confirm Password field must be the same as the Password field']);
@@ -97,4 +97,4 @@ function SignupFormPage() {
   );
 }
 
-export default SignupFormPage;
+export default SignupForm;
