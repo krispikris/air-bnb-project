@@ -20,6 +20,7 @@ const createSpot = (spot) => {
 
 // THUNKS
 export const getAllSpots = () => async (dispatch) => {
+    console.log('getAllSpots')
     const response = await fetch('/api/spots');
 
     if (response.ok) {
@@ -30,26 +31,42 @@ export const getAllSpots = () => async (dispatch) => {
 };
 
 export const createNewSpot = (spot, image) => async (dispatch) => {
+    // console.log('createNewSpot')
+    // console.log('THIS IS THE IMAGE', image)
+    console.log('THIS IS SPOT',spot);
     const response = await csrfFetch('/api/spots', {
         method: 'POST',
         body: JSON.stringify(spot)
     })
 
-    const findPreviewImage = await csrfFetch('/api/spotImage', {
-        method: 'POST',
-        body: JSON.stringify(image)
-    })
+    const spotIdURL = response.json();
+    console.log('THIS IS THE SPOTID URL', spotIdURL);
 
-    if (response.ok && findPreviewImage.ok) {
+    if (response.ok) {
         let data = {};
-        const resData = await response.json();
-        const previewImage = await findPreviewImage.json();
+        // const resData = await response.json();
+        // const previewImage = await findPreviewImage.json();
 
-        data = {...resData, previewImage}
+        let imageObj = {id: spotIdURL, url: image};
+        // data = {...resData}
+        // data = {...resData, previewImage}
+        console.log('THIS IS THE DATA', data);
         dispatch(createSpot(data));
+        dispatch(addImageToNewSpot())
         return data;
     };
 };
+
+export const addImageToNewSpot = (image) => async (dispatch) => {
+    const { id,  url} = image;
+    const findPreviewImage = await csrfFetch(`/api/spots/${id}/images`, {
+        method: 'POST',
+        body: JSON.stringify({
+            url,
+            preview: true
+        })
+    })
+}
 
 // REDUCER
 const initialState = { spot: null };

@@ -154,7 +154,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
 
     // #08 | #09: CREATE AN IMAGE FOR A SPOT
     router.post('/:spotId/images', requireAuth, async (req, res) => {
-        const { url } = req.body;
+        const { url, preview } = req.body;
         const spot = await Spot.findByPk(req.params.spotId);
 
         if (!spot) {
@@ -168,7 +168,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
     const spotImage = await SpotImage.create({
         spotId: req.params.spotId,
         url: url,
-        preview: true
+        preview
     });
 
     return res.json({
