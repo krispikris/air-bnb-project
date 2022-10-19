@@ -1,89 +1,103 @@
 import { csrfFetch } from "./csrf";
 
 // ACTIONS
-const GET_SPOTS     = 'spots/getSpots';
-const CREATE_SPOT   = 'spots/createSpot'
+const GET_SPOTS             = 'spots/getSpots';
+const CREATE_SPOT           = 'spots/createSpot';
+const CREATE_SPOT_IMAGE     = 'spots/createSpotImage';
 
-const getSpots = (spot) => {
+const getSpots = (spots) => {
     return {
         type: GET_SPOTS,
-        payload: spot
+        spots
     };
 };
 
 const createSpot = (spot) => {
     return {
         type: CREATE_SPOT,
-        payload: spot
+        spot
     }
 }
 
+const createSpotImage = (image) => {
+    return {
+        type: CREATE_SPOT_IMAGE,
+        image
+    };
+};
+
 // THUNKS
 export const getAllSpots = () => async (dispatch) => {
-    console.log('getAllSpots')
     const response = await fetch('/api/spots');
 
     if (response.ok) {
-        const data = await response.json();
-        dispatch(getSpots(data))
-        return data;
+        const spots = await response.json();
+        dispatch(getSpots(spots))
+        return spots;
     };
 };
 
-export const createNewSpot = (spot, image) => async (dispatch) => {
-    // console.log('createNewSpot')
-    // console.log('THIS IS THE IMAGE', image)
-    console.log('THIS IS SPOT',spot);
+export const createNewSpot = (spot) => async (dispatch) => {
     const response = await csrfFetch('/api/spots', {
         method: 'POST',
         body: JSON.stringify(spot)
-    })
-
-    const spotIdURL = response.json();
-    console.log('THIS IS THE SPOTID URL', spotIdURL);
+    });
 
     if (response.ok) {
-        let data = {};
-        // const resData = await response.json();
-        // const previewImage = await findPreviewImage.json();
-
-        let imageObj = {id: spotIdURL, url: image};
-        // data = {...resData}
-        // data = {...resData, previewImage}
-        console.log('THIS IS THE DATA', data);
-        dispatch(createSpot(data));
-        dispatch(addImageToNewSpot())
-        return data;
+        const createdSpot = await response.json();
+        dispatch(createSpot(createdSpot))
+        return createdSpot
     };
 };
 
-export const addImageToNewSpot = (image) => async (dispatch) => {
-    const { id,  url} = image;
-    const findPreviewImage = await csrfFetch(`/api/spots/${id}/images`, {
-        method: 'POST',
-        body: JSON.stringify({
-            url,
-            preview: true
+export const createImage = (spotId, image) => async (dispatch) => {
+    const response = await csrfFetch(`/api/spots/${spotId}/images`, {
+            method: 'POST',
+            body: JSON.stringify(image)
         })
-    })
-}
+
+
+        // if (response.ok) {
+        //     const img = await response.json();
+        //     dispatch(createSpotImage(img))
+        //     return img;
+        // }
+    }
+    // const spotIdURL = response.json();
+    // let imageObj = {id: spotIdURL, url: image};
 
 // REDUCER
-const initialState = { spot: null };
-    const spotsReducer = (state = initialState, action) => {
+const initialState = { allSpots: {}, singleSpot: {} };
+
+const spotsReducer = (state = initialState, action) => {
+        const newState = Object.assign({}, state);
+
         switch (action.type) {
             case GET_SPOTS:
-                return {...action.payload.Spots};
-                // const newState = {...state}
-                // return {...newState, ...action.spot}
-                // return {...state, Spots}
-            // case CREATE_SPOT:
-            //     const newState = {...state}
-            //     return newState
+                const allSpots = {};
+                action.spots.Spots.forEach(spot => {
+                    allSpots[spot.id] = spot;
+                });
+
+                return {allSpots, singleSpot: { spotImages: [] }};
+
             case CREATE_SPOT:
-                let createdSpot = {...action.payload};
-                createdSpot = {...state, createdSpot};
-                return createdSpot;
+                const newSpot = action.spot;
+                newState.singleSpot[action.spot.id] = newSpot;
+                return newState;
+
+                // newState.action.spot;
+                // newState = {
+                //     singleSpot: {
+                //         [action.spot.id] : newSpot
+                //     }
+                // }
+
+            case CREATE_SPOT_IMAGE: {
+                // newState = {...state};
+                newState.singleSpot.SpotImages = [action.spotId.previewImage]
+                return {...newState}
+            }
                 default:
                     return state;
                 }

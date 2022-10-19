@@ -1,1 +1,11 @@
 /* TODO Add site wide styles */
+
+ul {
+    list-style-type: none;
+
+}
+
+body {
+    margin: 0;
+    /* font-family:  */
+}

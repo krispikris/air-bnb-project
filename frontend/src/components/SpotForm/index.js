@@ -1,9 +1,9 @@
-import { useState, useEffect }      from "react";
-import { useHistory }               from 'react-router-dom';
-import { useDispatch }              from "react-redux";
-import { createNewSpot }            from "../../store/spots";
+import { useState, useEffect }          from "react";
+import { useHistory }                   from 'react-router-dom';
+import { useDispatch }                  from "react-redux";
+import { createNewSpot, createImage}    from "../../store/spots";
 
-const CreateSpot = () => {
+const SpotForm = () => {
     const history = useHistory();
     const dispatch = useDispatch();
 
@@ -11,33 +11,40 @@ const CreateSpot = () => {
     const [city, setCity]                   = useState('');
     const [state, setState]                 = useState('');
     const [country, setCountry]             = useState('');
-    const [lat, setLat]                     = useState('');
-    const [lng, setLng]                     = useState('');
+    // const [lat, setLat]                     = useState('');
+    // const [lng, setLng]                     = useState('');
     const [name, setName]                   = useState('');
     const [description, setDescription]     = useState('');
     const [price, setPrice]                 = useState('');
-    const [newSpotImage, setNewSpotImage]   = useState('');
+    const [imageURL, setimageURL]           = useState('');
 
     // PUT VALIDATIONS HERE
 
     const handleSubmit = async e => {
         e.preventDefault();
-        let newSpotInputs = {
+
+        let spotFormInputs = {
                 address,
                 city,
                 state,
                 country,
-                lat,
-                lng,
                 name,
                 description,
                 price
         };
 
-        const newSpot = await dispatch(createNewSpot(newSpotInputs, newSpotImage));
-
+        const newSpot = await dispatch(createNewSpot(spotFormInputs));
         if (newSpot) {
-            history.push('/');          // history.push('/spots/:spotId')
+            const img = ({
+                url: imageURL,
+                preview: true
+            })
+
+            console.log('THIS IS A NEW SPOT', newSpot)
+            // await dispatch(createImage(newSpot.id, img));
+            await dispatch(createImage(newSpot.id, img))
+            return history.push(`/spots/${newSpot.id}`)
+            // history.push(`/spots/${newSpot.id}`);          // history.push('/spots/:spotId')
         }
     }
 
@@ -87,7 +94,7 @@ return (
             />
         </label>
 
-        <label>
+        {/* <label>
             Latitude
             <input
             type="text"
@@ -105,7 +112,7 @@ return (
             value={lng}
             onChange={e => setLng(e.target.value)}
             />
-        </label>
+        </label> */}
 
         <label>
             Name
@@ -141,21 +148,20 @@ return (
             Upload Image URL
             <input
             type="text"
-            name="newSpotImage"
-            value={newSpotImage}
-            onChange={e => setNewSpotImage(e.target.value)}
+            name="imageURL"
+            value={imageURL}
+            onChange={e => setimageURL(e.target.value)}
             />
         </label>
 
         <button
-        type="submit"
-        // disabled={validationErrors.length > 0 ? true : false}
-        >
-         Create New Spot
+            type="submit"
+            >
+                Create New Spot
         </button>
 
         </form>
     )
 }
 
-export default CreateSpot;
+export default SpotForm;

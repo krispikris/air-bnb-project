@@ -1,0 +1,27 @@
+.spots-homepage-container {
+    width: 100%;
+    max-width: 1020px;
+    height: 100%;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    /* box-sizing: border-box; */
+}
+
+.new-spot-image {
+    border-radius: 5%;
+    width: 200px;
+    height: 200px;
+    /* width: max-content; */
+    /* max-width: 200px; */
+    /* height: max-content; */
+    /* max-height: 200px; */
+    box-sizing: border-box;
+
+}
+
+.individual-spot-container {
+    width: 16.66%;
+}
