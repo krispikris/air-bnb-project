@@ -1,42 +1,51 @@
-import { useState, useEffect } from "react";
-import {useHistory} from 'react-router-dom';
-import { createNewSpot } from "../../store/spots";
+import { useState, useEffect }      from "react";
+import { useHistory }               from 'react-router-dom';
+import { useDispatch }              from "react-redux";
+import { createNewSpot }            from "../../store/spots";
 
 const CreateSpot = () => {
     const history = useHistory();
-    const [ownerId, setOwnerId] = useState('');
-    const [address, setAddress] = useState('');
-    const [city, setCity] = useState('');
-    const [state, setState] = useState('');
-    const [country, setCountry] = useState('');
-    const [lat, setLat] = useState('');
-    const [lng, setLng] = useState('');
-    const [name, setName] = useState('');
-    const [description, setDescription] = useState('');
-    const [price, setPrice] = useState('');
+    const dispatch = useDispatch();
 
-    const onSubmit = e => {
+    const [address, setAddress]             = useState('');
+    const [city, setCity]                   = useState('');
+    const [state, setState]                 = useState('');
+    const [country, setCountry]             = useState('');
+    const [lat, setLat]                     = useState('');
+    const [lng, setLng]                     = useState('');
+    const [name, setName]                   = useState('');
+    const [description, setDescription]     = useState('');
+    const [price, setPrice]                 = useState('');
+    const [newSpotImage, setNewSpotImage]   = useState('');
+
+    // PUT VALIDATIONS HERE
+
+    const handleSubmit = async e => {
         e.preventDefault();
-        history.push('/');
-        // history.push('/spots/:spotId')
-        // PUT VALIDATIONS HERE
+        let newSpotInputs = {
+                address,
+                city,
+                state,
+                country,
+                lat,
+                lng,
+                name,
+                description,
+                price
+        };
+
+        const newSpot = await dispatch(createNewSpot(newSpotInputs, newSpotImage));
+
+        if (newSpot) {
+            history.push('/');          // history.push('/spots/:spotId')
+        }
     }
 
 return (
     <form
-        classname='create-new-spot-form'
-        onSubmit={onSubmit}
+        className='create-new-spot-form'
+        onSubmit={handleSubmit}
         >
-
-        <label>
-            Owner
-            <input
-            type="text"
-            name="owner"
-            value={ownerId}
-            onChange={e => setOwnerId(e.target.value)}
-            />
-        </label>
 
         <label>
             Address
@@ -127,6 +136,23 @@ return (
             onChange={e => setPrice(e.target.value)}
             />
         </label>
+
+        <label>
+            Upload Image URL
+            <input
+            type="text"
+            name="newSpotImage"
+            value={newSpotImage}
+            onChange={e => setNewSpotImage(e.target.value)}
+            />
+        </label>
+
+        <button
+        type="submit"
+        // disabled={validationErrors.length > 0 ? true : false}
+        >
+         Create New Spot
+        </button>
 
         </form>
     )

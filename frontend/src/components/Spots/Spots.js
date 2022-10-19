@@ -13,8 +13,6 @@ const Spots = () => {
         // dispatch(createNewSpot());
     }, [dispatch]);
 
-    // console.log(spots)
-
     return (
         <div>
             {Object.values(spots).map(spot => (

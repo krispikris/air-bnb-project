@@ -18,7 +18,6 @@ const createSpot = (spot) => {
     }
 }
 
-
 // THUNKS
 export const getAllSpots = () => async (dispatch) => {
     const response = await fetch('/api/spots');
@@ -30,16 +29,25 @@ export const getAllSpots = () => async (dispatch) => {
     };
 };
 
-export const createNewSpot = (spot) => async (dispatch) => {
+export const createNewSpot = (spot, image) => async (dispatch) => {
     const response = await csrfFetch('/api/spots', {
         method: 'POST',
-        body: JSON.stringify(spot),
+        body: JSON.stringify(spot)
     })
 
-    if (response.ok) {
-        const data = await response.json();
+    const findPreviewImage = await csrfFetch('/api/spotImage', {
+        method: 'POST',
+        body: JSON.stringify(image)
+    })
+
+    if (response.ok && findPreviewImage.ok) {
+        let data = {};
+        const resData = await response.json();
+        const previewImage = await findPreviewImage.json();
+
+        data = {...resData, previewImage}
         dispatch(createSpot(data));
-        return response;
+        return data;
     };
 };
 
