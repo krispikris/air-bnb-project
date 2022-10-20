@@ -1,11 +1,11 @@
 .spots-homepage-container {
     width: 100%;
-    max-width: 1020px;
+    /* max-width: 1020px; */ /*SAVE FOR THE BODY*/
     height: 100%;
     margin: auto;
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
     justify-content: space-between;
     /* box-sizing: border-box; */
 }

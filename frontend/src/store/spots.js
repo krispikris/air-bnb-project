@@ -1,108 +1,225 @@
 import { csrfFetch } from "./csrf";
 
-// ACTIONS
-const GET_SPOTS             = 'spots/getSpots';
+// CREATE | POST
 const CREATE_SPOT           = 'spots/createSpot';
 const CREATE_SPOT_IMAGE     = 'spots/createSpotImage';
 
-const getSpots = (spots) => {
+// READ | GET
+const GET_SPOTS             = 'spots/getSpots';
+const GET_ONE_SPOT          = 'spots/getOneSpot';
+const GET_USER_SPOT         = 'spots/getUserSpot';
+
+// UPDATE | PUT
+const UPDATE_SPOT           = 'spots/updateSpot';
+
+// DELETE
+const DELETE_SPOT           = 'sports/deleteSpot';
+
+// ACTIONS | READ | GET
+const getAllSpotsAction = (payload) => {
     return {
         type: GET_SPOTS,
-        spots
+        payload
     };
 };
 
-const createSpot = (spot) => {
+const getOneSpotAction = (payload) => {
     return {
-        type: CREATE_SPOT,
-        spot
+        type: GET_ONE_SPOT,
+        payload
     }
 }
 
-const createSpotImage = (image) => {
+const getUserSpotAction = (payload) => {
     return {
-        type: CREATE_SPOT_IMAGE,
-        image
+        type: GET_USER_SPOT,
+        payload
     };
 };
 
-// THUNKS
-export const getAllSpots = () => async (dispatch) => {
+// ACTIONS | CREATE | POST
+const createSpotAction = (payload) => {
+    return {
+        type: CREATE_SPOT,
+        payload
+    };
+};
+
+const createSpotImageAction = (payload) => {
+    return {
+        type: CREATE_SPOT_IMAGE,
+        payload
+    };
+};
+
+// ACTIONS | UPDATE | PUT
+const updateSpotAction = (data, spotId) => {
+    return {
+        type: UPDATE_SPOT,
+        payload: {
+            data,
+            spotId
+        }
+    };
+};
+
+// ACTIONS | DELETE
+const deleteSpotAction = (payload) => {
+    return {
+        type: DELETE_SPOT,
+        payload
+    };
+};
+
+
+// THUNK | READ | GET
+export const getAllSpotsThunk = () => async (dispatch) => {
     const response = await fetch('/api/spots');
 
     if (response.ok) {
-        const spots = await response.json();
-        dispatch(getSpots(spots))
-        return spots;
+        const data = await response.json();
+        dispatch(getAllSpotsAction(data))
+        return data;
     };
 };
 
-export const createNewSpot = (spot) => async (dispatch) => {
+export const getOneSpotThunk = (spotId) => async (dispatch) => {
+    const response = await fetch(`/api/spots/${spotId}`);
+
+    if (response.ok) {
+        const data = await response.json();
+        dispatch(getOneSpotAction(data))
+        return data;
+    };
+};
+
+export const getUserSpotThunk = () => async (dispatch) => {
+    const response = await fetch('api/spots/current');
+
+    if (response.ok) {
+        const data = await response.json();
+        dispatch(getUserSpotAction(data));
+        return data;
+    }
+}
+
+// THUNK | CREATE | POST
+export const createSpotThunk = (payload) => async (dispatch) => {
     const response = await csrfFetch('/api/spots', {
         method: 'POST',
-        body: JSON.stringify(spot)
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(payload)
     });
 
     if (response.ok) {
-        const createdSpot = await response.json();
-        dispatch(createSpot(createdSpot))
-        return createdSpot
+        const data = await response.json();
+        dispatch(createSpotAction(data))
+        return data
     };
 };
 
-export const createImage = (spotId, image) => async (dispatch) => {
+export const createSpotImageThunk = (payload, spotId) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}/images`, {
-            method: 'POST',
-            body: JSON.stringify(image)
-        })
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(payload)
+    });
 
+    if (response.ok) {
+        const data = await response.json();
+        dispatch(createSpotImageAction(data));
+        return data;
+    };
+};
 
-        // if (response.ok) {
-        //     const img = await response.json();
-        //     dispatch(createSpotImage(img))
-        //     return img;
-        // }
-    }
-    // const spotIdURL = response.json();
-    // let imageObj = {id: spotIdURL, url: image};
+// THUNK | UPDATE | PUT
+export const updateSpotThunk = (payload, spotId) => async (dispatch) => {
+    const response = await csrfFetch(`/api/spots/${spotId}`, {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(payload)
+    });
+
+    if (response.ok) {
+        const data = await response.json();
+        dispatch(updateSpotAction(data, spotId));
+        return data;
+    };
+};
+
+// THUNK | DELETE
+export const deleteSpotThunk = (payload, spotId) => async (dispatch) => {
+    const response = await csrfFetch(`/api/spots/${spotId}`, {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(payload)
+    });
+
+    if (response.ok) {
+        const data = await response.json();
+        dispatch(deleteSpotAction(spotId))
+        return data;
+    };
+};
 
 // REDUCER
-const initialState = { allSpots: {}, singleSpot: {} };
-
+const initialState = {};
 const spotsReducer = (state = initialState, action) => {
-        const newState = Object.assign({}, state);
+    switch (action.type) {
+        case GET_SPOTS: {
+            const newState = {...state};
+            action.payload.Spots.forEach(spot => {
+                newState[spot.id] = spot;
+            }); return newState;
+        };
 
-        switch (action.type) {
-            case GET_SPOTS:
-                const allSpots = {};
-                action.spots.Spots.forEach(spot => {
-                    allSpots[spot.id] = spot;
-                });
+        case GET_ONE_SPOT: {
+            const newState = {...state};
+            newState[action.payload.id] = {...newState[action.payload.id], ...action.payload};
+            return newState;
+        };
 
-                return {allSpots, singleSpot: { spotImages: [] }};
+        case CREATE_SPOT: {
+            const newState = {...state};
+            newState[action.payload.id] = action.payload;
+            // console.log('THIS IS THE NEWSTATE.PAYLOAD: ', newState.payload)
+            return newState;
+        };
 
-            case CREATE_SPOT:
-                const newSpot = action.spot;
-                newState.singleSpot[action.spot.id] = newSpot;
-                return newState;
+        // case CREATE_SPOT_IMAGE: {
+        //     const newState = {...state};
+        // }
+
+        case UPDATE_SPOT: {
+            const newState = {...state};
+            newState[action.payload.spotId] = {...newState[action.payload.spotId], ...action.payload.data};
+            return newState;
+        };
+
+        case DELETE_SPOT: {
+            const newState = {...state};
+            delete newState[payload];           // payload is the spotId because we don't need data from deleteTHUNK(line 160)
+            return newState;
+        };
 
                 // newState.action.spot;
                 // newState = {
-                //     singleSpot: {
-                //         [action.spot.id] : newSpot
-                //     }
-                // }
+                    //     singleSpot: {
+                        //         [action.spot.id] : newSpot
+                        //     }
+                        // }
 
-            case CREATE_SPOT_IMAGE: {
-                // newState = {...state};
-                newState.singleSpot.SpotImages = [action.spotId.previewImage]
-                return {...newState}
-            }
-                default:
-                    return state;
-                }
-            }
+                        // case CREATE_SPOT_IMAGE: {
+                        //     // newState = {...state};
+                        //     newState.singleSpot.SpotImages = [action.spotId.previewImage]
+                        //     return {...newState}
+                        // }
+                        default:
+                            return state;
+                        }
+                    }
 
+// const newState = Object.assign({}, state);
 // ORDER: THUNK, ACTION, REDUCER
     // THUNK: PULLS INFORMATION
         // ACTION: STORE THAT DATA IN THE PAYLOAD

@@ -1,7 +1,7 @@
-import { useState, useEffect }          from "react";
-import { useHistory }                   from 'react-router-dom';
-import { useDispatch }                  from "react-redux";
-import { createNewSpot, createImage}    from "../../store/spots";
+import { useState, useEffect }                      from "react";
+import { useHistory }                               from 'react-router-dom';
+import { useDispatch }                              from "react-redux";
+import { createSpotThunk, createSpotImageThunk}     from "../../store/spots";
 
 const SpotForm = () => {
     const history = useHistory();
@@ -33,20 +33,20 @@ const SpotForm = () => {
                 price
         };
 
-        const newSpot = await dispatch(createNewSpot(spotFormInputs));
+        const newSpot = await dispatch(createSpotThunk(spotFormInputs));
         if (newSpot) {
             const img = ({
                 url: imageURL,
                 preview: true
             })
+            // await dispatch(createSpotImageThunk(newSpot.id, img));
+            return history.push(`/spots/${newSpot.id}`);
+        };
+    };
 
-            console.log('THIS IS A NEW SPOT', newSpot)
-            // await dispatch(createImage(newSpot.id, img));
-            await dispatch(createImage(newSpot.id, img))
-            return history.push(`/spots/${newSpot.id}`)
-            // history.push(`/spots/${newSpot.id}`);          // history.push('/spots/:spotId')
-        }
-    }
+    // console.log('THIS IS A NEW SPOT', newSpot)
+    // await dispatch(createImage(newSpot.id, img));
+    // history.push(`/spots/${newSpot.id}`);          // history.push('/spots/:spotId')
 
 return (
     <form

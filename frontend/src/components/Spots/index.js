@@ -1,18 +1,22 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux"
-import { getAllSpots } from "../../store/spots";
+import { useEffect }                    from "react";
+import { useDispatch, useSelector }     from "react-redux"
+import { getAllSpotsThunk }                  from "../../store/spots";
+import { NavLink }                      from "react-router-dom";
 import './Spots.css'
-import { NavLink } from "react-router-dom";
 
 const Spots = () => {
     const dispatch = useDispatch();
     const spots = useSelector(state => {
         return state.spots;
     });
-    const allSpots = Object.values(spots.allSpots);
+
+    console.log('THIS IS THE SPOTS VARIABLE: ', spots);
+
+    const allSpots = Object.values(spots);
+    console.log('THIS IS ALL THE SPOTS ', allSpots)
 
     useEffect(() => {
-        dispatch(getAllSpots());
+        dispatch(getAllSpotsThunk());
     }, [dispatch]);
 
     return (
@@ -20,7 +24,7 @@ const Spots = () => {
             <div className="spots-homepage-container">
 
                 {allSpots.map(spot => (
-                    <div className='individual-spot-container'>
+                    <div key={spot.id} className='individual-spot-container'>
                         <NavLink to={`/spots/${spot.id}`}><img className='new-spot-image' src={spot?.previewImage} /></NavLink>
                         <div className='spot-name'>
                             <div className='name'><b>{spot.name}</b></div>
