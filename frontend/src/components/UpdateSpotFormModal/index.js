@@ -11,7 +11,7 @@ const UpdateSpotFormModal = () => {
       <button  onClick={() => setShowModal(true)}>Update Spot</button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
-          <UpdateSpotForm />
+          <UpdateSpotForm setShowModal={setShowModal}/>
         </Modal>
       )}
     </>

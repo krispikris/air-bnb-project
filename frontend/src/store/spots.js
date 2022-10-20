@@ -13,7 +13,7 @@ const GET_USER_SPOT         = 'spots/getUserSpot';
 const UPDATE_SPOT           = 'spots/updateSpot';
 
 // DELETE
-const DELETE_SPOT           = 'sports/deleteSpot';
+const DELETE_SPOT           = 'spots/deleteSpot';
 
 // ACTIONS | READ | GET
 const getAllSpotsAction = (payload) => {
@@ -84,7 +84,7 @@ export const getAllSpotsThunk = () => async (dispatch) => {
 };
 
 export const getOneSpotThunk = (spotId) => async (dispatch) => {
-    const response = await fetch(`/api/spots/${spotId}`);
+    const response = await csrfFetch(`/api/spots/${spotId}`);
 
     if (response.ok) {
         const data = await response.json();
@@ -94,7 +94,7 @@ export const getOneSpotThunk = (spotId) => async (dispatch) => {
 };
 
 export const getUserSpotThunk = () => async (dispatch) => {
-    const response = await fetch('api/spots/current');
+    const response = await csrfFetch('api/spots/current');
 
     if (response.ok) {
         const data = await response.json();
@@ -148,11 +148,9 @@ export const updateSpotThunk = (payload, spotId) => async (dispatch) => {
 };
 
 // THUNK | DELETE
-export const deleteSpotThunk = (payload, spotId) => async (dispatch) => {
+export const deleteSpotThunk = (spotId) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}`, {
-        method: 'DELETE',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(payload)
+        method: 'DELETE'
     });
 
     if (response.ok) {
@@ -165,6 +163,7 @@ export const deleteSpotThunk = (payload, spotId) => async (dispatch) => {
 // REDUCER
 const initialState = {};
 const spotsReducer = (state = initialState, action) => {
+    // let newState = {};
     switch (action.type) {
         case GET_SPOTS: {
             const newState = {...state};
@@ -174,8 +173,10 @@ const spotsReducer = (state = initialState, action) => {
         };
 
         case GET_ONE_SPOT: {
-            const newState = {...state};
-            newState[action.payload.id] = {...newState[action.payload.id], ...action.payload};
+            // const newState = {...state};
+            // newState[action.payload.id] = {...newState[action.payload.id], ...action.payload};
+            const newState = {};
+            newState[action.payload.id] = action.payload;
             return newState;
         };
 
@@ -185,10 +186,6 @@ const spotsReducer = (state = initialState, action) => {
             // console.log('THIS IS THE NEWSTATE.PAYLOAD: ', newState.payload)
             return newState;
         };
-
-        // case CREATE_SPOT_IMAGE: {
-        //     const newState = {...state};
-        // }
 
         case UPDATE_SPOT: {
             const newState = {...state};

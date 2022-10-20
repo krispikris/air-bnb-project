@@ -1,8 +1,8 @@
 import { useEffect }                    from "react";
 import { useDispatch, useSelector }     from "react-redux"
-import { getAllSpotsThunk }                  from "../../store/spots";
+import { getAllSpotsThunk }             from "../../store/spots";
 import { NavLink }                      from "react-router-dom";
-import './Spots.css'
+// import                                       "./Spots.css ";
 
 const Spots = () => {
     const dispatch = useDispatch();
@@ -10,10 +10,10 @@ const Spots = () => {
         return state.spots;
     });
 
-    console.log('THIS IS THE SPOTS VARIABLE: ', spots);
+    // console.log('THIS IS THE SPOTS VARIABLE: ', spots);
 
     const allSpots = Object.values(spots);
-    console.log('THIS IS ALL THE SPOTS ', allSpots)
+    // console.log('THIS IS ALL THE SPOTS ', allSpots)
 
     useEffect(() => {
         dispatch(getAllSpotsThunk());

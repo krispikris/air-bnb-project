@@ -11,7 +11,7 @@ const CreateSpotFormModal = () => {
         <button  onClick={() => setShowModal(true)}>Create New Spot</button>
         {showModal && (
           <Modal onClose={() => setShowModal(false)}>
-            <CreateSpotForm />
+            <CreateSpotForm setShowModal={setShowModal}/>
           </Modal>
         )}
       </>
