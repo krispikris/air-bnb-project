@@ -9,21 +9,25 @@ import    CreateSpotFormModal     from '../CreateSpotFormModal';
 import    UpdateSpotFormModal     from '../UpdateSpotFormModal';
 import                                 './Navigation.css';
 
-function Navigation({ isLoaded }) {
+const Navigation = ({ isLoaded }) => {
   const sessionUser = useSelector(state => state.session.user);
 
   let sessionLinks;
   if (sessionUser) {
     sessionLinks = (
-      <ProfileButton user={sessionUser} />
+      <>
+        <CreateSpotFormModal />
+        <UpdateSpotFormModal />
+        <NavLink id="navigation-bar-host-link" to="/newSpot">Become a Host</NavLink>
+        <ProfileButton user={sessionUser} />
+      </>
     );
+
   } else {
     sessionLinks = (
       <>
         <LoginFormModal />
         <SignupFormModal />
-        <CreateSpotFormModal />
-        <UpdateSpotFormModal />
       </>
     );
   }
