@@ -1,8 +1,8 @@
 import    React, { useState }       from "react";
 import  { useDispatch }             from "react-redux";
-import  { useHistory, useParams }   from "react-router-dom";
+import  { useHistory }              from "react-router-dom";
 import  { createSpotThunk }         from "../../store/spots";
-import                                   "./CreateSpotForm.css";
+import                                   "./CreateSpotFormModal.css";
 
 const CreateSpotForm = () => {
     const history = useHistory();

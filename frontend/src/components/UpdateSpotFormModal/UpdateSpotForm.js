@@ -3,7 +3,7 @@ import    React, { useState }       from "react";
 import  { useDispatch }             from "react-redux";
 import  { useHistory, useParams }   from "react-router-dom";
 import  { updateSpotThunk }         from "../../store/spots";
-import                                   "./UpdateSpotForm.css";
+import                                   "./UpdateSpotFormModal.css";
 
 const UpdateSpotForm = () => {
     const history                           = useHistory();

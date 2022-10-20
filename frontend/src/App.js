@@ -5,7 +5,7 @@ import  { Route, Switch }                   from "react-router-dom";
 import    * as sessionActions               from "./store/session";
 import    Navigation                        from "./components/Navigation";
 import    Spots                             from "./components/Spots"
-import    SpotForm                          from "./components/SpotForm";
+import    CreateSpotForm                    from "./components/CreateSpotFormModal/CreateSpotForm";
 
 function App() {
   const dispatch = useDispatch();
@@ -23,7 +23,7 @@ function App() {
             <Spots />
           </Route>
           <Route path='/newSpot'>
-            <SpotForm />
+            <CreateSpotForm />
           </Route>
         </Switch>
       )}
