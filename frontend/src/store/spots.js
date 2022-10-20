@@ -27,8 +27,8 @@ const getOneSpotAction = (payload) => {
     return {
         type: GET_ONE_SPOT,
         payload
-    }
-}
+    };
+};
 
 const getUserSpotAction = (payload) => {
     return {
@@ -100,8 +100,8 @@ export const getUserSpotThunk = () => async (dispatch) => {
         const data = await response.json();
         dispatch(getUserSpotAction(data));
         return data;
-    }
-}
+    };
+};
 
 // THUNK | CREATE | POST
 export const createSpotThunk = (payload) => async (dispatch) => {
@@ -198,32 +198,34 @@ const spotsReducer = (state = initialState, action) => {
 
         case DELETE_SPOT: {
             const newState = {...state};
-            delete newState[payload];           // payload is the spotId because we don't need data from deleteTHUNK(line 160)
+            delete newState[action.payload];      // payload is the spotId because we don't need data from deleteTHUNK(line 160)
             return newState;
         };
 
-                // newState.action.spot;
-                // newState = {
-                    //     singleSpot: {
-                        //         [action.spot.id] : newSpot
-                        //     }
-                        // }
-
-                        // case CREATE_SPOT_IMAGE: {
-                        //     // newState = {...state};
-                        //     newState.singleSpot.SpotImages = [action.spotId.previewImage]
-                        //     return {...newState}
-                        // }
-                        default:
-                            return state;
-                        }
-                    }
-
-// const newState = Object.assign({}, state);
-// ORDER: THUNK, ACTION, REDUCER
-    // THUNK: PULLS INFORMATION
-        // ACTION: STORE THAT DATA IN THE PAYLOAD
-            // TYPE: WHAT IS HAPPENING WITH THE PAYLOAD (BANANA-BLE)
-    // REDUCER: CREATES A COPY OF THE STATE TO REPLACE THE DEFAULT OR OLD STATE (SIMILAR TO MIDDLEWARE)
+        default:
+            return state;
+        };
+    };
 
 export default spotsReducer;
+
+    // const newState = Object.assign({}, state);
+
+    // ORDER: THUNK, ACTION, REDUCER
+    // THUNK: PULLS INFORMATION
+    // ACTION: STORE THAT DATA IN THE PAYLOAD
+    // TYPE: WHAT IS HAPPENING WITH THE PAYLOAD (BANANA-BLE)
+    // REDUCER: CREATES A COPY OF THE STATE TO REPLACE THE DEFAULT OR OLD STATE (SIMILAR TO MIDDLEWARE)
+
+    // newState.action.spot;
+    // newState = {
+        //     singleSpot: {
+            //         [action.spot.id] : newSpot
+            //     }
+            // }
+
+            // case CREATE_SPOT_IMAGE: {
+            //     // newState = {...state};
+            //     newState.singleSpot.SpotImages = [action.spotId.previewImage]
+            //     return {...newState}
+            // }

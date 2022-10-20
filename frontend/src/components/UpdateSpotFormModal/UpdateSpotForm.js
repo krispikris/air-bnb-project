@@ -1,11 +1,14 @@
-import { useState, useEffect }                      from "react";
-import { useHistory }                               from 'react-router-dom';
-import { useDispatch }                              from "react-redux";
-import { createSpotThunk, createSpotImageThunk}     from "../../store/spots";
+// frontend/src/components/UpdateSpotModal/UpdateSpotForm.js
+import    React, { useState }       from "react";
+import  { useDispatch }             from "react-redux";
+import  { useHistory, useParams }   from "react-router-dom";
+import  { updateSpotThunk }         from "../../store/spots";
+import                                   "./UpdateSpotForm.css";
 
-const SpotForm = () => {
-    const history = useHistory();
-    const dispatch = useDispatch();
+const UpdateSpotForm = () => {
+    const history                           = useHistory();
+    const dispatch                          = useDispatch();
+    const { spotId }                        = useParams();
 
     const [address, setAddress]             = useState('');
     const [city, setCity]                   = useState('');
@@ -19,30 +22,23 @@ const SpotForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        let spotFormInputs = {
-                address,
-                city,
-                state,
-                country,
-                name,
-                description,
-                price
+        let updatedSpotFormInputs = {
+            address,
+            city,
+            state,
+            country,
+            name,
+            description,
+            price
         };
 
-        const newSpot = await dispatch(createSpotThunk(spotFormInputs));
-        if (newSpot) {
-            const img = ({
-                url: imageURL,
-                preview: true
-            })
-            // await dispatch(createSpotImageThunk(newSpot.id, img));
-            return history.push(`/spots/${newSpot.id}`);
-        };
+        await dispatch(updateSpotThunk(updatedSpotFormInputs, spotId));
+        return history.push(`/spots/${spotId}`);
     };
 
 return (
     <form
-        className='create-new-spot-form'
+        className='update-spot-form'
         onSubmit={handleSubmit}
         >
 
@@ -117,7 +113,7 @@ return (
         </label>
 
         <label>
-            Upload Image URL
+            Update Image URL
             <input
             type="text"
             name="imageURL"
@@ -126,10 +122,10 @@ return (
             />
         </label>
 
-        <button type="submit">Create Spot</button>
+        <button type="submit">Update Spot</button>
 
         </form>
     )
-}
+};
 
-export default SpotForm;
+export default UpdateSpotForm;

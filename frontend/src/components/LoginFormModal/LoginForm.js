@@ -1,10 +1,10 @@
 // frontend/src/components/LoginFormModal/LoginForm.js
 import    React, { useState }     from 'react';
-import    * as sessionActions     from '../../store/session';
 import  { useDispatch }           from 'react-redux';
+import    * as sessionActions     from '../../store/session';
 import                                 './LoginForm.css';
 
-function LoginForm() {
+const LoginForm = () => {
   const dispatch = useDispatch();
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");

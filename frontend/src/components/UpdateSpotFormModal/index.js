@@ -1,21 +1,21 @@
-// frontend/src/components/LoginFormModal/index.js
+// frontend/src/components/UpdateSpotForm/index.js
 import    React, { useState }   from 'react';
 import  { Modal }               from '../../context/Modal';
-import    LoginForm             from './LoginForm';
+import    UpdateSpotForm        from './UpdateSpotForm';
 
-const LoginFormModal = () => {
+const UpdateSpotFormModal = () => {
   const [showModal, setShowModal] = useState(false);
 
   return (
     <>
-      <button  onClick={() => setShowModal(true)}>Log In</button>
+      <button  onClick={() => setShowModal(true)}>Update Spot</button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
-          <LoginForm />
+          <UpdateSpotForm />
         </Modal>
       )}
     </>
   );
 }
 
-export default LoginFormModal;
+export default UpdateSpotFormModal;
