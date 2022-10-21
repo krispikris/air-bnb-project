@@ -70,6 +70,7 @@ export const createReviewThunk = (payload, spotId) => async (dispatch) => {
         return data;
     }
 }
+
 // THUNK | READ | GET
 export const getReviewsThunk = (spotId) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}/reviews`);

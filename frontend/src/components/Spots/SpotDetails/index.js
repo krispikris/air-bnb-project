@@ -5,6 +5,7 @@ import { getOneSpotThunk }              from "../../../store/spots";
 import { getReviewsThunk }              from "../../../store/reviews";
 import   UpdateSpotFormModal            from "../UpdateSpotFormModal";
 import   DeleteButton                   from "../DeleteButton/DeleteButton";
+import   CreateReviewFormModal          from "../../Reviews/CreateReviewFormModal";
 import                                       "./SpotDetails.css";
 
 const SpotDetails = () => {
@@ -36,11 +37,13 @@ return isLoaded && (
         <div className="get-reviews-container">
             {allReviews.map(review => (
                 <div key={review.id} className="individual-review-container">
-                    <h3>{review.review}</h3>
+                    <div>Review: {review.review}</div>
+                    <div>Stars: {review.stars}</div>
                 </div>
             ))}
         </div>
 
+        <CreateReviewFormModal />
         <UpdateSpotFormModal />
         <DeleteButton setIsLoaded={setIsLoaded}/>
 
