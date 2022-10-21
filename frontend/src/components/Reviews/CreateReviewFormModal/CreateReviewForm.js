@@ -12,17 +12,30 @@ const CreateReviewForm = ({setShowModal}) => {
     const [review, setReview] = useState('');
     const [stars, setStars] = useState(5);
 
+    const [errors, setErrors] = useState([]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         let reviewInput = { review, stars };
         console.log("THIS CREATED REVIEW : ", reviewInput);
 
-        await dispatch(createReviewThunk(reviewInput, spotId));
-        setShowModal(false);
+        await dispatch(createReviewThunk(reviewInput, spotId))
+        .then(() => setShowModal(false))
+        .catch(async (res) => {
+            const data = await res.json();
+            if (data && data.errors) setErrors(data.errors)
+        })
     };
 
 return (
+    <>
+    {errors.map((err, i) => {
+        <div className="review-errors" key={i}>
+            {err}
+        </div>
+    })}
+
     <form
         className='create-new-review-form'
         onSubmit={handleSubmit}
@@ -56,6 +69,7 @@ return (
 
     </form>
 
+    </>
     )
 };
 

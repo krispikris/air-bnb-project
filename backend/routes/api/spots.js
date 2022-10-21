@@ -179,19 +179,26 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
 });
 
 // #15 - #17 CREATE A REVIEW FOR A SPOT
-router.post('/:spotId/reviews', requireAuth, async (req, res) => {
+router.post('/:spotId/reviews', requireAuth, async (req, res, next) => {
     const { spotId } = req.params;
     const spot = await Spot.findByPk(spotId);
 
     // ERROR #2: Error Check Invalid Spot Id
     // Error response: Couldn't find a Spot with the specified id (findByPk)
+
+    // Ben's Error method
     if (!spot) {
-        return res
-        .status(404)
-        .json({
-            message: "Spot couldn't be found",
-            statusCode: 404
-          });
+        const err = new Error("Spot couldn't be found");
+        err.title = "Missing item"
+        err.status = 403
+
+        return next(err);
+        // return res
+        // .status(404)
+        // .json({
+        //     message: "Spot couldn't be found",
+        //     statusCode: 404
+        //   });
     };
 
     // ERROR #1: Previous Review for User/Spot Already Exists
@@ -204,12 +211,17 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
 
 
     if (existingReview) {
-        return res
-        .status(403)
-        .json({
-            message: 'User already has a review for this spot',
-            statusCode: 403
-          });
+        const err = new Error('User already has a review for this spot');
+        err.title = "Duplicate review"
+        err.status = 403
+
+        return next(err);
+        // return res
+        // .status(403)
+        // .json({
+        //     message: 'User already has a review for this spot',
+        //     statusCode: 403
+        //   });
     };
 
     // ERROR #3: Throw error for Body Validation
@@ -224,16 +236,23 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
         return res.status(201).json(newReview);
 
     } catch (error) {
-        return res
-            .status(400)
-            .json({
-                message: 'Validation error',
-                statusCode: 400,
-                errors: {
-                    review: 'Review text is required',
-                    stars: 'Stars must be an integer from 1 to 5',
-                }
-            })
+        const err = new Error('User already has a review for this spot');
+        err.title = "Duplicate review"
+        err.status = 403
+
+        err.errors = [err.message]
+
+        return next(err);
+        // return res
+        //     .status(400)
+        //     .json({
+        //         message: 'Validation error',
+        //         statusCode: 400,
+        //         errors: {
+        //             review: 'Review text is required',
+        //             stars: 'Stars must be an integer from 1 to 5',
+        //         }
+            // })
         }
     });
 
