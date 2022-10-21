@@ -53,13 +53,10 @@ const createSpotImageAction = (payload) => {
 };
 
 // ACTIONS | UPDATE | PUT
-const updateSpotAction = (data, spotId) => {
+const updateSpotAction = (payload) => {
     return {
         type: UPDATE_SPOT,
-        payload: {
-            data,
-            spotId
-        }
+        payload
     };
 };
 
@@ -142,7 +139,7 @@ export const updateSpotThunk = (payload, spotId) => async (dispatch) => {
 
     if (response.ok) {
         const data = await response.json();
-        dispatch(updateSpotAction(data, spotId));
+        dispatch(updateSpotAction(data));
         return data;
     };
 };
@@ -161,24 +158,24 @@ export const deleteSpotThunk = (spotId) => async (dispatch) => {
 };
 
 // REDUCER
-const initialState = {};
+let initialState = {};
 const spotsReducer = (state = initialState, action) => {
-    // let newState = {};
     switch (action.type) {
         case GET_SPOTS: {
             const newState = {...state};
             action.payload.Spots.forEach(spot => {
                 newState[spot.id] = spot;
-            }); return newState;
-        };
+            });
+            return newState;
+        }
 
         case GET_ONE_SPOT: {
-            // const newState = {...state};
-            // newState[action.payload.id] = {...newState[action.payload.id], ...action.payload};
-            const newState = {};
+            const newState = {...state};
+            newState[action.payload.id] = {...newState[action.payload.id], ...action.payload};
             newState[action.payload.id] = action.payload;
             return newState;
         };
+
 
         case CREATE_SPOT: {
             const newState = {...state};
@@ -187,17 +184,20 @@ const spotsReducer = (state = initialState, action) => {
             return newState;
         };
 
+
         case UPDATE_SPOT: {
             const newState = {...state};
-            newState[action.payload.spotId] = {...newState[action.payload.spotId], ...action.payload.data};
+            newState[action.payload.id] = {...newState[action.payload.id], ...action.payload};
             return newState;
-        };
+        }
 
-        case DELETE_SPOT: {
+
+        case DELETE_SPOT:{
             const newState = {...state};
             delete newState[action.payload];      // payload is the spotId because we don't need data from deleteTHUNK(line 160)
             return newState;
-        };
+        }
+
 
         default:
             return state;

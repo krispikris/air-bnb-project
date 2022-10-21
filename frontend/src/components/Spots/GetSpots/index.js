@@ -2,9 +2,9 @@ import { useEffect }                    from "react";
 import { useDispatch, useSelector }     from "react-redux"
 import { getAllSpotsThunk }             from "../../../store/spots";
 import { NavLink }                      from "react-router-dom";
-// import                                       "./Spots.css ";
+import                                       "./GetSpots.css";
 
-const Spots = () => {
+const GetSpots = () => {
     const dispatch = useDispatch();
     const spots = useSelector(state => {
         return state.spots;
@@ -13,7 +13,7 @@ const Spots = () => {
     // console.log('THIS IS THE SPOTS VARIABLE: ', spots);
 
     const allSpots = Object.values(spots);
-    // console.log('THIS IS ALL THE SPOTS ', allSpots)
+    console.log('THIS IS ALL THE SPOTS ', allSpots)
 
     useEffect(() => {
         dispatch(getAllSpotsThunk());
@@ -27,11 +27,11 @@ const Spots = () => {
                     <div key={spot.id} className='individual-spot-container'>
                         <NavLink to={`/spots/${spot.id}`}><img className='new-spot-image' src={spot?.previewImage} /></NavLink>
                         <div className='spot-name'>
-                            <div className='name'><b>{spot.name}</b></div>
+                            <div className='name'>{spot.name}</div>
                         </div>
                     </div>
                 ))}
-                </div>
+            </div>
 
 
 
@@ -42,4 +42,4 @@ const Spots = () => {
     )
 }
 
-export default Spots;
+export default GetSpots;

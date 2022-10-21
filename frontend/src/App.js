@@ -5,9 +5,12 @@ import  { Route, Switch }                   from "react-router-dom";
 
 import    * as sessionActions               from "../src/store/session";
 import    Navigation                        from "../src/components/Navigation";
-import    Spots                             from "../src/components/Spots/Spots";
+import    GetSpots                          from "../src/components/Spots/GetSpots";
 import    SpotDetails                       from "../src/components/Spots/SpotDetails";
 import    CreateSpotForm                    from "../src/components/Spots/CreateSpotFormModal/CreateSpotForm";
+import    CreateReviewForm                  from "./components/Reviews/CreateReviewFormModal/CreateReviewForm";
+import    UpdateReviewForm                  from "./components/Reviews/UpdateReviewFormModal/UpdateReviewForm";
+import    DeleteReview                      from "./components/Reviews/DeleteReviewModal/DeleteReview";
 
 const App= () => {
   const dispatch = useDispatch();
@@ -22,7 +25,7 @@ const App= () => {
       {isLoaded && (
         <Switch>
           <Route exact path='/'>
-            <Spots />
+            <GetSpots />
           </Route>
           <Route path='/newSpot'>
             <CreateSpotForm />

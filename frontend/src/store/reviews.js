@@ -57,7 +57,7 @@ const deleteReviewAction = (payload) => {
 };
 
 // THUNK | CREATE | POST
-export const createReviewThunk = (spotId) => async (dispatch) => {
+export const createReviewThunk = (payload, spotId) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -82,7 +82,7 @@ export const getReviewsThunk = (spotId) => async (dispatch) => {
 };
 
 // THUNK | UPDATE | PUT
-export const updateReviewThunk = (reviewId) => async (dispatch) => {
+export const updateReviewThunk = (payload, reviewId) => async (dispatch) => {
     const response = await csrfFetch(`/api/reviews/${reviewId}`, {
         method: 'PUT',
         headers: {'Content': 'application/json'},
@@ -114,29 +114,29 @@ const reviewsReducer = (state = initialState, action) => {
     let newState = {};
 
     switch (action.type) {
-        case GET_REVIEWS: {
+        case GET_REVIEWS:
             action.payload.Reviews.forEach(review => {
                 newState[review.id] = review;
-            }); return newState;
-        };
+            });
+            return newState;
 
-        case CREATE_REVIEW: {
+
+        case CREATE_REVIEW:
             newState = {...state};
             newState[action.payload.id] = action.payload;
             return newState;
-        };
 
-        case UPDATE_REVIEW: {
+        case UPDATE_REVIEW:
             newState = {...state}
             newState[action.payload.spotId] = action.payload
             return newState;
-        };
 
-        case DELETE_REVIEW: {
+
+        case DELETE_REVIEW:
             newState = {...state};
             delete newState[action.payload];            // deleting reviewID (which is the payload)
             return newState;
-        };
+
 
         default:
             return state;
