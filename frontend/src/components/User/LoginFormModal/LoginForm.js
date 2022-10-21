@@ -1,7 +1,7 @@
 // frontend/src/components/LoginFormModal/LoginForm.js
 import    React, { useState }     from 'react';
 import  { useDispatch }           from 'react-redux';
-import    * as sessionActions     from '../../store/session';
+import    * as sessionActions     from '../../../store/session';
 import                                 './LoginFormModal.css';
 
 const LoginForm = () => {

@@ -1,54 +1,45 @@
-import    React, { useState }                       from "react";
-import  { useDispatch }                             from "react-redux";
-import  { useHistory }                              from "react-router-dom";
-import  { createSpotThunk, createSpotImageThunk }   from "../../store/spots";
-import                                                   "./CreateSpotFormModal.css";
+// frontend/src/components/UpdateSpotModal/UpdateSpotForm.js
+import    React, { useState }               from "react";
+import  { useDispatch, useSelector }        from "react-redux";
+import  { useParams }                       from "react-router-dom";
+import  { updateSpotThunk }                 from "../../../store/spots";
+import                                           "./UpdateSpotFormModal.css";
 
-const CreateSpotForm = ({setShowModal}) => {
-    const history = useHistory();
-    const dispatch = useDispatch();
+const UpdateSpotForm = ({setShowModal}) => {
+    const dispatch                          = useDispatch();
+    const { spotId }                        = useParams();
 
-    const [address, setAddress]             = useState('');
-    const [city, setCity]                   = useState('');
-    const [state, setState]                 = useState('');
-    const [country, setCountry]             = useState('');
-    const [name, setName]                   = useState('');
-    const [description, setDescription]     = useState('');
-    const [price, setPrice]                 = useState('');
-    const [imageURL, setimageURL]           = useState('');
+    const spot = useSelector(state => state.spots[parseInt(spotId)]);
+
+    const [address, setAddress]             = useState(spot.address);
+    const [city, setCity]                   = useState(spot.city);
+    const [state, setState]                 = useState(spot.state);
+    const [country, setCountry]             = useState(spot.country);
+    const [name, setName]                   = useState(spot.name);
+    const [description, setDescription]     = useState(spot.description);
+    const [price, setPrice]                 = useState(spot.price);
+    const [imageURL, setimageURL]           = useState(spot.imageURL);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        let spotFormInputs = {
-                address,
-                city,
-                state,
-                country,
-                name,
-                description,
-                price
+        let updatedSpotFormInputs = {
+            address,
+            city,
+            state,
+            country,
+            name,
+            description,
+            price
         };
 
-        const newSpot = await dispatch(createSpotThunk(spotFormInputs));
-
-        console.log('THIS IS THE NEW SPOT SHOULD BE AN OBJECT :', newSpot);
-
-        if (newSpot) {
-            const img = ({
-                url: imageURL,
-                preview: true
-            })
-
-            await dispatch(createSpotImageThunk(img, newSpot.id));
-            setShowModal(false)
-            return history.push(`/spots/${newSpot.id}`);
-        };
+        await dispatch(updateSpotThunk(updatedSpotFormInputs, spotId));
+        setShowModal(false);
     };
 
 return (
     <form
-        className='create-new-spot-form'
+        className='update-spot-form'
         onSubmit={handleSubmit}
         >
 
@@ -123,7 +114,7 @@ return (
         </label>
 
         <label>
-            Upload Image URL
+            Update Image URL
             <input
             type="text"
             name="imageURL"
@@ -132,10 +123,10 @@ return (
             />
         </label>
 
-        <button type="submit">Create New Spot</button>
+        <button type="submit">Update Spot</button>
 
         </form>
     )
-}
+};
 
-export default CreateSpotForm;
+export default UpdateSpotForm;

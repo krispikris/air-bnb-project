@@ -2,11 +2,11 @@
 import    React                   from 'react';
 import  { NavLink }               from 'react-router-dom';
 import  { useSelector }           from 'react-redux';
-import    ProfileButton           from './ProfileButton';
-import    LoginFormModal          from '../LoginFormModal';
-import    SignupFormModal         from '../SignupFormModal';
-import    CreateSpotFormModal     from '../CreateSpotFormModal';
-import    UpdateSpotFormModal     from '../UpdateSpotFormModal';
+
+import ProfileButton              from './ProfileButton';
+import LoginFormModal             from '../User/LoginFormModal';
+import SignupFormModal            from '../User/SignupFormModal';
+import CreateSpotFormModal        from '../Spots/CreateSpotFormModal';
 import                                 './Navigation.css';
 
 const Navigation = ({ isLoaded }) => {
@@ -17,8 +17,7 @@ const Navigation = ({ isLoaded }) => {
     sessionLinks = (
       <>
         <CreateSpotFormModal />
-        <UpdateSpotFormModal />
-        <NavLink id="navigation-bar-host-link" to="/newSpot">Become a Host</NavLink>
+        {/* <NavLink id="navigation-bar-host-link" to="/newSpot">Become a Host</NavLink> */}
         <ProfileButton user={sessionUser} />
       </>
     );

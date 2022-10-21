@@ -1,9 +1,10 @@
-import { useState, useEffect }                      from "react";
-import { useHistory }                               from 'react-router-dom';
-import { useDispatch }                              from "react-redux";
-import { createSpotThunk, createSpotImageThunk}     from "../../store/spots";
+import    React, { useState }                       from "react";
+import  { useDispatch }                             from "react-redux";
+import  { useHistory }                              from "react-router-dom";
+import  { createSpotThunk, createSpotImageThunk }   from "../../../store/spots";
+import                                                   "./CreateSpotFormModal.css";
 
-const SpotForm = () => {
+const CreateSpotForm = ({setShowModal}) => {
     const history = useHistory();
     const dispatch = useDispatch();
 
@@ -30,12 +31,17 @@ const SpotForm = () => {
         };
 
         const newSpot = await dispatch(createSpotThunk(spotFormInputs));
+
+        // console.log('THIS IS THE NEW SPOT SHOULD BE AN OBJECT :', newSpot);
+
         if (newSpot) {
             const img = ({
                 url: imageURL,
                 preview: true
             })
-            // await dispatch(createSpotImageThunk(newSpot.id, img));
+
+            await dispatch(createSpotImageThunk(img, newSpot.id));
+            setShowModal(false)
             return history.push(`/spots/${newSpot.id}`);
         };
     };
@@ -126,10 +132,10 @@ return (
             />
         </label>
 
-        <button type="submit">Create Spot</button>
+        <button type="submit">Become a Host</button>
 
         </form>
     )
 }
 
-export default SpotForm;
+export default CreateSpotForm;

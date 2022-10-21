@@ -1,6 +1,6 @@
 // frontend/src/components/UpdateSpotForm/index.js
 import    React, { useState }   from 'react';
-import  { Modal }               from '../../context/Modal';
+import  { Modal }               from '../../../context/Modal';
 import    UpdateSpotForm        from './UpdateSpotForm';
 
 const UpdateSpotFormModal = () => {

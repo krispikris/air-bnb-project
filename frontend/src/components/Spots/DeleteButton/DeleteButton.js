@@ -1,7 +1,7 @@
 import    React, { useState }                       from "react";
 import  { useDispatch }                             from "react-redux";
 import  { useHistory, useParams }                   from "react-router-dom";
-import  { deleteSpotThunk }                         from "../../store/spots";
+import  { deleteSpotThunk }                         from "../../../store/spots";
 import                                                   "./DeleteButton.css";
 
 const DeleteButton = ({setIsLoaded}) => {
