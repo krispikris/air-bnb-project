@@ -7,37 +7,43 @@ import   UpdateSpotFormModal            from "../UpdateSpotFormModal";
 import   DeleteButton                   from "../DeleteButton/DeleteButton";
 import   CreateReviewFormModal          from "../../Reviews/CreateReviewFormModal";
 import   UpdateReviewFormModal          from "../../Reviews/UpdateReviewFormModal";
+import   DeleteReviewFormModal          from "../../Reviews/DeleteReviewModal";
 import                                       "./SpotDetails.css";
 
 
 const SpotDetails = () => {
-    const dispatch = useDispatch();
-    // console.log('THIS IS PARAMS: ', useParams())
-    const { spotId } = useParams();
+    const   dispatch        = useDispatch();
+    const { spotId }        = useParams();
 
-    const [isLoaded, setIsLoaded] = useState(false);
+    const [ isLoaded, setIsLoaded ] = useState(false);
 
-    const spots         = useSelector(state => state.spots);
-    const spot          = spots[spotId];
+    const   spots           = useSelector(state => state.spots);
+    const   spot            = spots[spotId];
 
-    const reviews       = useSelector(state => state.reviews);
-    const allReviews    = Object.values(reviews);
+    const   reviews         = useSelector(state => state.reviews);
+    const   allReviews      = Object.values(reviews);
 
-    const currentUserId = useSelector(state => state.session.user.id);
-    const reviewToUpdate = allReviews.find(review => review.userId === currentUserId);
-
-    let reviewButton;
-    if (reviewToUpdate) {
-        reviewButton = <UpdateReviewFormModal reviewToUpdate={reviewToUpdate}/>
-    } else {
-        reviewButton = <CreateReviewFormModal />
-    }
+    const   currentUserId   = useSelector(state => state.session.user.id);
+    const   reviewToUpdate  = allReviews.find(review => review.userId === currentUserId);
 
     useEffect(() => {
         dispatch(getOneSpotThunk(spotId))
         .then(() => dispatch(getReviewsThunk(spotId)))
         .then(() => setIsLoaded(true))
     }, [dispatch]);
+
+    let reviewButtons;
+    if (reviewToUpdate) {
+        reviewButtons =
+                            <div>
+                                <UpdateReviewFormModal reviewToUpdate={reviewToUpdate}/>
+                                <DeleteReviewFormModal reviewToUpdate={reviewToUpdate}/>
+                            </div>
+    } else {
+        reviewButtons =     <div>
+                                <CreateReviewFormModal />
+                            </div>
+    }
 
 
 return isLoaded && (
@@ -46,7 +52,7 @@ return isLoaded && (
         <h2>{spot.name}</h2>
         <h3>{spot.city}</h3>
 
-        {reviewButton}
+        {reviewButtons}
 
         <div className="get-reviews-container">
             {allReviews.map(review => (
@@ -56,7 +62,7 @@ return isLoaded && (
                 </div>
             ))}
         </div>
-
+        {/* <DeleteReviewForm /> */}
         <UpdateSpotFormModal />
         <DeleteButton setIsLoaded={setIsLoaded}/>
 

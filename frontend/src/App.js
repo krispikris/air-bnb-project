@@ -8,9 +8,6 @@ import    Navigation                        from "../src/components/Navigation";
 import    GetSpots                          from "../src/components/Spots/GetSpots";
 import    SpotDetails                       from "../src/components/Spots/SpotDetails";
 import    CreateSpotForm                    from "../src/components/Spots/CreateSpotFormModal/CreateSpotForm";
-import    CreateReviewForm                  from "./components/Reviews/CreateReviewFormModal/CreateReviewForm";
-import    UpdateReviewForm                  from "./components/Reviews/UpdateReviewFormModal/UpdateReviewForm";
-import    DeleteReview                      from "./components/Reviews/DeleteReviewModal/DeleteReview";
 
 const App= () => {
   const dispatch = useDispatch();
