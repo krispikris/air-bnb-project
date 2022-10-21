@@ -6,7 +6,9 @@ import { getReviewsThunk }              from "../../../store/reviews";
 import   UpdateSpotFormModal            from "../UpdateSpotFormModal";
 import   DeleteButton                   from "../DeleteButton/DeleteButton";
 import   CreateReviewFormModal          from "../../Reviews/CreateReviewFormModal";
+import   UpdateReviewFormModal          from "../../Reviews/UpdateReviewFormModal";
 import                                       "./SpotDetails.css";
+
 
 const SpotDetails = () => {
     const dispatch = useDispatch();
@@ -21,6 +23,16 @@ const SpotDetails = () => {
     const reviews       = useSelector(state => state.reviews);
     const allReviews    = Object.values(reviews);
 
+    const currentUserId = useSelector(state => state.session.user.id);
+    const reviewToUpdate = allReviews.find(review => review.userId === currentUserId);
+
+    let reviewButton;
+    if (reviewToUpdate) {
+        reviewButton = <UpdateReviewFormModal reviewToUpdate={reviewToUpdate}/>
+    } else {
+        reviewButton = <CreateReviewFormModal />
+    }
+
     useEffect(() => {
         dispatch(getOneSpotThunk(spotId))
         .then(() => dispatch(getReviewsThunk(spotId)))
@@ -34,6 +46,8 @@ return isLoaded && (
         <h2>{spot.name}</h2>
         <h3>{spot.city}</h3>
 
+        {reviewButton}
+
         <div className="get-reviews-container">
             {allReviews.map(review => (
                 <div key={review.id} className="individual-review-container">
@@ -43,7 +57,6 @@ return isLoaded && (
             ))}
         </div>
 
-        <CreateReviewFormModal />
         <UpdateSpotFormModal />
         <DeleteButton setIsLoaded={setIsLoaded}/>
 

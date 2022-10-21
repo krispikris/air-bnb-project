@@ -5,20 +5,31 @@ import  { useParams }                       from "react-router-dom";
 import  { updateReviewThunk }               from "../../../store/reviews";
 import                                           "./UpdateReviewForm.css";
 
-const UpdateReviewForm = ({setShowModal}) => {
+const UpdateReviewForm = ({setShowModal, reviewToUpdate}) => {
+    // updateReviewForm takes in a prop
+    // prop is being deconstructed
+
+    const reviewId = reviewToUpdate.id;
     const dispatch = useDispatch();
-    const { reviewId } = useParams();
 
-    const review = useSelector(state => state.reviews.user.id);
+    const [review, setReview] = useState(reviewToUpdate.review);
+    const [stars, setStars] = useState(reviewToUpdate.stars)
 
-    const [reviewInput, setReviewInput] = useState[review.review];
+    console.log('==================', reviewToUpdate);
+    console.log('==================', reviewId);
+    console.log('==================', reviewToUpdate.review);
+    console.log('==================', reviewToUpdate.stars);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         let updatedReviewInput = {
-            reviewInput
+            review,
+            stars
         };
+
+        await dispatch(updateReviewThunk(updatedReviewInput, reviewId));
+        setShowModal(false);
     };
 
 return (
@@ -28,12 +39,22 @@ return (
         >
 
         <label>
-            Review Input
+            Update Review
             <input
             type="text"
-            name="reviewInput"
-            value={reviewInput}
-            onChange={e => setReviewInput(e.target.value)}
+            name="review"
+            value={review}
+            onChange={e => setReview(e.target.value)}
+            />
+        </label>
+
+        <label>
+            Update Stars
+            <input
+            type="text"
+            name="stars"
+            value={stars}
+            onChange={e => setStars(e.target.value)}
             />
         </label>
 

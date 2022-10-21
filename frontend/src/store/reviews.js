@@ -129,7 +129,7 @@ const reviewsReducer = (state = initialState, action) => {
 
         case UPDATE_REVIEW:
             newState = {...state}
-            newState[action.payload.spotId] = action.payload
+            newState[action.payload.id] = action.payload
             return newState;
 
 
