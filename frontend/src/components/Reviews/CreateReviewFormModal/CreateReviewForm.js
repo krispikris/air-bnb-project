@@ -34,6 +34,7 @@ return (
             type="text"
             name="review"
             value={review}
+            placeholder="How was your experience?"
             onChange={e => setReview(e.target.value)}
             />
         </label>

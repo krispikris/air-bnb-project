@@ -20,11 +20,14 @@ const SpotDetails = () => {
     const   spots           = useSelector(state => state.spots);
     const   spot            = spots[spotId];
 
+    console.log('THIS IS THE SPOT: ', spot)
+
     const   reviews         = useSelector(state => state.reviews);
     const   allReviews      = Object.values(reviews);
 
-    const   currentUserId   = useSelector(state => state.session.user.id);
-    const   reviewToUpdate  = allReviews.find(review => review.userId === currentUserId);
+    const   sessionUser     = useSelector(state => state.session.user);
+    const   reviewToUpdate  =  sessionUser ? allReviews.find(review => review.userId === sessionUser.id) : undefined;
+
 
     useEffect(() => {
         dispatch(getOneSpotThunk(spotId))
@@ -50,7 +53,9 @@ return isLoaded && (
     <>
         <h1>SpotDetails</h1>
         <h2>{spot.name}</h2>
-        <h3>{spot.city}</h3>
+        <img class="image-for-spot-id" src={spot.SpotImages[0].url} alt="spot-image-by-spot-id"></img>
+        {/* <img src="smiley.gif" alt="Smiley face" width="42" height="42" style="vertical-align:middle;margin:0px 50px"></img> */}
+        <h3>{spot.city}, {spot.state}</h3>
 
         {reviewButtons}
 

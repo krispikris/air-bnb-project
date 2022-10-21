@@ -34,7 +34,7 @@ const Navigation = ({ isLoaded }) => {
   return (
     <ul>
       <li>
-        <NavLink exact to="/">Home</NavLink>
+        <NavLink exact to="/">BIRD'S EYE VIEW</NavLink>
         {isLoaded && sessionLinks}
       </li>
 

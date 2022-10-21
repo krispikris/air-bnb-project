@@ -5,23 +5,87 @@ const { SpotImage } = require('../models');
 module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.bulkInsert('SpotImages', [
+      // 1
       {
         spotId: 1,
-        url: 'https://res.cloudinary.com/duvgdb8rd/image/upload/v1666125413/1_rjrweh.webp',
+        url: 'https://a0.muscache.com/im/pictures/miso/Hosting-48089233/original/32e6234f-2f32-4b7c-8137-ee81e9f6c7d1.jpeg',
         preview: true
       },
 
       {
         spotId: 2,
-        url: 'https://res.cloudinary.com/duvgdb8rd/image/upload/v1666125471/2-1_vmrshk.webp',
+        url: 'https://a0.muscache.com/im/pictures/miso/Hosting-24598097/original/91290830-0db6-40c0-a23b-86a904ee5239.jpeg',
         preview: true
       },
 
       {
         spotId: 3,
-        url: 'https://res.cloudinary.com/duvgdb8rd/image/upload/v1666125488/3-1_fdm6c0.jpg',
+        url: 'https://a0.muscache.com/im/pictures/becad6f1-e9bc-4b54-afe8-910ad18d169a.jpg',
+        preview: true
+      },
+
+      {
+        spotId: 4,
+        url: 'https://a0.muscache.com/im/pictures/miso/Hosting-29172819/original/8dae018e-ee08-4956-ab90-4a451e96e424.jpeg',
+        preview: true
+      },
+
+      // 5
+      {
+        spotId: 5,
+        url: 'https://a0.muscache.com/im/pictures/379f84f9-d418-41ad-b1b3-e1f9d007124d.jpg',
+        preview: true
+      },
+
+      {
+        spotId: 6,
+        url: 'https://a0.muscache.com/im/pictures/miso/Hosting-49924321/original/bca57cdc-bc62-4366-91e9-03ba6c4059ee.jpeg',
+        preview: true
+      },
+
+      {
+        spotId: 7,
+        url: 'https://a0.muscache.com/im/pictures/miso/Hosting-18994970/original/9a160552-6fa1-4d07-9a49-b93a4792dd74.jpeg',
+        preview: true
+      },
+
+      {
+        spotId: 8,
+        url: 'https://a0.muscache.com/im/pictures/712a31dd-fad0-4882-ba33-783e5e8620e4.jpg',
+        preview: true
+      },
+
+      {
+        spotId: 9,
+        url: 'https://a0.muscache.com/im/pictures/miso/Hosting-610511843622686196/original/253bfa1e-8c53-4dc0-a3af-0a75728c0708.jpeg',
+        preview: true
+      },
+
+      // 10
+      {
+        spotId: 10,
+        url: 'https://a0.muscache.com/im/pictures/fe5ff38b-d386-46b2-b9f8-f36d18fcdaad.jpg',
         preview: true
       }
+
+      // MORE MODERN HOMES
+      // {
+      //   spotId: 1,
+      //   url: 'https://res.cloudinary.com/duvgdb8rd/image/upload/v1666125413/1_rjrweh.webp',
+      //   preview: true
+      // },
+
+      // {
+      //   spotId: 2,
+      //   url: 'https://res.cloudinary.com/duvgdb8rd/image/upload/v1666125471/2-1_vmrshk.webp',
+      //   preview: true
+      // },
+
+      // {
+      //   spotId: 3,
+      //   url: 'https://res.cloudinary.com/duvgdb8rd/image/upload/v1666125488/3-1_fdm6c0.jpg',
+      //   preview: true
+      // }
 
       // {
       //   spotId: 4,
