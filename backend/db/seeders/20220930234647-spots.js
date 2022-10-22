@@ -7,132 +7,132 @@ module.exports = {
     await queryInterface.bulkInsert('Spots', [
       {
         ownerId: 1,
-        address: '3403 Stormy Ct',
-        city: 'Rocklin',
-        state: 'CA',
-        country: 'USA',
+        address: '267 Beaver Way',
+        city: 'Coupeville',
+        state: 'WA',
+        country: 'United States',
         lat: 38.81001221,
         lng: -121.24899957,
-        name: 'Greenhouse',
-        description: 'This house is green',
-        price: 1
+        name: 'Fort Ebey',
+        description: 'The Fort Ebey Treehouse is an incredible and unique escape that invites you to relax and connect with nature without sacrificing any modern amenities. Nestled underneath towering Douglas Fir trees, this fully equipped tiny house in a tree provides amazing views of the lush forest and Lake Pondilla, along with immediate access to miles of mixed use trails and easy access to two beaches on the Admiralty Inlet.',
+        price: 251
       },
 
       {
         ownerId: 2,
-        address: '550 N Figeroa St',
-        city: 'Los Angeles',
-        state: 'CA',
-        country: 'USA',
+        address: '3674 Grand Ave',
+        city: 'Dunes',
+        state: 'AK',
+        country: 'United States',
         lat: 34.06199155,
         lng: -118.24554911,
-        name: 'Hummingbird Place',
-        description: 'description2',
-        price: 23
-      },
-
-      {
-        ownerId: 1,
-        address: '1161 Folsom St',
-        city: 'San Francisco',
-        state: 'CA',
-        country: 'USA',
-        lat: 37.77648571,
-        lng: -122.40936024,
-        name: 'Tarzan Heaven',
-        description: 'description3',
-        price: 312
-      },
-
-      {
-        ownerId: 1,
-        address: '1161 Cannon St',
-        city: 'Stockton',
-        state: 'CA',
-        country: 'USA',
-        lat: 37.77648571,
-        lng: -122.40936024,
-        name: 'Monkey Maze',
-        description: 'description3',
-        price: 323
+        name: 'The Drommen Shack',
+        description: '250 sq ft treehouse with stairs leading to 2 lofts with beds overlooking the most gorgeous view of the Silicon Valley. The treehouse opens to a deck 14 foot high nestled in between 3 sycamore trees.Custom made stained glass window and spiral staircase leads up into the tree. Includes full functioning bathroom , kitchenette w sink , cooking stove, mini fridge . Sleeps 4 people.',
+        price: 107
       },
 
       {
         ownerId: 3,
-        address: '12341 Sac St',
-        city: 'Sacramento',
-        state: 'CA',
-        country: 'USA',
+        address: '69 Pardise Sky Way',
+        city: 'Honolulu',
+        state: 'HI',
+        country: 'United States',
         lat: 37.77648571,
         lng: -122.40936024,
-        name: 'Shelby',
-        description: 'description3',
-        price: 312
+        name: 'NATURAVE the Hut',
+        description: 'NATURAVE is a treetops unique stay experience. A one of a kind cabin where, from the comfort of your bedroom, you can enjoy the birds singing, sightseeing families of monkeys passing in the mountain just in front of you or just enjoy a cup of coffee surrounded by the peace of Monteverde.',
+        price: 315
       },
 
       {
-        ownerId: 2,
-        address: '3669 Pizza Way',
-        city: 'Little Italy',
-        state: 'NY',
-        country: 'USA',
+        ownerId: 4,
+        address: '1 Jamung Way',
+        city: 'WIllington',
+        state: 'VA',
+        country: 'United States',
         lat: 37.77648571,
         lng: -122.40936024,
-        name: 'Pizza Pizza',
-        description: 'description3',
+        name: 'House by the Forest Great Pine',
+        description: 'The Big Pine House  is located right on the hillside, the surrounding old pine forest brings a cool vibe all year round for Homestay. ',
+        price: 96
+      },
+
+      {
+        ownerId: 5,
+        address: '99 Falcon Way',
+        city: 'Perryville',
+        state: 'MO',
+        country: 'United States',
+        lat: 37.77648571,
+        lng: -122.40936024,
+        name: 'TreeLoft at BaseCamp',
+        description: 'Mastate features a two story treehouse with full bed, sink, screened living area and open deck.',
+        price: 222
+      },
+
+      {
+        ownerId: 1,
+        address: '3520 Pointy Way',
+        city: 'Index',
+        state: 'WA',
+        country: 'United States',
+        lat: 37.77648571,
+        lng: -122.40936024,
+        name: 'The Treeframe Cabin',
+        description: 'Outrageously beautiful modern treehouse aframe cabin perched 13ft off the ground between 4 evergreen trees.',
         price: 3677
       },
 
       {
-        ownerId: 3,
-        address: '11 Blue St',
-        city: 'Orange',
-        state: 'CA',
-        country: 'USA',
-        lat: 37.77648571,
-        lng: -122.40936024,
-        name: 'Orange and Blue',
-        description: 'description3',
-        price: 343
-      },
-
-      {
-        ownerId: 1,
-        address: '500 Humboldt St',
-        city: 'Roseville',
-        state: 'CA',
-        country: 'USA',
-        lat: 37.77648571,
-        lng: -122.40936024,
-        name: 'Rosemount',
-        description: 'description3',
-        price: 4355
-      },
-
-      {
-        ownerId: 3,
-        address: '32 Stone Cold Way',
-        city: 'Austin',
-        state: 'TX',
-        country: 'USA',
-        lat: 37.77648571,
-        lng: -122.40936024,
-        name: 'Nest',
-        description: 'description3',
-        price: 321
-      },
-
-      {
         ownerId: 2,
-        address: '699 Heart Way',
-        city: 'San Antionio',
-        state: 'TX',
-        country: 'USA',
+        address: '41 Porter Place',
+        city: 'Port Angeles',
+        state: 'WA',
+        country: 'United States',
+        lat: 37.55648571,
+        lng: -12.40696024,
+        name: 'Eagles Perch',
+        description: 'Stunning Tree house looking over the Strait of Juan De Fuca is a total North-West Washington experience. It is made of cedar with rustic touches.',
+        price: 310
+      },
+
+      {
+        ownerId: 3,
+        address: '17 Half Dome Circle',
+        city: 'Cantabria',
+        state: 'UT',
+        country: 'United States',
         lat: 37.77648571,
-        lng: -122.40936024,
-        name: 'Dome Home',
-        description: 'description3',
-        price: 321
+        lng: -121.56936024,
+        name: 'Chulavista Dome',
+        description: 'The Chulavista Dome is a geodesic dome high up in the trees.',
+        price: 211
+      },
+
+      {
+        ownerId: 4,
+        address: '30 Hawk Way',
+        city: 'Colombia',
+        state: 'CA',
+        country: 'United States',
+        lat: 37.77648571,
+        lng: -72.40936024,
+        name: 'Owl’s Perch Treehouse',
+        description: 'Nestled between large cedars and a giant maple, Owl’s Perch offers stunning views across the Salish Sea.',
+        price: 181
+      },
+
+      {
+        ownerId: 5,
+        address: '0 Blazing Lillard ',
+        city: 'Portland',
+        state: 'OR',
+        country: 'United States',
+        lat: 37.77648571,
+        lng: -132.40936024,
+        name: 'Spectacular Jungle Canopy',
+        description: 'Experience the beauty and vibrancy of Costa Rica 85 off the jungle floor. El Castillo Mastate features a two story treehouse.',
+        price: 105
       },
     ], {})
   },
