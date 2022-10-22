@@ -3,38 +3,48 @@ import { useDispatch, useSelector }     from "react-redux";
 import { useParams }                    from "react-router-dom";
 import { getOneSpotThunk }              from "../../../store/spots";
 import { getReviewsThunk }              from "../../../store/reviews";
-import   UpdateSpotFormModal            from "../UpdateSpotFormModal";
-import   DeleteButton                   from "../DeleteButton/DeleteButton";
 import   CreateReviewFormModal          from "../../Reviews/CreateReviewFormModal";
+import   UpdateSpotFormModal            from "../UpdateSpotFormModal";
 import   UpdateReviewFormModal          from "../../Reviews/UpdateReviewFormModal";
+import   DeleteSpotFormModal            from "../DeleteSpotFormModal";
 import   DeleteReviewFormModal          from "../../Reviews/DeleteReviewModal";
 import                                       "./SpotDetails.css";
-import DeleteSpotFormModal from "../DeleteSpotFormModal";
-import CreateSpotFormModal from "../CreateSpotFormModal";
 
 const SpotDetails = () => {
-    const   dispatch        = useDispatch();
-    const { spotId }        = useParams();
-
+    const   dispatch   = useDispatch();
+    const { spotId }   = useParams();
     const [ isLoaded, setIsLoaded ] = useState(false);
 
-    const   spots           = useSelector(state => state.spots);
-    const   allSpots        = Object.values(spots)
-    const   spot            = spots[spotId];
+    const   sessionUser     = useSelector(state => state.session.user);     // OBJ | CURRENT SESSION USER | WHO IS LOGGED IN
 
-    console.log("THIS IS THE ALL SPOTS ARRAY", allSpots);
-    console.log("SPOTS OF SPOT ID ", spots)
-    console.log('THIS IS THE SPOT: ', spot)
 
-    const   reviews         = useSelector(state => state.reviews);
-    const   allReviews      = Object.values(reviews);
+    const   allSpotsObj     = useSelector(state => state.spots);            // OBJ OF OBJS | ALL SPOTS
+    const   allSpotsArr     = Object.values(allSpotsObj)                    // ARR OF OBJS | ALL SPOTS
+    const   currentSpotObj  = allSpotsArr.find(spot => spot.id === parseInt(spotId));      // OBJ | CURRENT SPOT
 
-    const   sessionUser     = useSelector(state => state.session.user);
-    const   reviewToUpdate  =  sessionUser ? allReviews.find(review => review.userId === sessionUser.id) : undefined;
-    const   spotToUpdate    =  sessionUser ? allSpots.find(spot => spot.ownerId === sessionUser.id) : undefined;
+    const   currentSpotReviewsObj   = useSelector(state => state.reviews);      // OBJ OF OBJS | REVIEWS FOR THE CURRENT SPOT DETAILS PAGE
+    const   currentSpotReviewsArr   = Object.values(currentSpotReviewsObj);     // ARR OF OBJS | REVIEWS FOR THE CURRENT SPOT DETAILS PAGE
 
-    console.log('THIS SESSION USER IS ', sessionUser)
+    // const   spotToUpdate    =  sessionUser ? allSpotsArr.find(spot => spot.ownerId === sessionUser.id) : undefined;
+    // const   spotToUpdate    =  allSpotsArr.find(spot => spot.ownerId === sessionUser.id);
+    const   reviewToUpdate  =  sessionUser ? currentSpotReviewsArr.find(review => review.userId === sessionUser.id) : undefined;
 
+    // CONDITIONAL RENDERING CONSOLE LOGS | SESSION USER | OWNER ID
+    console.log('The Current Session User as an OBJECT | sessionUser: ', sessionUser);
+    console.log("The Current Seesion User ID as a NUMBER | sessionUser.id: ", sessionUser.id);
+    // console.log("The Current Spot Owner ID as a NUMBER | currentSpotObj.ownerId: ", currentSpotObj.ownerId);
+
+    // CONDITIONAL RENDERING CONSOLE LOGS | UPDATE AND DELETE SPOT
+    console.log("spotId based on useParams | SPOTID:", spotId)
+    console.log("All Spots Information as an OBJECT of Objects of Spots by SpotID | allSpotsObj: ", allSpotsObj);
+    console.log("All Spots Information as an ARRAY of Objects of Spots by SpotID | allSpotsArr: ", allSpotsArr);
+    console.log("Current spot based on the :spotId as an OBJECT in URL of the SpotDetailsPage | currentSpotObj: ", currentSpotObj);
+
+    // CONDITIONAL RENDERING CONSOLE LOGS | UPDATE AND DELETE REVIEW
+    console.log("All Reviews for current spot as an OBJECT of objects | currentSpotReviewsObj: ", currentSpotReviewsObj);
+    console.log("All Reviews for current spot as an ARRAY of objects | currentSpotReviewsArr: ", currentSpotReviewsArr);
+    console.log("All Spots Information as an ARRAY of Objects of Spots by SpotID | allSpotsArr: ", allSpotsArr);
+    console.log("Current spot based on the :spotId as an OBJECT in URL of the SpotDetailsPage | currentSpotObj: ", currentSpotObj);
 
     useEffect(() => {
         dispatch(getOneSpotThunk(spotId))
@@ -56,11 +66,13 @@ const SpotDetails = () => {
     }
 
     let spotButtons;
-    if (spotToUpdate) {
+    if (currentSpotObj?.ownerId === sessionUser.id) {
         spotButtons =
                             <div>
-                                <UpdateSpotFormModal spotToUpdate={spotToUpdate}/>
-                                <DeleteSpotFormModal spotToUpdate={spotToUpdate}/>
+                                <UpdateSpotFormModal currentSpotObj={currentSpotObj}/>
+                                <DeleteSpotFormModal currentSpotObj={currentSpotObj}/>
+                                {/* <UpdateSpotFormModal spotToUpdate={spotToUpdate}/>
+                                <DeleteSpotFormModal spotToUpdate={spotToUpdate}/> */}
                             </div>
     }
     // else {
@@ -72,17 +84,17 @@ const SpotDetails = () => {
 return isLoaded && (
     <>
         <h1>SpotDetails</h1>
-        <h2>{spot.name}</h2>
-        <img className="image-for-spot-id" src={spot.SpotImages[0].url} alt="spot-image-by-spot-id"></img>
+        <h2>{currentSpotObj.name}</h2>
+        <img className="image-for-currentSpotObjId-id" src={currentSpotObj.SpotImages[0].url} alt="spot-image-by-spot-id"></img>
         {/* <img src="smiley.gif" alt="Smiley face" width="42" height="42" style="vertical-align:middle;margin:0px 50px"></img> */}
-        <h3>{spot.city}, {spot.state}</h3>
-        <h4>${spot.price} per night</h4>
+        <h3>{currentSpotObj.city}, {currentSpotObj.state}</h3>
+        <h4>${currentSpotObj.price} per night</h4>
 
         {spotButtons}
         {reviewButtons}
 
         <div className="get-reviews-container">
-            {allReviews.map(review => (
+            {currentSpotReviewsArr.map(review => (
                 <div key={review.id} className="individual-review-container">
                     <div>Review: {review.review}</div>
                     <div>Stars: {review.stars}</div>

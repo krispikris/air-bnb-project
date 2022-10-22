@@ -1,7 +1,6 @@
 // frontend/src/components/DeleteReviewModal/DeleteReviewForm.js
-import    React, { useState }               from "react";
-import  { useDispatch, useSelector }        from "react-redux";
-import  { useHistory, useParams }                       from "react-router-dom";
+import    React                             from "react";
+import  { useDispatch }                     from "react-redux";
 import  { deleteReviewThunk }               from "../../../store/reviews";
 import                                           "./DeleteReview.css";
 

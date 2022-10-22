@@ -3,7 +3,7 @@ import    React, { useState }   from 'react';
 import  { Modal }               from '../../../context/Modal';
 import    UpdateSpotForm        from './UpdateSpotForm';
 
-const UpdateSpotFormModal = () => {
+const UpdateSpotFormModal = ({spotToUpdate}) => {
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -11,7 +11,7 @@ const UpdateSpotFormModal = () => {
       <button  onClick={() => setShowModal(true)}>Update Spot</button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
-          <UpdateSpotForm setShowModal={setShowModal}/>
+          <UpdateSpotForm setShowModal={setShowModal} spotToUpdate={spotToUpdate}/>
         </Modal>
       )}
     </>

@@ -1,9 +1,8 @@
 // frontend/src/components/DeleteReviewModal/DeleteReviewForm.js
-import    React               from "react";
-import  { useDispatch }        from "react-redux";
-// import  { useHistory, useParams }                       from "react-router-dom";
-import  { deleteSpotThunk }               from "../../../store/spots";
-import                                           "./DeleteSpotForm.css";
+import    React                 from "react";
+import  { useDispatch }         from "react-redux";
+import  { deleteSpotThunk }     from "../../../store/spots";
+import                               "./DeleteSpotForm.css";
 
 const DeleteSpotForm = ({setShowModal, spotToUpdate}) => {
     const dispatch          = useDispatch();

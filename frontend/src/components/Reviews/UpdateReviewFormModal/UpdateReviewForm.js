@@ -1,7 +1,6 @@
 // frontend/src/components/UpdateReviewModal/UpdateReviewForm.js
 import    React, { useState }               from "react";
-import  { useDispatch, useSelector }        from "react-redux";
-import  { useParams }                       from "react-router-dom";
+import  { useDispatch }                     from "react-redux";
 import  { updateReviewThunk }               from "../../../store/reviews";
 import                                           "./UpdateReviewForm.css";
 

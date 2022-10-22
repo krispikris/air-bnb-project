@@ -5,6 +5,7 @@ import    DeleteReviewForm      from './DeleteReviewForm';
 const DeleteReviewFormModal = ({reviewToUpdate}) => {
     const [showModal, setShowModal] = useState(false);
     console.log('+++++++++', reviewToUpdate)
+
     return (
     <>
       <button  onClick={() => setShowModal(true)}>Delete Review</button>
