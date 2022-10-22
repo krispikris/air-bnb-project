@@ -85,7 +85,11 @@ return isLoaded && (
     <>
         <h1>SpotDetails</h1>
         <h2>{currentSpotObj.name}</h2>
-        <img className="image-for-currentSpotObjId-id" src={currentSpotObj.SpotImages[0].url} alt="spot-image-by-spot-id"></img>
+        <img className="spot-images-inside-grid" src={currentSpotObj.SpotImages[0].url} alt="spot-image-inside-grid-1"></img>
+        <img className="spot-images-inside-grid" src={currentSpotObj.SpotImages[1].url} alt="spot-image-inside-grid-2"></img>
+        <img className="spot-images-inside-grid" src={currentSpotObj.SpotImages[2].url} alt="spot-image-inside-grid-3"></img>
+        <img className="spot-images-inside-grid" src={currentSpotObj.SpotImages[3].url} alt="spot-image-inside-grid-4"></img>
+        <img className="spot-images-inside-grid" src={currentSpotObj.SpotImages[4].url} alt="spot-image-inside-grid-5"></img>
         {/* <img src="smiley.gif" alt="Smiley face" width="42" height="42" style="vertical-align:middle;margin:0px 50px"></img> */}
         <h3>{currentSpotObj.city}, {currentSpotObj.state}</h3>
         <h4>${currentSpotObj.price} per night</h4>
@@ -96,8 +100,11 @@ return isLoaded && (
         <div className="get-reviews-container">
             {currentSpotReviewsArr.map(review => (
                 <div key={review.id} className="individual-review-container">
-                    <div>Review: {review.review}</div>
-                    <div>Stars: {review.stars}</div>
+                    {/* {console.log('Review for current Spot as an OBJECT: ', review)} */}
+                    <div>{review.User.firstName}</div>
+                    {/* <div>{review.createdAt}</div>       FIND WAY TO CONVERT INTO MONTH YEAR */}
+                    <div>{review.review}</div>
+                    <div>{review.stars} stars</div>
                 </div>
             ))}
         </div>
