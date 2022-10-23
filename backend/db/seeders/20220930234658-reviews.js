@@ -112,28 +112,28 @@ module.exports = {
       {
         spotId: 5,
         userId: 3,
-        review: 'We had a quick weekend stay filled with stargazing, reading while in the hammock or under the trees, and driving into Carmel for farmers markets and access to Highway 1.',
+        review: 'We had a quick weekend stay filled with stargazing, reading while in the hammock or under the trees.',
         stars: 5
       },
       // Owned by userId 1: Kris (1-6)
       {
         spotId: 6,
         userId: 3,
-        review: 'A pleasant and inviting place, equipped and new. Close to Lake Tahoe and also close to restaurants and shops. You can cook in the kitchen, the balcony is very pleasant and enjoyable. We had a great time and recommended the place to friends.',
+        review: 'A pleasant and inviting place, equipped and new. Close to Lake Tahoe and also close to restaurants and shops.',
         stars: 5
       },
 
       {
         spotId: 6,
         userId: 2,
-        review: 'Check in was really easy! The host at the office was super friendly and welcoming. I appreciated him explaining everything that was offered with the stay. It was also in a very quiet area located near shopping if you need to go. I definitely would come back and stay here. Thank you!',
+        review: 'Check in was really easy! The host at the office was super friendly and welcoming. I appreciated him explaining everything that was offered with the stay.',
         stars: 4
       },
 
       {
         spotId: 6,
         userId: 5,
-        review: 'We loved our stay at the Tiny House. It was like camping luxury. This is at an RV/trailer park but it’s so nice and has great walking paved trails close by, the location was perfect, 20 mins from North Lake Tahoe, 5 mins from downtown Truckee, 10 mins from Donner Lake. ',
+        review: 'We loved our stay at the Tiny House. It was like camping luxury.',
         stars: 5
       },
 
@@ -141,21 +141,21 @@ module.exports = {
       {
         spotId: 7,
         userId: 3,
-        review: 'Me and my significant other had a wonderful time staying here!! The home is really beautiful and was extremely clean. The appliances all work well. The only thing I didn’t realize was that this home is located in a mobile home park, but really was no issue .”',
+        review: 'Me and my significant other had a wonderful time staying here!! The home is really beautiful and was extremely clean.',
         stars: 3
       },
 
       {
         spotId: 7,
         userId: 4,
-        review: 'The surroundings were beautiful and serene -- a wonderful escape from the city. The tiny house is indeed tiny, but it had everything we needed for our family of four and our dog. We enjoyed hanging out on the deck, in the hammock, and watching the night sky.',
+        review: 'The surroundings were beautiful and serene -- a wonderful escape from the city. The tiny house is indeed tiny, but it had everything we needed.',
         stars: 4
       },
 
       {
         spotId: 7,
         userId: 1,
-        review: 'If you want a wonderful, relaxing, unplugged escape from your busy life, this little cabin provides the perfect getaway. The surroundings are absolutely beautiful and the cabin, while cozy, has everything one needs, including comfy beds.',
+        review: 'If you want a wonderful, relaxing, unplugged escape from your busy life, this little cabin provides the perfect getaway. The surroundings are absolutely beautiful and the cabin.',
         stars: 4
       },
 
@@ -192,7 +192,7 @@ module.exports = {
       {
         spotId: 9,
         userId: 3,
-        review: 'This is the perfect place to disconnect from the daily world of technology and enjoy some peaceful relaxation time. There is a great outdoor space to sit and star gaze at night. It’s about 30-40 minutes drive to the town so I would recommend bringing food.',
+        review: 'This is the perfect place to disconnect from the daily world of technology and enjoy some peaceful relaxation time. There is a great outdoor space.',
         stars: 3
       },
 
