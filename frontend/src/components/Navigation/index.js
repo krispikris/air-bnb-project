@@ -72,6 +72,8 @@ const Navigation = ({ isLoaded }) => {
 
   return (
     <>
+    <div className="navigation">
+
       <div className="navigation-wrap">
         <div className="navigation-bar">
             <NavLink exact to="/">
@@ -80,7 +82,7 @@ const Navigation = ({ isLoaded }) => {
                   className="green-airbnb-logo"
                   src="https://res.cloudinary.com/duvgdb8rd/image/upload/v1666469050/airbnb-xxl_ep5w6c.png"
                   alt="logo-1"
-                ></img>
+                  ></img>
               <div className="treebnb-text">treebnb</div>
           </div>
             </NavLink>
@@ -101,11 +103,12 @@ const Navigation = ({ isLoaded }) => {
               <a
                 href="https://www.linkedin.com/in/kristopherhan"
                 target="_blank"
-              >
+                >
                 <i id="linkedin-icon" class="fa-brands fa-linkedin-in"></i>
               </a>
             </div>
         </div>
+      </div>
       </div>
     </>
   );
