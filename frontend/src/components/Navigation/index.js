@@ -1,16 +1,36 @@
 // frontend/src/components/Navigation/index.js
-import    React                   from 'react';
-import  { NavLink }               from 'react-router-dom';
-import  { useSelector }           from 'react-redux';
+import    React, {useState, useEffect}    from 'react';
+import  { NavLink }                       from 'react-router-dom';
+import  { useSelector }                   from 'react-redux';
 
-import ProfileButton              from './ProfileButton';
-import LoginFormModal             from '../User/LoginFormModal';
-import SignupFormModal            from '../User/SignupFormModal';
-import CreateSpotFormModal        from '../Spots/CreateSpotFormModal';
-import                                 './Navigation.css';
+import ProfileButton                      from './ProfileButton';
+import LoginFormModal                     from '../User/LoginFormModal';
+import SignupFormModal                    from '../User/SignupFormModal';
+import CreateSpotFormModal                from '../Spots/CreateSpotFormModal';
+import                                         './Navigation.css';
 
 const Navigation = ({ isLoaded }) => {
   const sessionUser = useSelector(state => state.session.user);
+
+  const [ showMenu, setShowMenu ]   = useState(false);
+
+  const openMenu = () => {
+    if (showMenu) return;
+    setShowMenu(true);
+  };
+
+  const dropDownOnOff = () => {
+    if (showMenu) return 'dropdown-on'
+    else return 'dropdown-off'
+  };
+
+  useEffect(() => {
+    if (!showMenu) return;
+        const closeMenu = () => setShowMenu(false);
+        document.addEventListener('click', closeMenu);
+
+        return () => document.removeEventListener("click", closeMenu);
+    }, [showMenu]);
 
   let sessionLinks;
   if (sessionUser) {
@@ -25,20 +45,60 @@ const Navigation = ({ isLoaded }) => {
   } else {
     sessionLinks = (
       <>
-        <LoginFormModal />
-        <SignupFormModal />
+        {/* <LoginFormModal />
+        <SignupFormModal /> */}
+
+        <div className='dropdown'>
+          <button className='dropdown-button' onClick={(() => showMenu ? setShowMenu(false) : setShowMenu(true))}>
+          <i id='hamburger-icon' className="fa-solid fa-bars"></i>
+          <i id='profile-icon' className="fas fa-user-circle" />
+              {/* <img id='hamburger-icon' src='https://static.vecteezy.com/system/resources/previews/002/292/406/original/hamburger-menu-line-icon-free-vector.jpg' /> */}
+          </button>
+
+          <div className={dropDownOnOff()}>
+            <a href='#'><SignupFormModal /></a>
+            <a href='#'><LoginFormModal /></a>
+          </div>
+
+        </div>
+
       </>
     );
   }
 
   return (
-    <ul>
-      <li>
-        <NavLink exact to="/">BIRD'S EYE VIEW</NavLink>
-        {isLoaded && sessionLinks}
-      </li>
+    <>
 
-    </ul>
+    <div id='navigation-wrap'>
+      <div className='navigation-bar'>
+
+        <NavLink exact to="/">
+          <img className='green-airbnb-logo' src='https://res.cloudinary.com/duvgdb8rd/image/upload/v1666469050/airbnb-xxl_ep5w6c.png' alt='logo-1'></img>
+        </NavLink>
+
+        <div>
+          {isLoaded && sessionLinks}
+        </div>
+
+      </div>
+    </div>
+
+      <div id='footer-bar'>
+        <div id='footer-left'>
+
+          <div id='created-by-name'>2022 Created and Styled by Kristopher Han</div>
+            <a href='https://github.com/krispikris'>
+              <i id='github-icon' class="fa-brands fa-github"></i>
+            </a>
+
+            <a href='https://www.linkedin.com/in/kristopherhan'>
+              <i id='linkedin-icon'class="fa-brands fa-linkedin-in"></i>
+            </a>
+
+        </div>
+      </div>
+
+    </>
   );
 }
 

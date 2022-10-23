@@ -1,12 +1,8 @@
-/* TODO Add site wide styles */
 
-ul {
-    list-style-type: none;
-
-}
-
+html,
 body {
-    margin: 0;
-    width: 100vw;
-    /* font-family:  */
-}
+    font-family:    Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif;
+    margin-top:     0px;
+    margin-left:    0px;
+    margin-right:   0px;
+};

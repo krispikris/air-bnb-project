@@ -13,7 +13,7 @@ const GetSpots = () => {
     // console.log('THIS IS THE SPOTS VARIABLE: ', spots);
 
     const allSpots = Object.values(spots);
-    console.log('THIS IS ALL THE SPOTS ', allSpots)
+    console.log('This is all the Spots in an Array ', allSpots)
 
     useEffect(() => {
         dispatch(getAllSpotsThunk());
@@ -21,22 +21,25 @@ const GetSpots = () => {
 
     return (
         <>
-            <div className="spots-homepage-container">
+        <div className='all-spots-wrap'>
+            <div className="all-spots-homepage-container">
 
                 {allSpots.map(spot => (
                     <div key={spot.id} className='individual-spot-container'>
-                        <NavLink to={`/spots/${spot.id}`}><img className='new-spot-image' src={spot?.previewImage} /></NavLink>
+                        <NavLink to={`/spots/${spot.id}`}>
+                            <img className='spot-card'
+                                 src={spot?.previewImage}
+                                 alt='one-spot-card'/>
+                        </NavLink>
+
                         <div className='spot-name'>
-                            <div className='name'>{spot.name}</div>
+                            <div className='spot-prop-1'>{spot.name}</div>
+                            <div className='spot-prop-2'>{spot.city}, {spot.state}</div>
                         </div>
                     </div>
                 ))}
             </div>
-
-
-
-
-
+        </div>
 
         </>
     )
