@@ -96,10 +96,10 @@ return isLoaded && (
 
         <div className="spot-images-grid">
             <img class="spot-images-grid-col-2 spot-images-grid-row-2"id="spot-img-1" src={currentSpotObj.SpotImages[0].url} alt="spot-image-inside-grid-1"></img>
-            <img id="spot-img-2" src={currentSpotObj.SpotImages[1].url} alt="spot-image-inside-grid-2"></img>
-            <img id="spot-img-3" src={currentSpotObj.SpotImages[2].url} alt="spot-image-inside-grid-3"></img>
-            <img id="spot-img-4" src={currentSpotObj.SpotImages[3].url} alt="spot-image-inside-grid-4"></img>
-            <img id="spot-img-5" src={currentSpotObj.SpotImages[4].url} alt="spot-image-inside-grid-5"></img>
+            <img id="spot-img-2" src={currentSpotObj?.SpotImages[1].url} alt="spot-image-inside-grid-2"></img>
+            <img id="spot-img-3" src={currentSpotObj?.SpotImages[2].url} alt="spot-image-inside-grid-3"></img>
+            <img id="spot-img-4" src={currentSpotObj?.SpotImages[3].url} alt="spot-image-inside-grid-4"></img>
+            <img id="spot-img-5" src={currentSpotObj?.SpotImages[4].url} alt="spot-image-inside-grid-5"></img>
         {/* <img src="smiley.gif" alt="Smiley face" width="42" height="42" style="vertical-align:middle;margin:0px 50px"></img> */}
         </div>
 

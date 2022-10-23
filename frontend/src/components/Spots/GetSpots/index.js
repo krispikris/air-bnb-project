@@ -30,12 +30,12 @@ const GetSpots = () => {
                             <img className='spot-card'
                                  src={spot?.previewImage}
                                  alt='one-spot-card'/>
+                            <div className='spot-name'>
+                                <div className='spot-prop-1'>{spot.name}</div>
+                                <div className='spot-prop-2'>{spot.city}, {spot.state}</div>
+                            </div>
                         </NavLink>
 
-                        <div className='spot-name'>
-                            <div className='spot-prop-1'>{spot.name}</div>
-                            <div className='spot-prop-2'>{spot.city}, {spot.state}</div>
-                        </div>
                     </div>
                 ))}
             </div>
