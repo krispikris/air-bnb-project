@@ -8,40 +8,40 @@ module.exports = {
         firstName: 'Kris',
         lastName: 'Han',
         email: 'kris@kristopherhan.com',
-        username: 'kris',
-        hashedPassword: bcrypt.hashSync('airbnb')
+        username: 'krispikris',
+        hashedPassword: bcrypt.hashSync('treebnb')
       },
 
       {
         firstName: 'Andrew',
         lastName: 'Kim',
         email: 'andrewkim@gmail.com',
-        username: 'drew',
-        hashedPassword: bcrypt.hashSync('airbnb')
+        username: 'superhotfire',
+        hashedPassword: bcrypt.hashSync('treebnb')
       },
 
       {
         firstName: 'Droo',
         lastName: 'Duong',
-        username: 'droo',
+        username: 'drooboo',
         email: 'droo@gmail.com',
-        hashedPassword: bcrypt.hashSync('airbnb')
+        hashedPassword: bcrypt.hashSync('treebnb')
       },
 
       {
         firstName: 'Gary',
         lastName: 'Spng',
-        username: 'gary',
+        username: 'garbear',
         email: 'garysong@gmail.com',
-        hashedPassword: bcrypt.hashSync('airbnb')
+        hashedPassword: bcrypt.hashSync('treebnb')
       },
 
       {
         firstName: 'Samuel',
         lastName: 'Suh',
-        username: 'ssuh',
+        username: 'sambam',
         email: 'samsuh@gmail.com',
-        hashedPassword: bcrypt.hashSync('airbnb')
+        hashedPassword: bcrypt.hashSync('treebnb')
       }
 
     ], {});
@@ -50,7 +50,7 @@ module.exports = {
   async down (queryInterface, Sequelize) {
       const Op = Sequelize.Op;
       await queryInterface.bulkDelete('Users', {
-        username: { [Op.in]: ['kris', 'drew', 'droo', 'gary', 'ssuh'] }
+        username: { [Op.in]: ['krispikris', 'superhotfire', 'drooboo', 'garbear', 'sambam'] }
       }, {});
 
   }

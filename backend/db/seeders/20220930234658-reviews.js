@@ -24,7 +24,7 @@ module.exports = {
       {
         spotId: 1,
         userId: 4,
-        review: 'We loved our stay at the Tiny House. It was like camping luxury. This is at an RV/trailer park but it’s so nice and has great walking paved trails close by, the location was perfect, 20 mins from North Lake Tahoe, 5 mins from downtown Truckee, 10 mins from Donner Lake. We enjoyed all our meals outside on the deck or the outdoor table. Like another review said they did a great job creating plenty of space to put things away with empty cabinets, and lots of storage space.',
+        review: 'We loved our stay at the Tiny House. It was like camping luxury. This is at an RV/trailer park but it’s so nice and has great walking paved trails close by, the location was perfect, 20 mins from North Lake Tahoe, 5 mins from downtown Truckee, 10 mins from Donner Lake. ',
         stars: 5
       },
 
@@ -32,7 +32,7 @@ module.exports = {
       {
         spotId: 2,
         userId: 5,
-        review: 'Me and my significant other had a wonderful time staying here!! The home is really beautiful and was extremely clean. The appliances all work well. The only thing I didn’t realize was that this home is located in a mobile home park, but really was no issue . Honestly, it kind of made it feel like we were “glamping.”',
+        review: 'Me and my significant other had a wonderful time staying here!! The home is really beautiful and was extremely clean. The appliances all work well. The only thing I didn’t realize was that this home is located in a mobile home park, but really was no issue .”',
         stars: 3
       },
 
@@ -83,7 +83,7 @@ module.exports = {
       {
         spotId: 4,
         userId: 2,
-        review: 'This is the perfect place to disconnect from the daily world of technology and enjoy some peaceful relaxation time. There is a great outdoor space to sit and star gaze at night. It’s about 30-40 minutes drive to the town so I would recommend bringing food and drink in a cooler to set you up for the weekend.',
+        review: 'This is the perfect place to disconnect from the daily world of technology and enjoy some peaceful relaxation time. There is a great outdoor space to sit and star gaze at night. It’s about 30-40 minutes drive to the town so I would recommend bringing food.',
         stars: 4
       },
 
@@ -133,7 +133,7 @@ module.exports = {
       {
         spotId: 6,
         userId: 5,
-        review: 'We loved our stay at the Tiny House. It was like camping luxury. This is at an RV/trailer park but it’s so nice and has great walking paved trails close by, the location was perfect, 20 mins from North Lake Tahoe, 5 mins from downtown Truckee, 10 mins from Donner Lake. We enjoyed all our meals outside on the deck or the outdoor table. Like another review said they did a great job creating plenty of space to put things away with empty cabinets, and lots of storage space.',
+        review: 'We loved our stay at the Tiny House. It was like camping luxury. This is at an RV/trailer park but it’s so nice and has great walking paved trails close by, the location was perfect, 20 mins from North Lake Tahoe, 5 mins from downtown Truckee, 10 mins from Donner Lake. ',
         stars: 5
       },
 
@@ -141,7 +141,7 @@ module.exports = {
       {
         spotId: 7,
         userId: 3,
-        review: 'Me and my significant other had a wonderful time staying here!! The home is really beautiful and was extremely clean. The appliances all work well. The only thing I didn’t realize was that this home is located in a mobile home park, but really was no issue . Honestly, it kind of made it feel like we were “glamping.”',
+        review: 'Me and my significant other had a wonderful time staying here!! The home is really beautiful and was extremely clean. The appliances all work well. The only thing I didn’t realize was that this home is located in a mobile home park, but really was no issue .”',
         stars: 3
       },
 
@@ -192,7 +192,7 @@ module.exports = {
       {
         spotId: 9,
         userId: 3,
-        review: 'This is the perfect place to disconnect from the daily world of technology and enjoy some peaceful relaxation time. There is a great outdoor space to sit and star gaze at night. It’s about 30-40 minutes drive to the town so I would recommend bringing food and drink in a cooler to set you up for the weekend.',
+        review: 'This is the perfect place to disconnect from the daily world of technology and enjoy some peaceful relaxation time. There is a great outdoor space to sit and star gaze at night. It’s about 30-40 minutes drive to the town so I would recommend bringing food.',
         stars: 3
       },
 

@@ -14,7 +14,7 @@ module.exports = {
         lat: 38.81001221,
         lng: -121.24899957,
         name: 'Fort Ebey',
-        description: 'The Fort Ebey Treehouse is an incredible and unique escape that invites you to relax and connect with nature without sacrificing any modern amenities. Nestled underneath towering Douglas Fir trees, this fully equipped tiny house in a tree provides amazing views of the lush forest and Lake Pondilla, along with immediate access to miles of mixed use trails and easy access to two beaches on the Admiralty Inlet.',
+        description: 'The Fort Ebey Treehouse is an incredible and unique escape that invites you to relax and connect with nature without sacrificing any modern amenities.',
         price: 251
       },
 
@@ -27,7 +27,7 @@ module.exports = {
         lat: 34.06199155,
         lng: -118.24554911,
         name: 'The Drommen Shack',
-        description: '250 sq ft treehouse with stairs leading to 2 lofts with beds overlooking the most gorgeous view of the Silicon Valley. The treehouse opens to a deck 14 foot high nestled in between 3 sycamore trees.Custom made stained glass window and spiral staircase leads up into the tree. Includes full functioning bathroom , kitchenette w sink , cooking stove, mini fridge . Sleeps 4 people.',
+        description: '250 sq ft treehouse with stairs leading to 2 lofts with beds overlooking the most gorgeous view of the Silicon Valley.',
         price: 107
       },
 
@@ -40,7 +40,7 @@ module.exports = {
         lat: 37.77648571,
         lng: -122.40936024,
         name: 'NATURAVE the Hut',
-        description: 'NATURAVE is a treetops unique stay experience. A one of a kind cabin where, from the comfort of your bedroom, you can enjoy the birds singing, sightseeing families of monkeys passing in the mountain just in front of you or just enjoy a cup of coffee surrounded by the peace of Monteverde.',
+        description: 'NATURAVE is a treetops unique stay experience. A one of a kind cabin where, from the comfort of your bedroom, you can enjoy the birds singing, sightseeing families of monkeys passing in the mountain.',
         price: 315
       },
 
