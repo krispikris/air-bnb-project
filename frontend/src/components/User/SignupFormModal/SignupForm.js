@@ -37,8 +37,8 @@ useEffect(() => {
       errors.push('Please enter valid user. User must be more than 4 and less than 30 characters.');
   }
 
-  if (!password || password.length < 4 || password.length > 30) {
-      errors.push('Please enter valid password. password must be more than 4 and less than 30 characters.');
+  if (!password || password.length < 6 || password.length > 30) {
+      errors.push('Please enter valid password. password must be more than 6 and less than 30 characters.');
   };
 
   if (!confirmPassword || confirmPassword !== password) {
@@ -104,7 +104,7 @@ useEffect(() => {
 
       <label id="signup-input-title">Email</label>
         <input id="signup-form-inputs"
-          type="text"
+          type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required

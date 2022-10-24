@@ -130,7 +130,7 @@ module.exports = {
         country: 'United States',
         lat: 37.77648571,
         lng: -132.40936024,
-        name: 'Spectacular Jungle Canopy',
+        name: 'The Jungle Canopy',
         description: 'Experience the beauty and vibrancy of Costa Rica 85 off the jungle floor. El Castillo Mastate features a two story treehouse.',
         price: 105
       },
