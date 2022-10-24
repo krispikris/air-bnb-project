@@ -14,12 +14,15 @@ const UPDATE_REVIEW     = 'reviews/updateReview';
 const DELETE_REVIEW     = 'reviews/deleteReview';
 
 // ACTION | CREATE | POST
-const createReviewAction = (payload) => {
+const createReviewAction = (data, currentUser) => {
     // payload will be the new review
     // data will be the review | spotID will be the spotID for spotDetails
     return {
         type: CREATE_REVIEW,
-        payload
+        payload: {
+            data,
+            currentUser
+        }
     };
 };
 
@@ -57,7 +60,7 @@ const deleteReviewAction = (payload) => {
 };
 
 // THUNK | CREATE | POST
-export const createReviewThunk = (payload, spotId) => async (dispatch) => {
+export const createReviewThunk = (payload, spotId, currentUser) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -66,7 +69,7 @@ export const createReviewThunk = (payload, spotId) => async (dispatch) => {
 
     if (response.ok) {
         const data = await response.json();
-        dispatch(createReviewAction(data))
+        dispatch(createReviewAction(data, currentUser))
         return data;
     }
 }
@@ -124,12 +127,12 @@ const reviewsReducer = (state = initialState, action) => {
 
         case CREATE_REVIEW:
             newState = {...state};
-            newState[action.payload.id] = action.payload;
+            newState[action.payload.data.id] = {...action.payload.data, User:{id: action.payload.currentUser.id, firstName: action.payload.currentUser.firstName, lastName: action.payload.currentUser.lastName}};
             return newState;
 
         case UPDATE_REVIEW:
             newState = {...state}
-            newState[action.payload.id] = action.payload
+            newState[action.payload.id] = {...newState[action.payload.id], ...action.payload}
             return newState;
 
 

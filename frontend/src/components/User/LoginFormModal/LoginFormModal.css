@@ -44,6 +44,21 @@
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 1.2);
 }
 
+.demo-login-submit-button {
+    color: white;
+    background-color: rgb(90, 131, 103);
+    height: 60px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    font-size: 17px;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.demo-login-submit-button:hover {
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 1.2);
+}
+
 #login-form-title {
     display: flex;
     align-items: center;

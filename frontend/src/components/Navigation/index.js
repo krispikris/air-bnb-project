@@ -113,14 +113,14 @@ const Navigation = ({ isLoaded }) => {
           <div id="created-by-name">2022 Created and Styled by Kristopher Han</div>
             <div id="social-icons">
               <a href="https://github.com/krispikris" target="_blank">
-                <i id="github-icon" class="fa-brands fa-github"></i>
+                <i id="github-icon" className="fa-brands fa-github"></i>
               </a>
 
               <a
                 href="https://www.linkedin.com/in/kristopherhan"
                 target="_blank"
                 >
-                <i id="linkedin-icon" class="fa-brands fa-linkedin-in"></i>
+                <i id="linkedin-icon" className="fa-brands fa-linkedin-in"></i>
               </a>
             </div>
         </div>

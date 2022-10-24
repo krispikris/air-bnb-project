@@ -39,15 +39,15 @@ return (
 
         <label id="update-review-title">UPDATE YOUR REVIEW</label>
 
-        <label id="update-review-input-title">Review</label>
-            <input id="update-review-input-1"
+        <label id="update-review-input-title">Updated Review</label>
+            <textarea id="update-review-input-1"
             type="text"
             name="review"
             value={review}
             onChange={e => setReview(e.target.value)}
             />
 
-        <label id="update-review-input-title">Stars</label>
+        <label id="update-review-input-title">Updated Star Count</label>
             <input id="update-review-input-2"
             type="number"
             name="stars"

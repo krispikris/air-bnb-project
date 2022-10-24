@@ -42,6 +42,14 @@ module.exports = {
         username: 'sambam',
         email: 'samsuh@gmail.com',
         hashedPassword: bcrypt.hashSync('treebnb')
+      },
+
+      {
+        firstName: 'Demo',
+        lastName: 'User',
+        username: 'demoUser',
+        email: 'user@demo.io',
+        hashedPassword: bcrypt.hashSync('treebnb')
       }
 
     ], {});
@@ -50,7 +58,7 @@ module.exports = {
   async down (queryInterface, Sequelize) {
       const Op = Sequelize.Op;
       await queryInterface.bulkDelete('Users', {
-        username: { [Op.in]: ['krispikris', 'superhotfire', 'drooboo', 'garbear', 'sambam'] }
+        username: { [Op.in]: ['krispikris', 'superhotfire', 'drooboo', 'garbear', 'sambam', 'demoUser'] }
       }, {});
 
   }

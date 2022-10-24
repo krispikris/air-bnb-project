@@ -1,6 +1,6 @@
 // frontend/src/components/CreateReviewModal/CreateReviewForm.js
 import    React, { useState }               from "react";
-import  { useDispatch }                     from "react-redux";
+import  { useDispatch, useSelector }        from "react-redux";
 import  { useParams }                       from "react-router-dom";
 import  { createReviewThunk }               from "../../../store/reviews";
 import                                           "./CreateReviewForm.css";
@@ -8,6 +8,9 @@ import                                           "./CreateReviewForm.css";
 const CreateReviewForm = ({setShowModal}) => {
     const dispatch = useDispatch();
     const { spotId } = useParams();
+
+    const currentUser = useSelector((state) => state.session.user)
+    console.log('This is the current user as an OBJECT: ', currentUser);
 
     const [review, setReview] = useState('');
     const [stars, setStars] = useState(5);
@@ -20,7 +23,7 @@ const CreateReviewForm = ({setShowModal}) => {
         let reviewInput = { review, stars };
         console.log("THIS CREATED REVIEW : ", reviewInput);
 
-        await dispatch(createReviewThunk(reviewInput, spotId))
+        await dispatch(createReviewThunk(reviewInput, spotId, currentUser))
         .then(() => setShowModal(false))
         .catch(async (res) => {
             const data = await res.json();

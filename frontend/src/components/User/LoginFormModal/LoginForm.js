@@ -48,6 +48,7 @@ const LoginForm = () => {
           required
           />
       <button className='login-submit-button' type="submit">Log In</button>
+      <button className='demo-login-submit-button' onClick={() => {setCredential('user@demo.io'); setPassword('treebnb')}} type="submit">Demo User Log In</button>
     </form>
     </div>
   );

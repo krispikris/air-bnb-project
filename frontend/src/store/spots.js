@@ -110,7 +110,9 @@ export const createSpotThunk = (payload) => async (dispatch) => {
 
     if (response.ok) {
         const data = await response.json();
-        dispatch(createSpotAction(data))
+        // dispatch(createSpotAction(data))
+        dispatch(getOneSpotThunk(data.id))
+
         return data
     };
 };

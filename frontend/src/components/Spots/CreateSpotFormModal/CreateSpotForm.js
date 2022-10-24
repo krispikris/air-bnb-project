@@ -1,7 +1,7 @@
 import    React, { useState }                       from "react";
 import  { useDispatch }                             from "react-redux";
 import  { useHistory }                              from "react-router-dom";
-import  { createSpotThunk, createSpotImageThunk }   from "../../../store/spots";
+import  { createSpotThunk, createSpotImageThunk, getOneSpotThunk }   from "../../../store/spots";
 import                                                   "./CreateSpotFormModal.css";
 
 const CreateSpotForm = ({setShowModal}) => {
@@ -40,7 +40,8 @@ const CreateSpotForm = ({setShowModal}) => {
                 preview: true
             })
 
-            await dispatch(createSpotImageThunk(img, newSpot.id));
+            await dispatch(createSpotImageThunk(img, newSpot.id))
+            await dispatch(getOneSpotThunk(newSpot.id))
             setShowModal(false)
             return history.push(`/spots/${newSpot.id}`);
         };
