@@ -29,10 +29,14 @@
 
 .session-buttons {
     display: flex;
-    margin-right: 95px;
+    margin-right: 160px;
     width: 200px;
     gap: 25px;
     justify-content: space-between;
+}
+
+#buttons-to-space {
+    margin-right: 200px;
 }
 
 .navigation-buttons {

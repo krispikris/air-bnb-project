@@ -18,7 +18,7 @@ const UpdateSpotForm = ({setShowModal}) => {
     const [name, setName]                   = useState(spot.name);
     const [description, setDescription]     = useState(spot.description);
     const [price, setPrice]                 = useState(spot.price);
-    const [imageURL, setimageURL]           = useState(spot.imageURL);
+    // const [imageURL, setimageURL]           = useState(spot.imageURL);
 
     const [validationErrors, setValidationErrors] = useState([]);
 
@@ -50,11 +50,12 @@ const UpdateSpotForm = ({setShowModal}) => {
             errors.push('Please enter valid price. Price must be a number and greater than 50.');
         }
 
-        if (!imageURL || !imageURL.match(/\/{2}.+?\.(jpg|png|gif|jpeg)/gm)) {
-            errors.push('Please enter valid image url.');
-        }
+        // if (!imageURL || !imageURL.match(/\/{2}.+?\.(jpg|png|gif|jpeg)/gm)) {
+        //     errors.push('Please enter valid image url.');
+        // }
         setValidationErrors(errors);
-    }, [address, city, state, country, name, description, price, imageURL]);
+    }, [address, city, state, country, name, description, price]);
+    // }, [address, city, state, country, name, description, price, imageURL]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -147,14 +148,6 @@ return (
             name="price"
             value={price}
             onChange={e => setPrice(e.target.value)}
-            />
-
-        <label id="update-spot-input-title">Update Image URL</label>
-            <input id="update-spot-input"
-            type="url"
-            name="imageURL"
-            value={imageURL}
-            onChange={e => setimageURL(e.target.value)}
             />
 
         <button id="update-spot-submit" type="submit">Update Spot</button>

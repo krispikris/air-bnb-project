@@ -14,7 +14,7 @@ const GetSpots = () => {
     // console.log('THIS IS THE SPOTS VARIABLE: ', spots);
 
     const allSpots = Object.values(spots);
-    console.log('This is all the Spots in an Array ', allSpots)
+    // console.log('This is all the Spots in an Array ', allSpots)
 
     // let spotAvgRating = spot.avgRating.toFixed(1);
 
