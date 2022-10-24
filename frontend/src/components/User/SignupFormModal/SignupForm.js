@@ -29,8 +29,8 @@ useEffect(() => {
       errors.push('Please enter valid last name. Last name must be more than 2 and less than 30 characters.');
   }
 
-  if (!email || email.length < 2 || email.length > 30) {
-    errors.push('Please enter valid email. Email must be more than 2 and less than 30 characters and include @.');
+  if (!email || email.length > 30) {
+    errors.push('Please enter valid email. Email must be less than 30 characters and include @.');
   }
 
   if (!username || username.length < 4 || username.length > 30) {
