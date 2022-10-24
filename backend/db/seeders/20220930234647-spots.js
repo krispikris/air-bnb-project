@@ -52,7 +52,7 @@ module.exports = {
         country: 'United States',
         lat: 37.77648571,
         lng: -122.40936024,
-        name: 'House by the Forest Great Pine',
+        name: 'Forest Great Pine',
         description: 'The Big Pine House  is located right on the hillside, the surrounding old pine forest brings a cool vibe all year round for Homestay. ',
         price: 96
       },

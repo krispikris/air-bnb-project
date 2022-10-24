@@ -1,17 +1,17 @@
 .all-spots-wrap {
     display: flex;
-    justify-content: center;
+    /* justify-content: center; */
     width: 100%;
     height: 100%;
 }
 
 .all-spots-homepage-container {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    display: flex;
+    /* grid-template-columns: repeat(5, 1fr); */
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-between;
-    width: 93%;
+    justify-content: space-evenly;
+    max-width: 93%;
     /* max-width: 1020px; */ /*SAVE FOR THE BODY*/
     height: 100%;
     margin: auto;
@@ -28,10 +28,6 @@
         --row-height: 200px;
     }
 } */
-
-.individual-spot-container {
-    width: 100%;
-}
 
 .spot-card {
     border-radius: 5%;

@@ -26,18 +26,18 @@ const SpotDetails = () => {
     const   currentSpotReviewsArr   = Object.values(currentSpotReviewsObj);     // ARR OF OBJS | REVIEWS FOR THE CURRENT SPOT DETAILS PAGE
 
     const   reviewCount = currentSpotReviewsArr.length;
-    let   [reviewTotal, setReviewTotal] = useState(0);
+    // let   [reviewTotal, setReviewTotal] = useState(0);
 
     const starRatingsArr = currentSpotReviewsArr.map((review) => review.stars);
-    console.log('This is the star ratings as an Array: ', starRatingsArr);
+    // console.log('This is the star ratings as an Array: ', starRatingsArr);
 
     const sumOfStarRatings = starRatingsArr.reduce((previousValue, currentValue) => +previousValue + +currentValue,
     0)
 
-    console.log("This is the sum of the star ratings: ", sumOfStarRatings)
+    // console.log("This is the sum of the star ratings: ", sumOfStarRatings)
 
     let starsReviewAvg = sumOfStarRatings/reviewCount;
-    console.log('This is the average value of stars of reviews: ', starsReviewAvg);
+    // console.log('This is the average value of stars of reviews: ', starsReviewAvg);
 
     // const   spotToUpdate    =  sessionUser ? allSpotsArr.find(spot => spot.ownerId === sessionUser.id) : undefined;
     // const   spotToUpdate    =  allSpotsArr.find(spot => spot.ownerId === sessionUser.id);

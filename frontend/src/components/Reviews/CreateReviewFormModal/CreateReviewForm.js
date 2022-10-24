@@ -21,7 +21,7 @@ const CreateReviewForm = ({setShowModal}) => {
         e.preventDefault();
 
         let reviewInput = { review, stars };
-        console.log("THIS CREATED REVIEW : ", reviewInput);
+        // console.log("THIS CREATED REVIEW : ", reviewInput);
 
         await dispatch(createReviewThunk(reviewInput, spotId, currentUser))
         .then(() => setShowModal(false))

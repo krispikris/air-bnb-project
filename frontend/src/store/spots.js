@@ -37,13 +37,13 @@ const getUserSpotAction = (payload) => {
     };
 };
 
-// ACTIONS | CREATE | POST
-const createSpotAction = (payload) => {
-    return {
-        type: CREATE_SPOT,
-        payload
-    };
-};
+// // ACTIONS | CREATE | POST
+// const createSpotAction = (payload) => {
+//     return {
+//         type: CREATE_SPOT,
+//         payload
+//     };
+// };
 
 const createSpotImageAction = (payload) => {
     return {

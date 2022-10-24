@@ -1,5 +1,5 @@
 // frontend/src/components/UpdateSpotModal/UpdateSpotForm.js
-import    React, { useState }               from "react";
+import    React, { useEffect, useState }    from "react";
 import  { useDispatch, useSelector }        from "react-redux";
 import  { useParams }                       from "react-router-dom";
 import  { updateSpotThunk }                 from "../../../store/spots";
@@ -20,8 +20,46 @@ const UpdateSpotForm = ({setShowModal}) => {
     const [price, setPrice]                 = useState(spot.price);
     const [imageURL, setimageURL]           = useState(spot.imageURL);
 
+    const [validationErrors, setValidationErrors] = useState([]);
+
+    useEffect(() => {
+        const errors = [];
+
+        if (!address || address.length < 5 || address.length > 30) {
+            errors.push('Please enter valid address. Address must be more than 5 and less than 30 characters');
+        }
+
+        if (!city || city.length < 2 || city.length > 30) {
+            errors.push('Please enter valid city. City must be more than 2 and less than 30 characters');
+        }
+
+        if (!state || state.length < 1 || state.length > 30) {
+            errors.push('Please enter valid state. State must be more than 1 and less than 30 characters');
+        }
+        if (!country || country.length < 2 || country.length > 30) {
+            errors.push('Please enter valid country. Country must be more than 2 and less than 30 characters');
+        }
+
+        if (!name || name.length < 5 || name > 40) {
+            errors.push('Please enter valid name. Name must be more than 5 and less than 40 characters');
+        }
+        if (!description || description.length < 5 || description.length > 256) {
+            errors.push('Please enter valid description. Description must be more than 5 and less than 256 characters');
+        }
+        if (!price || !Number(price) || price < 50) {
+            errors.push('Please enter valid price. Price must be a number and greater than 50');
+        }
+
+        if (!imageURL || !imageURL.match(/\/{2}.+?\.(jpg|png|gif|jpeg)/gm)) {
+            errors.push('Please enter valid image url.');
+        }
+        setValidationErrors(errors);
+    }, [address, city, state, country, name, description, price, imageURL]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (validationErrors.length > 0) return
 
         let updatedSpotFormInputs = {
             address,
@@ -42,6 +80,17 @@ return (
         className='update-spot-form'
         onSubmit={handleSubmit}
         >
+
+      <div className='errors-update-spot-form'>
+        {validationErrors.length > 0 && (
+            <ul className='update-spot-errors'>
+                {validationErrors.map(e => (
+                    <li key={e}>{e}</li>
+                ))}
+            </ul>
+        )}
+      </div>
+
         <label id="update-spot-title">UPDATE YOUR SPOT</label>
 
         <label id="update-spot-input-title">Address</label>
@@ -102,7 +151,7 @@ return (
 
         <label id="update-spot-input-title">Update Image URL</label>
             <input id="update-spot-input"
-            type="text"
+            type="url"
             name="imageURL"
             value={imageURL}
             onChange={e => setimageURL(e.target.value)}

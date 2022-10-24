@@ -1,4 +1,4 @@
-import    React, { useState }                       from "react";
+import    React, { useEffect, useState }            from "react";
 import  { useDispatch }                             from "react-redux";
 import  { useHistory }                              from "react-router-dom";
 import  { createSpotThunk, createSpotImageThunk, getOneSpotThunk }   from "../../../store/spots";
@@ -17,18 +17,57 @@ const CreateSpotForm = ({setShowModal}) => {
     const [price, setPrice]                 = useState('');
     const [imageURL, setimageURL]           = useState('');
 
+    const [validationErrors, setValidationErrors] = useState([]);
+
+    useEffect(() => {
+        const errors = [];
+
+        if (!address || address.length < 5 || address.length > 30) {
+            errors.push('Please enter valid address. Address must be more than 5 and less than 30 characters');
+        }
+
+        if (!city || city.length < 2 || city.length > 30) {
+            errors.push('Please enter valid city. City must be more than 2 and less than 30 characters');
+        }
+
+        if (!state || state.length < 1 || state.length > 30) {
+            errors.push('Please enter valid state. State must be more than 1 and less than 30 characters');
+        }
+        if (!country || country.length < 2 || country.length > 30) {
+            errors.push('Please enter valid country. Country must be more than 2 and less than 30 characters');
+        }
+
+        if (!name || name.length < 5 || name > 40) {
+            errors.push('Please enter valid name. Name must be more than 5 and less than 40 characters');
+        }
+        if (!description || description.length < 5 || description.length > 256) {
+            errors.push('Please enter valid description. Description must be more than 5 and less than 256 characters');
+        }
+        if (!price || !Number(price) || price < 50) {
+            errors.push('Please enter valid price. Price must be a number and greater than 50');
+        }
+
+        if (!imageURL || !imageURL.match(/\/{2}.+?\.(jpg|png|gif|jpeg)/gm)) {
+            errors.push('Please enter valid image url.');
+        }
+        setValidationErrors(errors);
+    }, [address, city, state, country, name, description, price, imageURL]);
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        let spotFormInputs = {
-                address,
-                city,
-                state,
-                country,
-                name,
-                description,
-                price
-        };
+        if (validationErrors.length > 0) return
+            const spotFormInputs = {
+                    address,
+                    city,
+                    state,
+                    country,
+                    name,
+                    description,
+                    price
+            };
+
 
         const newSpot = await dispatch(createSpotThunk(spotFormInputs));
 
@@ -52,6 +91,16 @@ return (
         className='create-new-spot-form'
         onSubmit={handleSubmit}
         >
+
+      <div className='errors-create-spot-form'>
+        {validationErrors.length > 0 && (
+            <ul className='create-spot-errors'>
+                {validationErrors.map(e => (
+                    <li key={e}>{e}</li>
+                ))}
+            </ul>
+        )}
+      </div>
 
       <label id='become-a-host-form-title'>BECOME A HOST</label>
       <label id="welcome-back-to-treebnb-host">Welcome to back to Treebnb!</label>
@@ -114,7 +163,7 @@ return (
 
         <label id="host-input-title">Upload Image URL</label>
             <input id="host-form-inputs"
-            type="text"
+            type="url"
             name="imageURL"
             value={imageURL}
             onChange={e => setimageURL(e.target.value)}

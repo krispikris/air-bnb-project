@@ -38,7 +38,7 @@
 .navigation-buttons {
     /* border: black 3px solid; */
     display: flex;
-    margin-right:110px;
+    margin-right:170px;
     width: 300px;
     align-items: center;
     justify-content: flex-end;
@@ -69,7 +69,7 @@
     align-items: center;
     /* border: 1px black solid; */
     width: 300px;
-    margin-left: 90px;
+    margin-left: 150px;
 }
 
 .treebnb-text {
