@@ -30,9 +30,17 @@ const GetSpots = () => {
                             <img className='spot-card'
                                  src={spot?.previewImage}
                                  alt='one-spot-card'/>
-                            <div className='spot-name'>
-                                <div className='spot-prop-1'>{spot.name}</div>
-                                <div className='spot-prop-2'>{spot.city}, {spot.state}</div>
+
+                            <div className='spot-description-container'>
+                                <div id='spot-description-left'>
+                                    <div id='spot-prop-1'>{spot.name}</div>
+                                    <div id='spot-prop-2'>{spot.city}, {spot.state}</div>
+                                </div>
+
+                                <div id='spot-description-right'>
+                                    <div id='spot-prop-3'><i class="fa-solid fa-star"></i> {spot.avgRating.toFixed(2)}</div>
+                                    <div id='spot-prop-4'>${spot.price} per night</div>
+                                </div>
                             </div>
                         </NavLink>
 

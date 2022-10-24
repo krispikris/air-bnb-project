@@ -37,27 +37,27 @@ return (
         onSubmit={handleSubmit}
         >
 
-        <label>
-            Update Review
-            <input
+        <label id="update-review-title">UPDATE YOUR REVIEW</label>
+
+        <label id="update-review-input-title">Review</label>
+            <input id="update-review-input-1"
             type="text"
             name="review"
             value={review}
             onChange={e => setReview(e.target.value)}
             />
-        </label>
 
-        <label>
-            Update Stars
-            <input
-            type="text"
+        <label id="update-review-input-title">Stars</label>
+            <input id="update-review-input-2"
+            type="number"
             name="stars"
+            min='1'
+            max='5'
             value={stars}
             onChange={e => setStars(e.target.value)}
             />
-        </label>
 
-            <button type="submit">Update Review</button>
+            <button id="update-review-submit" type="submit">Update Review</button>
 
         </form>
 

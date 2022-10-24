@@ -8,7 +8,7 @@ const DeleteReviewFormModal = ({reviewToUpdate}) => {
 
     return (
     <>
-      <button  onClick={() => setShowModal(true)}>Delete Review</button>
+      <button className='delete-review-button-in-modal' onClick={() => setShowModal(true)}>Delete Review</button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
           <DeleteReviewForm setShowModal={setShowModal} reviewToUpdate={reviewToUpdate}/>

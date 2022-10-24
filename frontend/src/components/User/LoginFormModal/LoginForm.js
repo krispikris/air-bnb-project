@@ -22,32 +22,34 @@ const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div className='login-modal'>
+
+    <form id="login-form" onSubmit={handleSubmit}>
       <ul>
         {errors.map((error, idx) => (
           <li key={idx}>{error}</li>
-        ))}
+          ))}
       </ul>
-      <label>
-        Username or Email
-        <input
+      <label id='login-form-title'>LOGIN FORM</label>
+      <label id="welcome-back-to-treebnb-login">Welcome back to Treebnb!</label>
+
+      <label id="login-input-title" >Username or Email</label>
+        <input id="login-form-inputs"
           type="text"
           value={credential}
           onChange={(e) => setCredential(e.target.value)}
           required
-        />
-      </label>
-      <label>
-        Password
-        <input
+          />
+      <label id="login-input-title">Password</label>
+        <input id="login-form-inputs"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-        />
-      </label>
-      <button type="submit">Log In</button>
+          />
+      <button className='login-submit-button' type="submit">Log In</button>
     </form>
+    </div>
   );
 }
 

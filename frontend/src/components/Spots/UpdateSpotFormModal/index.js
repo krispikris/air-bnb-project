@@ -8,7 +8,7 @@ const UpdateSpotFormModal = ({spotToUpdate}) => {
 
   return (
     <>
-      <button  onClick={() => setShowModal(true)}>Update Spot</button>
+      <button className='update-spot-button-in-modal' onClick={() => setShowModal(true)}>Update Spot</button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
           <UpdateSpotForm setShowModal={setShowModal} spotToUpdate={spotToUpdate}/>

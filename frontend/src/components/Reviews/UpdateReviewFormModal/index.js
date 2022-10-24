@@ -8,7 +8,7 @@ const UpdateReviewFormModal = ({reviewToUpdate}) => {
 
     return (
     <>
-      <button  onClick={() => setShowModal(true)}>Update Review</button>
+      <button className='update-review-button-in-modal' onClick={() => setShowModal(true)}>Update Review</button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
           <UpdateReviewForm setShowModal={setShowModal} reviewToUpdate={reviewToUpdate}/>

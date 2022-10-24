@@ -22,8 +22,12 @@ return (
             className='delete-review-form'
             onSubmit={deleteReview}
             >
-            <h3>Are you sure you want to delete your review?</h3>
-            <button type="submit">Delete Review</button>
+
+        <label id="delete-review-title">DELETE YOUR REVIEW</label>
+        {/* <label id="how-was-your-stay">How was your Experience?</label> */}
+
+            <h3 id="delete-confirmation">Are you sure you want to delete your review?</h3>
+            <button id="delete-review-submit" type="submit">Delete Your Review</button>
         </form>
     </>
     )

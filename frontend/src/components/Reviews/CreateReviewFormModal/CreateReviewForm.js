@@ -37,24 +37,23 @@ return (
     })}
 
     <form
-        className='create-new-review-form'
+        className='create-review-form'
         onSubmit={handleSubmit}
         >
+        <label id="create-review-title">LEAVE A REVIEW</label>
+        <label id="how-was-your-experience">How was your Experience?</label>
 
-        <label>
-            New Review
-            <input
+        <label id="create-review-input-title">Review</label>
+            <input id="create-review-inputs"
             type="text"
             name="review"
             value={review}
-            placeholder="How was your experience?"
+            placeholder="Example: The Treehouse was clean and amazing!"
             onChange={e => setReview(e.target.value)}
             />
-        </label>
 
-        <label>
-            Stars
-            <input
+        <label id="create-review-input-title">Stars</label>
+            <input id="create-review-inputs"
             type="number"
             name="stars"
             min='1'
@@ -62,10 +61,9 @@ return (
             value={stars}
             onChange={e => setStars(e.target.value)}
             />
-        </label>
 
 
-        <button type="submit">Create Review</button>
+        <button id="create-review-submit" type="submit">Create Review</button>
 
     </form>
 

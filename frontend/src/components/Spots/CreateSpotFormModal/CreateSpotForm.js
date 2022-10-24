@@ -52,87 +52,74 @@ return (
         onSubmit={handleSubmit}
         >
 
-        <label>
-            Address
-            <input
+      <label id='become-a-host-form-title'>BECOME A HOST</label>
+      <label id="welcome-back-to-treebnb-host">Welcome to back to Treebnb!</label>
+
+        <label id="host-input-title">Address</label>
+            <input id="host-form-inputs"
             type="text"
             name="address"
             value={address}
             onChange={e => setAddress(e.target.value)}
             />
-        </label>
 
-        <label>
-            City
-            <input
+        <label id="host-input-title">City</label>
+            <input id="host-form-inputs"
             type="text"
             name="city"
             value={city}
             onChange={e => setCity(e.target.value)}
             />
-        </label>
 
-        <label>
-            State
-            <input
+        <label id="host-input-title">State</label>
+            <input id="host-form-inputs"
             type="text"
             name="state"
             value={state}
             onChange={e => setState(e.target.value)}
             />
-        </label>
 
-        <label>
-            Country
-            <input
+        <label id="host-input-title">Country</label>
+            <input id="host-form-inputs"
             type="text"
             name="country"
             value={country}
             onChange={e => setCountry(e.target.value)}
             />
-        </label>
 
-        <label>
-            Name
-            <input
+        <label id="host-input-title">Name</label>
+            <input id="host-form-inputs"
             type="text"
             name="name"
             value={name}
             onChange={e => setName(e.target.value)}
             />
-        </label>
 
-        <label>
-            Description
-            <input
+        <label id="host-input-title">Description</label>
+            <input id="host-form-inputs"
             type="text"
             name="description"
             value={description}
             onChange={e => setDescription(e.target.value)}
             />
-        </label>
 
-        <label>
-            Price
-            <input
+        <label id="host-input-title">Price</label>
+            <input id="host-form-inputs"
             type="text"
             name="price"
             value={price}
             onChange={e => setPrice(e.target.value)}
             />
-        </label>
 
-        <label>
-            Upload Image URL
-            <input
+        <label id="host-input-title">Upload Image URL</label>
+            <input id="host-form-inputs"
             type="text"
             name="imageURL"
             value={imageURL}
             onChange={e => setimageURL(e.target.value)}
             />
-        </label>
 
-        <button type="submit">Become a Host</button>
+        <button className='host-submit-button' type="submit">Become a Host</button>
 
         </form>
     )

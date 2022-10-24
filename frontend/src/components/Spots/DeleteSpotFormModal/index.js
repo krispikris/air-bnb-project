@@ -8,7 +8,7 @@ const DeleteSpotFormModal = ({spotToUpdate}) => {
 
     return (
     <>
-      <button  onClick={() => setShowModal(true)}>Delete Spot</button>
+      <button className='delete-spot-button-in-modal'  onClick={() => setShowModal(true)}>Delete Spot</button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
           <DeleteSpotForm setShowModal={setShowModal} spotToUpdate={spotToUpdate}/>

@@ -19,10 +19,10 @@ const Navigation = ({ isLoaded }) => {
     setShowMenu(true);
   };
 
-  const dropDownOnOff = () => {
-    if (showMenu) return "dropdown-on";
-    else return "dropdown-off";
-  };
+  // const dropDownOnOff = () => {
+  //   if (showMenu) return "dropdown-on";
+  //   else return "dropdown-off";
+  // };
 
   useEffect(() => {
     if (!showMenu) return;
@@ -36,36 +36,51 @@ const Navigation = ({ isLoaded }) => {
   if (sessionUser) {
     sessionLinks = (
       <>
-        <CreateSpotFormModal />
-        {/* <NavLink id="navigation-bar-host-link" to="/newSpot">Become a Host</NavLink> */}
-        <ProfileButton user={sessionUser} />
+      <div className='navigation-buttons'>
+
+        <div id="create-spot-button">
+          <CreateSpotFormModal />
+        </div>
+
+        <div id="profile-button">
+          <ProfileButton user={sessionUser} />
+        </div>
+
+      </div>
       </>
     );
-  } else {
+  }
+  else {
     sessionLinks = (
       <>
         {/* <LoginFormModal />
         <SignupFormModal /> */}
 
-        <div className="dropdown">
-          <button
+        {/* <div className="dropdown"> */}
+          {/* <button
             className="dropdown-button"
             onClick={() => (showMenu ? setShowMenu(false) : setShowMenu(true))}
           >
             <i id="hamburger-icon" className="fa-solid fa-bars"></i>
-            <i id="profile-icon" className="fas fa-user-circle" />
+            <i id="profile-icon" className="fas fa-user-circle" /> */}
             {/* <img id='hamburger-icon' src='https://static.vecteezy.com/system/resources/previews/002/292/406/original/hamburger-menu-line-icon-free-vector.jpg' /> */}
-          </button>
+          {/* </button> */}
+        {/* </div> */}
 
-          <div className={dropDownOnOff()}>
-            <a href="#">
+          {/* <div className={dropDownOnOff()}> */}
+          <div className="session-buttons">
+
+          <div className={openMenu()} id="buttons-to-space">
+            <a id='signup-button'href="#">
               <SignupFormModal />
             </a>
-            <a href="#">
+
+            <a id='login-button'href="#">
               <LoginFormModal />
             </a>
           </div>
-        </div>
+
+          </div>
       </>
     );
   }
@@ -91,6 +106,7 @@ const Navigation = ({ isLoaded }) => {
           <div>{isLoaded && sessionLinks}</div>
         </div>
       </div>
+      </div>
 
       <div className="footer-bar-wrap">
         <div id="footer-left">
@@ -108,7 +124,6 @@ const Navigation = ({ isLoaded }) => {
               </a>
             </div>
         </div>
-      </div>
       </div>
     </>
   );

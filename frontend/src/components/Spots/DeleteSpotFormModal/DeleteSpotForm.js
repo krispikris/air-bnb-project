@@ -22,8 +22,9 @@ return (
             className='delete-spot-form'
             onSubmit={deleteSpot}
             >
-            <h3>Are you sure you want to delete your Spot?</h3>
-            <button type="submit">Delete Spot</button>
+            <label id="delete-spot-title">DELETE YOUR SPOT</label>
+            <h3 id="delete-spot-confirmation">Are you sure you want to delete your Spot?</h3>
+            <button id="delete-spot-submit" type="submit">Delete Spot</button>
         </form>
     </>
     )

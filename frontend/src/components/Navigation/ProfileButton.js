@@ -39,12 +39,13 @@ function ProfileButton({ user }) {
 
       {showMenu && (
         <div className="profile-dropdown">
-          <div id='profile-dropdown-1'>Hi {user.firstName}!</div>
+          <div id='profile-dropdown-1'>Welcome back to Treebnb, {user.firstName}!</div>
+          {/* <div id='profile-dropdown-2'>Welcome back to Treebnb</div> */}
           <div id='profile-dropdown-2'>{user.username}</div>
           <div id='profile-dropdown-3'>{user.email}</div>
           {/* YOOUR SPOTS? */}
           <div id='profile-dropdown-4'>
-            <button onClick={logout}>Log Out</button>
+            <button id='profile-logout-button' onClick={logout}>Log Out</button>
           </div>
         </div>
       )}

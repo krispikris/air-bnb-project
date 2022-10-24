@@ -17,8 +17,17 @@
     margin: auto;
     row-gap: 25px;
     column-gap: 25px;
+    margin-top: 150px;
+    margin-bottom: 70px;
     /* box-sizing: border-box; */
 }
+
+/* @media screen and (max-width: 1024px) {
+    .all-spots-wrap {
+        --num-cols: 2;
+        --row-height: 200px;
+    }
+} */
 
 .individual-spot-container {
     width: 100%;
@@ -39,10 +48,30 @@
     object-fit: cover;
 }
 
-.spot-name {
+.spot-card:hover {
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.7);
+}
+
+.spot-description-container {
     text-decoration: none;
     color: black;
     margin-top: 11px;
     margin-left: 5px;
-    font-size: 15px;
+    font-size: 16px;
+    /* font-size: 15px; */
+    display: flex;
+    width: 400px;
+}
+
+#spot-description-left {
+    width: 50%;
+}
+
+#spot-description-right {
+    width: 50%;
+    text-align: end;
+    margin-right: 15px;
+    /* justify-content: right; */
+    /* align-items: right;
+    display: grid; */
 }
