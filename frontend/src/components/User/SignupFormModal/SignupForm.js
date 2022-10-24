@@ -1,5 +1,5 @@
 // frontend/src/components/SignupForm/index.js
-import    React, { useState }             from 'react';
+import    React, { useEffect, useState }             from 'react';
 import  { useDispatch, useSelector }      from 'react-redux';
 import  { Redirect }                      from 'react-router-dom';
 import    * as sessionActions             from '../../../store/session';
@@ -16,10 +16,46 @@ function SignupForm() {
   const [ confirmPassword, setConfirmPassword ] = useState("");
   const [ errors, setErrors ]                   = useState([]);
 
+  const [validationErrors, setValidationErrors] = useState([]);
+
+useEffect(() => {
+  const errors = [];
+
+  if (!firstName || firstName.length < 2 || firstName.length > 30) {
+      errors.push('Please enter valid first name. First name must be more than 2 and less than 30 characters.');
+  }
+
+  if (!lastName || lastName.length < 2 || lastName.length > 30) {
+      errors.push('Please enter valid last name. Last name must be more than 2 and less than 30 characters.');
+  }
+
+  if (!email || email.length < 2 || email.length > 30) {
+    errors.push('Please enter valid email. Email must be more than 2 and less than 30 characters and include @.');
+  }
+
+  if (!username || username.length < 4 || username.length > 30) {
+      errors.push('Please enter valid user. User must be more than 4 and less than 30 characters.');
+  }
+
+  if (!password || password.length < 4 || password.length > 30) {
+      errors.push('Please enter valid password. password must be more than 4 and less than 30 characters.');
+  };
+
+  if (!confirmPassword || confirmPassword !== password) {
+      errors.push('Passwords must match for confirmation.');
+  };
+
+  setValidationErrors(errors)
+}, [firstName, lastName, email, username, password, confirmPassword])
+
   if (sessionUser) return <Redirect to="/" />;
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (validationErrors.length > 0) return
+
+
     if (password === confirmPassword) {
       setErrors([]);
       return dispatch(sessionActions.signup({ firstName, lastName, email, username, password }))
@@ -36,6 +72,16 @@ function SignupForm() {
       <ul>
         {errors.map((error, idx) => <li key={idx}>{error}</li>)}
       </ul>
+
+      <div className='errors-signup-form'>
+        {validationErrors.length > 0 && (
+            <ul className='signup-errors'>
+                {validationErrors.map(e => (
+                    <li key={e}>{e}</li>
+                ))}
+            </ul>
+        )}
+      </div>
 
       <label id="signup-form-title">SIGN UP FORM</label>
       <label id="welcome-to-treebnb-signup">Welcome to Treebnb!</label>

@@ -1,5 +1,5 @@
 // frontend/src/components/CreateReviewModal/CreateReviewForm.js
-import    React, { useState }               from "react";
+import    React, { useState, useEffect }               from "react";
 import  { useDispatch, useSelector }        from "react-redux";
 import  { useParams }                       from "react-router-dom";
 import  { createReviewThunk }               from "../../../store/reviews";
@@ -16,9 +16,23 @@ const CreateReviewForm = ({setShowModal}) => {
     const [stars, setStars] = useState(5);
 
     const [errors, setErrors] = useState([]);
+    const [validationErrors, setValidationErrors] = useState([]);
+
+    useEffect(() => {
+        const errors = [];
+
+        if (!review || review.length < 1 || review.length > 256) {
+            errors.push('Please leave a review more than 1 and less than 256 characters.')
+        }
+        if (!stars) errors.push('Please add star rating between 1 and 5.')
+
+        setValidationErrors(errors);
+    }, [review, stars])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (validationErrors.length > 0) return
 
         let reviewInput = { review, stars };
         // console.log("THIS CREATED REVIEW : ", reviewInput);
@@ -39,6 +53,16 @@ return (
         </div>
     })}
 
+    <div className='errors-create-review-form'>
+        {validationErrors.length > 0 && (
+            <ul className='create-review-errors'>
+                {validationErrors.map(e => (
+                    <li key={e}>{e}</li>
+                ))}
+            </ul>
+        )}
+      </div>
+
     <form
         className='create-review-form'
         onSubmit={handleSubmit}
@@ -47,7 +71,7 @@ return (
         <label id="how-was-your-experience">How was your Experience?</label>
 
         <label id="create-review-input-title">Review</label>
-            <input id="create-review-inputs"
+            <textarea id="create-review-input-1"
             type="text"
             name="review"
             value={review}
@@ -56,7 +80,7 @@ return (
             />
 
         <label id="create-review-input-title">Stars</label>
-            <input id="create-review-inputs"
+            <input id="create-review-input-2"
             type="number"
             name="stars"
             min='1'

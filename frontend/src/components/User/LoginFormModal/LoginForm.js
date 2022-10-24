@@ -1,5 +1,5 @@
 // frontend/src/components/LoginFormModal/LoginForm.js
-import    React, { useState }     from 'react';
+import    React, { useState, useEffect }     from 'react';
 import  { useDispatch }           from 'react-redux';
 import    * as sessionActions     from '../../../store/session';
 import                                 './LoginFormModal.css';
@@ -9,6 +9,16 @@ const LoginForm = () => {
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
+  const [validationErrors, setValidationErrors] = useState([]);
+
+  useEffect(() => {
+    const errors = [];
+
+    if (!credential || credential.length < 4 || credential > 30) errors.push('Please enter valid credentials. Credentials must be more than 4 and less than 30 characters.')
+    if (!password || password.length < 4 || password > 30) errors.push('Please enter valid password.')
+
+    setValidationErrors(errors)
+  }, [credential, password])
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -30,6 +40,17 @@ const LoginForm = () => {
           <li key={idx}>{error}</li>
           ))}
       </ul>
+
+      <div className='errors-login-form'>
+        {validationErrors.length > 0 && (
+            <ul className='login-errors'>
+                {validationErrors.map(e => (
+                    <li key={e}>{e}</li>
+                ))}
+            </ul>
+        )}
+      </div>
+
       <label id='login-form-title'>LOGIN FORM</label>
       <label id="welcome-back-to-treebnb-login">Welcome back to Treebnb!</label>
 

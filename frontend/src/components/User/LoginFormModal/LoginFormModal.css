@@ -86,6 +86,10 @@
     font-weight: bold;
 }
 
+.login-errors {
+    font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif;
+    margin-bottom: 20px;
+}
 
 /* .login-modal { */
     /* background-color: black; */

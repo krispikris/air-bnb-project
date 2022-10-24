@@ -26,28 +26,28 @@ const UpdateSpotForm = ({setShowModal}) => {
         const errors = [];
 
         if (!address || address.length < 5 || address.length > 30) {
-            errors.push('Please enter valid address. Address must be more than 5 and less than 30 characters');
+            errors.push('Please enter valid address. Address must be more than 5 and less than 30 characters.');
         }
 
         if (!city || city.length < 2 || city.length > 30) {
-            errors.push('Please enter valid city. City must be more than 2 and less than 30 characters');
+            errors.push('Please enter valid city. City must be more than 2 and less than 30 characters.');
         }
 
         if (!state || state.length < 1 || state.length > 30) {
-            errors.push('Please enter valid state. State must be more than 1 and less than 30 characters');
+            errors.push('Please enter valid state. State must be more than 1 and less than 30 characters.');
         }
         if (!country || country.length < 2 || country.length > 30) {
-            errors.push('Please enter valid country. Country must be more than 2 and less than 30 characters');
+            errors.push('Please enter valid country. Country must be more than 2 and less than 30 characters.');
         }
 
         if (!name || name.length < 5 || name > 40) {
-            errors.push('Please enter valid name. Name must be more than 5 and less than 40 characters');
+            errors.push('Please enter valid name. Name must be more than 5 and less than 40 characters.');
         }
         if (!description || description.length < 5 || description.length > 256) {
-            errors.push('Please enter valid description. Description must be more than 5 and less than 256 characters');
+            errors.push('Please enter valid description. Description must be more than 5 and less than 256 characters.');
         }
         if (!price || !Number(price) || price < 50) {
-            errors.push('Please enter valid price. Price must be a number and greater than 50');
+            errors.push('Please enter valid price. Price must be a number and greater than 50.');
         }
 
         if (!imageURL || !imageURL.match(/\/{2}.+?\.(jpg|png|gif|jpeg)/gm)) {

@@ -74,3 +74,8 @@
     font-size: 17px;
     font-weight: bold;
 }
+
+.signup-errors {
+    font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif;
+    margin-bottom: 20px;
+}

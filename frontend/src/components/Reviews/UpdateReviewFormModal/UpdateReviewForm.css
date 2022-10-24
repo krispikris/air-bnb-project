@@ -77,3 +77,8 @@
 #update-review-submit:hover {
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 1.2);
 }
+
+.update-review-errors {
+    font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif;
+    margin-bottom: 20px;
+}
