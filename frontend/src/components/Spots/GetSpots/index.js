@@ -22,11 +22,6 @@ const GetSpots = () => {
     dispatch(getAllSpotsThunk()).then(() => setIsLoaded(true));
   }, [dispatch]);
 
-  <div id="post-description-left">
-    <div id="post-prop-1">{post.location}</div>
-    <div id="post-prop-2">Shared by {post.user_id}</div>
-  </div>;
-
   return (
     isLoaded && (
       <>
